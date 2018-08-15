@@ -31,6 +31,7 @@
     <file src="OoyalaSDK.Droid/bin/Release/OoyalaSDK.Droid.dll" target="lib/MonoAndroid81/OoyalaSDK.Droid.dll" />
     <file src="OoyalaSDK.Droid/bin/Release/OoyalaSDK.Droid.pdb" target="lib/MonoAndroid81/OoyalaSDK.Droid.pdb" />
     <file src="ExoPlayer/bin/Release/*.dll" target="lib/MonoAndroid81" />
+    <file src="ExoPlayer/bin/Release/*.pdb" target="lib/MonoAndroid81" />
 
   </files>
 </package>
