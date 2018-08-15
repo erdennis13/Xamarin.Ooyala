@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>OoyalaSDK</id>
+    <version>$version$</version>
+    <authors>Microsoft Mobile Customer Advisory Team</authors>
+    <description>Xamarin Bindings for the Ooyala SDKs</description>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <copyright>Copyright 2018</copyright>
+    <dependencies>
+      <group targetFramework="monoandroid81">
+        <dependency id="Xamarin.Android.Support.Design" version="27.0.2.1"  />
+        <dependency id="Xamarin.Android.Support.v4" version="27.0.2.1" />
+        <dependency id="Xamarin.Android.Support.v7.AppCompat" version="27.0.2.1" />
+        <dependency id="Xamarin.Android.Support.v7.RecyclerView" version="27.0.2.1" />
+        <dependency id="Xamarin.Android.Support.Vector.Drawable" version="27.0.2.1"  />
+        <dependency id="Xamarin.GooglePlayServices.Ads" version="60.1142.1" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <!-- tvOS -->
+    <file src="OoyalaSDK.tvOS/bin/Release/OoyalaSDK.tvOS.dll" target="lib/Xamarin.TVOS10/OoyalaSDK.tvOS.dll" />
+    <file src="OoyalaSDK.tvOS/bin/Release/OoyalaSDK.tvOS.pdb" target="lib/Xamarin.TVOS10/OoyalaSDK.tvOS.pdb" />
+
+    <!-- iOS -->
+    <file src="OoyalaSDK.iOS/bin/Release/OoyalaSDK.iOS.dll" target="lib/Xamarin.iOS10/OoyalaSDK.iOS.dll" />
+    <file src="OoyalaSDK.iOS/bin/Release/OoyalaSDK.iOS.pdb" target="lib/Xamarin.iOS10/OoyalaSDK.iOS.pdb" />
+
+    <!-- Android -->
+    <file src="OoyalaSDK.Droid/bin/Release/OoyalaSDK.Droid.dll" target="lib/MonoAndroid81/OoyalaSDK.Droid.dll" />
+    <file src="OoyalaSDK.Droid/bin/Release/OoyalaSDK.Droid.pdb" target="lib/MonoAndroid81/OoyalaSDK.Droid.pdb" />
+    <file src="ExoPlayer/bin/Release/*.dll" target="lib/MonoAndroid81" />
+
+  </files>
+</package>

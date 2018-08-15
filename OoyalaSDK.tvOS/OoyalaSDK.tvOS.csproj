@@ -7,7 +7,7 @@
     <ProjectTypeGuids>{4A1ED743-3331-459B-915A-4B17C7B6DBB6};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <RootNamespace>OoyalaSDK.tvOS</RootNamespace>
-    <AssemblyName>Ooyala.tvOS</AssemblyName>
+    <AssemblyName>OoyalaSDK.tvOS</AssemblyName>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">

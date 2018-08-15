@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>OoyalaCastSDK</id>
+    <version>$version$</version>
+    <authors>Microsoft Mobile Customer Advisory Team</authors>
+    <description>Xamarin Bindings for the Ooyala Cast SDKs</description>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <copyright>Copyright 2018</copyright>
+    <dependencies>
+      <group targetFramework="monoandroid81">
+        <dependency id="Xamarin.Android.Support.Design" version="27.0.2.1"  />
+        <dependency id="Xamarin.Android.Support.v4" version="27.0.2.1" />
+        <dependency id="Xamarin.Android.Support.v7.AppCompat" version="27.0.2.1" />
+        <dependency id="Xamarin.Android.Support.v7.RecyclerView" version="27.0.2.1" />
+        <dependency id="Xamarin.Android.Support.v7.MediaRouter" version="27.0.2.1" />
+        <dependency id="Xamarin.Android.Support.Vector.Drawable" version="27.0.2.1"  />
+        <dependency id="Xamarin.GooglePlayServices.Ads" version="60.1142.1" />
+        <dependency id="Xamarin.GooglePlayServices.Cast" version="60.1142.1" />
+        <dependency id="OoyalaSDK" version="$version$"/>
+      </group>
+      <group targetFramework="xamarinios10">
+        <dependency id="Xamarin.Google.iOS.Cast" version="4.1.0" />
+        <dependency id="OoyalaSDK" version="$version$"/>
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <!-- iOS -->
+    <file src="OoyalaCastSDK.iOS/bin/Release/OoyalaCastSDK.iOS.dll" target="lib/Xamarin.iOS10/OoyalaCastSDK.iOS.dll" />
+    <file src="OoyalaCastSDK.iOS/bin/Release/OoyalaCastSDK.iOS.pdb" target="lib/Xamarin.iOS10/OoyalaCastSDK.iOS.pdb" />
+
+    <!-- Android -->
+    <file src="OoyalaCastSDK.Droid/bin/Release/OoyalaCastSDK.Droid.dll" target="lib/MonoAndroid81/OoyalaCastSDK.Droid.dll" />
+    <file src="OoyalaCastSDK.Droid/bin/Release/OoyalaCastSDK.Droid.pdb" target="lib/MonoAndroid81/OoyalaCastSDK.Droid.pdb" />
+    <file src="ExoPlayer/bin/Release/*.dll" target="lib/MonoAndroid81" />
+
+  </files>
+</package>
