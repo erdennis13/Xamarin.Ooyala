@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+    <!--
+  This sample removes the class: android.support.v4.content.AsyncTaskLoader.LoadTask:
+  <remove-node path="/api/package[@name='android.support.v4.content']/class[@name='AsyncTaskLoader.LoadTask']" />
+  
+  This sample removes the method: android.support.v4.content.CursorLoader.loadInBackground:
+  <remove-node path="/api/package[@name='android.support.v4.content']/class[@name='CursorLoader']/method[@name='loadInBackground']" />
+  -->
+    <attr path="/api/package[@name='com.ooyala.android.player.exoplayer']/class[@name='ExoStreamPlayer']/method[@name='createSurfaceView' and count(parameter)=0]"
+          name="visibility">protected</attr>
+    <remove-node path="/api/package[@name='com.visualon.OSMPEngine']" />
+    <!--A more permanent solution will be needed if the sdk needs to play ads-->
+    <remove-node path="/api/package[@name='com.ooyala.android.ads.ooyala']" />
+    <remove-node path="/api/package[@name='com.ooyala.android.ads.vast']" />
+    <remove-node path="/api/package[@name='com.visualon.OSMPPlayerImpl']" />
+    <remove-node path="/api/package[@name='com.ooyala.android']/class[@name='SubTaskContentTree']" />
+    <remove-node path="/api/package[@name='com.ooyala.android']/class[@name='OoyalaManagedAdsPlugin']" />
+    <remove-node path="/api/package[@name='com.ooyala.android']/class[@name='ServerTaskAuthAndMetadata']" />
+    <remove-node path="/api/package[@name='com.ooyala.android']/class[@name='SubTaskContentTreeByExternalIds']" />
+    <!--    <remove-node path="/api/package[@name='com.ooyala.android.player.exoplayer']" />-->
+    <remove-node path="/api/package[@name='com.ooyala.android.player.exoplayer']/class[@name='EventLogger']" />
+    <!--    <remove-node path="/api/package[@name='com.ooyala.android.player.exoplayer']/class[@name='ExoStreamPlayer']/method[@name='createSurfaceView' and count(parameter)=0]" />-->
+    <remove-node path="/api/package[@name='com.ooyala.android.util']/class[@name='DownloadTask']" />
+    <remove-node path="/api/package[@name='com.ooyala.android.util']/class[@name='OrderedMap']/method[@name='remove' and count(parameter)=1 and parameter[1][@type='V']]" />
+    <remove-node path="/api/package[@name='com.ooyala.android.player.exoplayer.upstream']/class[@name='OoyalaDrmHttpDataSourceFactory']" />
+    <remove-node path="/api/package[@name='com.ooyala.android.player.exoplayer']/class[@name='FilteredDashManifestParser']" />
+    <remove-node path="/api/package[@name='com.ooyala.android.player.exoplayer']/class[@name='SeekCompleteObserver']" />
+    <!--Removing json updatable item-->
+    <remove-node path="/api/package[@name='com.ooyala.android.item']/class[@name='ContentItem']" />
+    <remove-node path="/api/package[@name='com.ooyala.android.item']/class[@name='ClosedCaptions']" />
+    <remove-node path="/api/package[@name='com.ooyala.android.item']/class[@name='OoyalaManagedAdSpot']" />
+    <remove-node path="/api/package[@name='com.ooyala.android.item']/class[@name='Stream']" />
+    <!--   -->
+    <remove-node path="/api/package[@name='com.visualon.OSMPBasePlayer']/class[@name='voOSBasePlayer']" />
+    <remove-node path="/api/package[@name='com.discretix.vodx']/interface[@name='VODXPlayer']" />
+    <remove-node path="/api/package[@name='com.visualon.OSMPPlayer']/interface[@name='VOCommonPlayer']" />
+    <remove-node path="/api/package[@name='com.ooyala.android']/class[@name='ID3TagNotifier']" />
+</metadata>
