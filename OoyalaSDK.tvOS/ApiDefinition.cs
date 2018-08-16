@@ -3989,7 +3989,7 @@ namespace OoyalaSDK.tvOS
 
         // -(void)seekToTime:(Float64)time completion:(void (^)())onCompletion;
         [Export("seekToTime:completion:")]
-        void SeekToTime(double time, Action onCompletion);
+        void SeekToTime(nfloat time, Action onCompletion);
 
         // -(void)togglePictureInPictureMode;
         [Export("togglePictureInPictureMode")]
@@ -4028,7 +4028,7 @@ namespace OoyalaSDK.tvOS
 
         // -(OOAdSpot *)adBeforeTime:(Float64)time;
         [Export("adBeforeTime:")]
-        OOAdSpot AdBeforeTime(double time);
+        OOAdSpot AdBeforeTime(nfloat time);
 
         // -(void)markAsPlayed:(OOAdSpot *)ad;
         [Export("markAsPlayed:")]
@@ -4256,7 +4256,7 @@ namespace OoyalaSDK.tvOS
     {
         // @property (nonatomic) Float64 lastAdModeTime;
         [Export("lastAdModeTime")]
-        double LastAdModeTime { get; set; }
+        nfloat LastAdModeTime { get; set; }
 
         // @property (readonly) OOAdSpotManager * adSpotManager;
         [Export("adSpotManager")]
@@ -4297,7 +4297,7 @@ namespace OoyalaSDK.tvOS
 
         // @property (readonly, nonatomic) Float64 skipoffset;
         [Export("skipoffset")]
-        double Skipoffset { get; }
+        nfloat Skipoffset { get; }
 
         // @property (readonly, nonatomic) NSMutableArray * icons;
         [Export("icons")]
@@ -4317,7 +4317,7 @@ namespace OoyalaSDK.tvOS
 
         // -(instancetype)initWithTitle:(NSString *)title clickUrl:(NSString *)clickUrl count:(NSUInteger)adsCount unplayedCount:(NSUInteger)unplayedCount skipoffset:(Float64)skipoffset icons:(NSMutableArray *)icons requiredAdBar:(BOOL)adbar requireControls:(BOOL)controls;
         [Export("initWithTitle:clickUrl:count:unplayedCount:skipoffset:icons:requiredAdBar:requireControls:")]
-        IntPtr Constructor(string title, string clickUrl, nuint adsCount, nuint unplayedCount, double skipoffset, NSMutableArray icons, bool adbar, bool controls);
+        IntPtr Constructor(string title, string clickUrl, nuint adsCount, nuint unplayedCount, nfloat skipoffset, NSMutableArray icons, bool adbar, bool controls);
 
         // -(NSDictionary *)toDictionary;
         [Export("toDictionary")]
@@ -4389,19 +4389,19 @@ namespace OoyalaSDK.tvOS
     {
         // @property (nonatomic) Float64 seekStart;
         [Export("seekStart")]
-        double SeekStart { get; set; }
+        nfloat SeekStart { get; set; }
 
         // @property (nonatomic) Float64 seekEnd;
         [Export("seekEnd")]
-        double SeekEnd { get; set; }
+        nfloat SeekEnd { get; set; }
 
         // @property (nonatomic) Float64 totalDuration;
         [Export("totalDuration")]
-        double TotalDuration { get; set; }
+        nfloat TotalDuration { get; set; }
 
         // -(instancetype)initWithStartTime:(Float64)startTime endTime:(Float64)endTime andTotalDuration:(Float64)totalDuration;
         [Export("initWithStartTime:endTime:andTotalDuration:")]
-        IntPtr Constructor(double startTime, double endTime, double totalDuration);
+        IntPtr Constructor(nfloat startTime, nfloat endTime, nfloat totalDuration);
     }
 
     // @interface OOCaption : NSObject
@@ -4410,11 +4410,11 @@ namespace OoyalaSDK.tvOS
     {
         // @property (readonly, nonatomic) Float64 begin;
         [Export("begin")]
-        double Begin { get; }
+        nfloat Begin { get; }
 
         // @property (readonly, nonatomic) Float64 end;
         [Export("end")]
-        double End { get; }
+        nfloat End { get; }
 
         // @property (readonly, nonatomic, strong) NSString * text;
         [Export("text", ArgumentSemantic.Strong)]
@@ -4422,7 +4422,7 @@ namespace OoyalaSDK.tvOS
 
         // -(id)initWithBegin:(Float64)begin_ end:(Float64)end_ text:(NSString *)text_;
         [Export("initWithBegin:end:text:")]
-        IntPtr Constructor(double begin_, double end_, string text_);
+        IntPtr Constructor(nfloat begin_, nfloat end_, string text_);
 
         // -(id)initWithXML:(OOTBXMLElement *)xml;
         //[Export("initWithXML:")]
@@ -4475,7 +4475,7 @@ namespace OoyalaSDK.tvOS
 
         // -(OOCaption *)captionForLanguage:(NSString *)language time:(Float64)time;
         [Export("captionForLanguage:time:")]
-        OOCaption CaptionForLanguage(string language, double time);
+        OOCaption CaptionForLanguage(string language, nfloat time);
     }
 
     // @interface OOClosedCaptionsLabel : UILabel
@@ -4492,8 +4492,8 @@ namespace OoyalaSDK.tvOS
     interface OOChannel : OOPaginatedParentItem
     {
         // @property (readonly, nonatomic, strong) NSString * nextChildren;
-        [Export("nextChildren", ArgumentSemantic.Strong)]
-        string NextChildren { get; }
+        //[Export("nextChildren", ArgumentSemantic.Strong)]
+        //string NextChildren { get; }
 
         // @property (readonly, nonatomic, strong) OOOrderedDictionary * videos;
         [Export("videos", ArgumentSemantic.Strong)]
@@ -4511,9 +4511,9 @@ namespace OoyalaSDK.tvOS
         [Export("initWithDictionary:embedCode:parent:api:")]
         IntPtr Constructor(NSDictionary data, string theEmbedCode, OOChannelSet theParent, OOOoyalaAPIClient theAPI);
 
-        // -(OOReturnState)updateWithDictionary:(NSDictionary *)data;
-        [Export("updateWithDictionary:")]
-        OOReturnState UpdateWithDictionary(NSDictionary data);
+        //// -(OOReturnState)updateWithDictionary:(NSDictionary *)data;
+        //[Export("updateWithDictionary:")]
+        //OOReturnState UpdateWithDictionary(NSDictionary data);
 
         // -(OOVideo *)firstVideo;
         [Export("firstVideo")]
@@ -4538,27 +4538,27 @@ namespace OoyalaSDK.tvOS
         OOVideo VideoFromEmbedCode(string embedCode, OOVideo currentItem);
 
         // -(BOOL)hasMoreChildren;
-        [Export("hasMoreChildren")]
-        // // [Verified(MethodToProperty)]
-        bool HasMoreChildren { get; }
+        //[Export("hasMoreChildren")]
+        //// // [Verified(MethodToProperty)]
+        //bool HasMoreChildren { get; }
 
         // -(BOOL)fetchMoreChildren:(OOFetchMoreChildrenCallback)callback;
-        [Export("fetchMoreChildren:")]
-        bool FetchMoreChildren(OOFetchMoreChildrenCallback callback);
+        //[Export("fetchMoreChildren:")]
+        //bool FetchMoreChildren(OOFetchMoreChildrenCallback callback);
 
         // -(BOOL)fetchAndAuthorizeMoreChildren:(OOFetchMoreChildrenCallback)callback;
         [Export("fetchAndAuthorizeMoreChildren:")]
         bool FetchAndAuthorizeMoreChildren(OOFetchMoreChildrenCallback callback);
 
         // -(NSUInteger)childrenCount;
-        [Export("childrenCount")]
+        //[Export("childrenCount")]
         // // [Verified(MethodToProperty)]
-        nuint ChildrenCount { get; }
+        //nuint ChildrenCount { get; }
 
         // -(Float64)duration;
         [Export("duration")]
         // // [Verified(MethodToProperty)]
-        double Duration { get; }
+        nfloat Duration { get; }
     }
 
     // @interface OOChannelSet : OOContentItem <OOPaginatedParentItem>
@@ -4566,8 +4566,8 @@ namespace OoyalaSDK.tvOS
     interface OOChannelSet : OOPaginatedParentItem
     {
         // @property (readonly, nonatomic, strong) NSString * nextChildren;
-        [Export("nextChildren", ArgumentSemantic.Strong)]
-        string NextChildren { get; }
+        //[Export("nextChildren", ArgumentSemantic.Strong)]
+        //string NextChildren { get; }
 
         // @property (readonly, nonatomic, strong) OOOrderedDictionary * channels;
         [Export("channels", ArgumentSemantic.Strong)]
@@ -4578,8 +4578,8 @@ namespace OoyalaSDK.tvOS
         IntPtr Constructor(NSDictionary data, string theEmbedCode, OOOoyalaAPIClient theAPI);
 
         // -(OOReturnState)updateWithDictionary:(NSDictionary *)data;
-        [Export("updateWithDictionary:")]
-        OOReturnState UpdateWithDictionary(NSDictionary data);
+        //[Export("updateWithDictionary:")]
+        //OOReturnState UpdateWithDictionary(NSDictionary data);
 
         // -(OOVideo *)firstVideo;
         [Export("firstVideo")]
@@ -4599,27 +4599,27 @@ namespace OoyalaSDK.tvOS
         OOVideo VideoFromEmbedCode(string embedCode, OOVideo currentItem);
 
         // -(BOOL)hasMoreChildren;
-        [Export("hasMoreChildren")]
-        // // [Verified(MethodToProperty)]
-        bool HasMoreChildren { get; }
+        //[Export("hasMoreChildren")]
+        //// // [Verified(MethodToProperty)]
+        //bool HasMoreChildren { get; }
 
         // -(BOOL)fetchMoreChildren:(OOFetchMoreChildrenCallback)callback;
-        [Export("fetchMoreChildren:")]
-        bool FetchMoreChildren(OOFetchMoreChildrenCallback callback);
+        //[Export("fetchMoreChildren:")]
+        //bool FetchMoreChildren(OOFetchMoreChildrenCallback callback);
 
         // -(BOOL)fetchAndAuthorizeMoreChildren:(OOFetchMoreChildrenCallback)callback;
         [Export("fetchAndAuthorizeMoreChildren:")]
         bool FetchAndAuthorizeMoreChildren(OOFetchMoreChildrenCallback callback);
 
         // -(NSUInteger)childrenCount;
-        [Export("childrenCount")]
+        //[Export("childrenCount")]
         // // [Verified(MethodToProperty)]
-        nuint ChildrenCount { get; }
+        //nuint ChildrenCount { get; }
 
         // -(Float64)duration;
         [Export("duration")]
         // // [Verified(MethodToProperty)]
-        double Duration { get; }
+        nfloat Duration { get; }
     }
 
     // @interface OODynamicChannel : OOChannel
@@ -4653,7 +4653,7 @@ namespace OoyalaSDK.tvOS
         // -(Float64)duration;
         [Export("duration")]
         // // [Verified(MethodToProperty)]
-        double Duration { get; }
+        nfloat Duration { get; }
     }
 
     // @interface OOClosedCaptionsItem : NSObject
@@ -4939,7 +4939,7 @@ namespace OoyalaSDK.tvOS
 
         // @property (readonly, nonatomic) Float64 playhead;
         [Export("playhead")]
-        double Playhead { get; }
+        nfloat Playhead { get; }
 
         // @property (readonly, nonatomic) BOOL isPlaying;
         [Export("isPlaying")]
@@ -4959,7 +4959,7 @@ namespace OoyalaSDK.tvOS
 
         // -(id)initWithEmbedCode:(NSString *)embedCode initialPlayheadTime:(Float64)playhead isPlaying:(BOOL)isPlaying embedTokenGenerator:(id<OOEmbedTokenGenerator>)embedTokenGenerator ccLanguage:(NSString *)ccLanguage authToken:(NSString *)authToken;
         [Export("initWithEmbedCode:initialPlayheadTime:isPlaying:embedTokenGenerator:ccLanguage:authToken:")]
-        IntPtr Constructor(string embedCode, double playhead, bool isPlaying, OOEmbedTokenGenerator embedTokenGenerator, string ccLanguage, string authToken);
+        IntPtr Constructor(string embedCode, nfloat playhead, bool isPlaying, OOEmbedTokenGenerator embedTokenGenerator, string ccLanguage, string authToken);
     }
 
     // @protocol OOCastManagerProtocol <NSObject>

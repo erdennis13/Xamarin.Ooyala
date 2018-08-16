@@ -1,0 +1,24 @@
+**/xcuserdata
+sdk/react/node_modules
+sdk/react/coverage
+**/build/
+**/react/iOS/
+**/react/Android/
+
+**/.gradle/
+**/local.properties
+
+# Android Studio
+**/.idea/libraries/
+**/.idea
+*.iml
+
+## Other
+*.xccheckout
+*.moved-aside
+*.xcuserstate
+*.xcscmblueprint
+
+# OS X
+.DS_Store
+OoyalaSkinSDK-*.zip
