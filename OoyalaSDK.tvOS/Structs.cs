@@ -4,7 +4,7 @@ using ObjCRuntime;
 
 namespace OoyalaSDK.tvOS
 {
-	[Native]
+    [Native]
     public enum OOClosedCaptionPresentation : long
     {
         PopOn,
@@ -13,7 +13,7 @@ namespace OoyalaSDK.tvOS
     }
 
     [Native]
-	public enum OOOoyalaPlayerVideoGravity :long
+    public enum OOOoyalaPlayerVideoGravity : long
     {
         OOOoyalaPlayerVideoGravityResize,
         Aspect,
@@ -21,7 +21,7 @@ namespace OoyalaSDK.tvOS
     }
 
     [Native]
-	public enum OOOoyalaPlayerState : ulong
+    public enum OOOoyalaPlayerState : ulong
     {
         Init,
         Loading,
@@ -33,14 +33,14 @@ namespace OoyalaSDK.tvOS
     }
 
     [Native]
-	public enum OOOoyalaPlayerDesiredState : long
+    public enum OOOoyalaPlayerDesiredState : long
     {
         laying,
         aused
     }
 
     [Native]
-	public enum OOAdMode : long
+    public enum OOAdMode : long
     {
         None,
         ContentChanged,
@@ -52,6 +52,56 @@ namespace OoyalaSDK.tvOS
         PluginInitiated
     }
 
+    //[StructLayout (LayoutKind.Sequential)]
+    //public struct OOTBXMLAttribute
+    //{
+    //    public unsafe sbyte* name;
+
+    //    public unsafe sbyte* value;
+
+    //    public unsafe _OOTBXMLAttribute* next;
+    //}
+
+    //[StructLayout (LayoutKind.Sequential)]
+    //public struct OOTBXMLElement
+    //{
+    //    public unsafe sbyte* name;
+
+    //    public unsafe sbyte* text;
+
+    //    public unsafe OOTBXMLAttribute* firstAttribute;
+
+    //    public unsafe _OOTBXMLElement* parentElement;
+
+    //    public unsafe _OOTBXMLElement* firstChild;
+
+    //    public unsafe _OOTBXMLElement* currentChild;
+
+    //    public unsafe _OOTBXMLElement* nextSibling;
+
+    //    public unsafe _OOTBXMLElement* previousSibling;
+    //}
+
+    //[StructLayout (LayoutKind.Sequential)]
+    //public struct OOTBXMLElementBuffer
+    //{
+    //    public unsafe OOTBXMLElement* elements;
+
+    //    public unsafe _OOTBXMLElementBuffer* next;
+
+    //    public unsafe _OOTBXMLElementBuffer* previous;
+    //}
+
+    //[StructLayout (LayoutKind.Sequential)]
+    //public struct OOTBXMLAttributeBuffer
+    //{
+    //    public unsafe OOTBXMLAttribute* attributes;
+
+    //    public unsafe _OOTBXMLAttributeBuffer* next;
+
+    //    public unsafe _OOTBXMLAttributeBuffer* previous;
+    //}
+
     [Native]
     public enum OOReturnState : long
     {
@@ -61,7 +111,7 @@ namespace OoyalaSDK.tvOS
     }
 
     [Native]
-	public enum OOAuthCode : long
+    public enum OOAuthCode : long
     {
         Unknown = -2,
         NotRequested = -1,
@@ -95,7 +145,7 @@ namespace OoyalaSDK.tvOS
     }
 
     [Native]
-	public enum OOOoyalaPlayerActionAtEnd : long
+    public enum OOOoyalaPlayerActionAtEnd : long
     {
         Continue,
         Pause,
@@ -104,7 +154,7 @@ namespace OoyalaSDK.tvOS
     }
 
     [Native]
-	public enum OOOoyalaPlayerEnvironment : long
+    public enum OOOoyalaPlayerEnvironment : long
     {
         Production,
         Staging,
@@ -113,7 +163,7 @@ namespace OoyalaSDK.tvOS
     }
 
     [Native]
-	public enum OOSeekStyle : long
+    public enum OOSeekStyle : long
     {
         None,
         Basic,
@@ -121,7 +171,7 @@ namespace OoyalaSDK.tvOS
     }
 
     [Native]
-	public enum OOUIProgressSliderMode : long
+    public enum OOUIProgressSliderMode : long
     {
         Live,
         AdInLive,
@@ -131,7 +181,7 @@ namespace OoyalaSDK.tvOS
     }
 
     [Native]
-	public enum OOFCCTvRatingsPosition : long
+    public enum OOFCCTvRatingsPosition : long
     {
         TopLeft,
         TopRight,
@@ -140,7 +190,7 @@ namespace OoyalaSDK.tvOS
     }
 
     [Native]
-	public enum RequiredType : long
+    public enum RequiredType : long
     {
         All,
         Any,
@@ -148,7 +198,7 @@ namespace OoyalaSDK.tvOS
     }
 
     [Native]
-	public enum OffsetType : long
+    public enum OffsetType : long
     {
         Seconds,
         Percentage,
@@ -156,7 +206,7 @@ namespace OoyalaSDK.tvOS
     }
 
     [Native]
-	public enum OType : long
+    public enum OOType : long
     {
         None,
         Static,
@@ -165,7 +215,7 @@ namespace OoyalaSDK.tvOS
     }
 
     [Native]
-	public enum ResourceType : long
+    public enum ResourceType : long
     {
         Static,
         IFrame,
@@ -173,14 +223,14 @@ namespace OoyalaSDK.tvOS
     }
 
     [Native]
-	public enum OOOoyalaTVPlayerControlType : long
+    public enum OOOoyalaTVPlayerControlType : long
     {
         Inline,
         FullScreen
     }
 
     [Native]
-	public enum OOOoyalaErrorCode : long
+    public enum OOOoyalaErrorCode : long
     {
         AuthorizationFailed = 0,
         AuthorizationInvalid = 1,
@@ -217,7 +267,7 @@ namespace OoyalaSDK.tvOS
     }
 
     [Native]
-	public enum OODiscoveryType : ulong
+    public enum OODiscoveryType : ulong
     {
         Momentum = 0,
         Popular,
@@ -225,7 +275,7 @@ namespace OoyalaSDK.tvOS
     }
 
     [Native]
-	public enum DebugMode : long
+    public enum DebugMode : long
     {
         None,
         LogOnly,
@@ -233,7 +283,7 @@ namespace OoyalaSDK.tvOS
     }
 
     [Native]
-	public enum OOOoyalaPlayerControlType : long
+    public enum OOOoyalaPlayerControlType : long
     {
         Inline,
         FullScreen

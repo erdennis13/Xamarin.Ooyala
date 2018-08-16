@@ -10,63 +10,6 @@ using CoreMedia;
 
 namespace OoyalaSDK.tvOS
 {
-    // The first step to creating a binding is to add your native library ("libNativeLibrary.a")
-    // to the project by right-clicking (or Control-clicking) the folder containing this source
-    // file and clicking "Add files..." and then simply select the native library (or libraries)
-    // that you want to bind.
-    //
-    // When you do that, you'll notice that MonoDevelop generates a code-behind file for each
-    // native library which will contain a [LinkWith] attribute. MonoDevelop auto-detects the
-    // architectures that the native library supports and fills in that information for you,
-    // however, it cannot auto-detect any Frameworks or other system libraries that the
-    // native library may depend on, so you'll need to fill in that information yourself.
-    //
-    // Once you've done that, you're ready to move on to binding the API...
-    //
-    //
-    // Here is where you'd define your API definition for the native Objective-C library.
-    //
-    // For example, to bind the following Objective-C class:
-    //
-    //     @interface Widget : NSObject {
-    //     }
-    //
-    // The C# binding would look like this:
-    //
-    //     [BaseType (typeof (NSObject))]
-    //     interface Widget {
-    //     }
-    //
-    // To bind Objective-C properties, such as:
-    //
-    //     @property (nonatomic, readwrite, assign) CGPoint center;
-    //
-    // You would add a property definition in the C# interface like so:
-    //
-    //     [Export ("center")]
-    //     CGPoint Center { get; set; }
-    //
-    // To bind an Objective-C method, such as:
-    //
-    //     -(void) doSomething:(NSObject *)object atIndex:(NSInteger)index;
-    //
-    // You would add a method definition to the C# interface like so:
-    //
-    //     [Export ("doSomething:atIndex:")]
-    //     void DoSomething (NSObject object, int index);
-    //
-    // Objective-C "constructors" such as:
-    //
-    //     -(id)initWithElmo:(ElmoMuppet *)elmo;
-    //
-    // Can be bound as:
-    //
-    //     [Export ("initWithElmo:")]
-    //     IntPtr Constructor (ElmoMuppet elmo);
-    //
-    // For more information, see http://developer.xamarin.com/guides/ios/advanced_topics/binding_objective-c/
-    //
-
     // @protocol OOSignatureGenerator <NSObject>
     [Protocol, Model]
     [BaseType(typeof(NSObject))]
@@ -85,8 +28,8 @@ namespace OoyalaSDK.tvOS
     {
         // @required -(NSURL *)secureURL:(NSString *)host uri:(NSString *)uri params:(NSDictionary *)params;
         //[Abstract]
-        //[Export("secureURL:uri:params:")]
-        //NSUrl Uri(string host, string uri, NSDictionary @params);
+        [Export("secureURL:uri:params:")]
+        NSUrl Uri(string host, string uri, NSDictionary @params);
     }
 
     // typedef void (^OOCurrentItemChangedCallback)(OOVideo *);
@@ -127,7 +70,7 @@ namespace OoyalaSDK.tvOS
         // @required -(void)tokenForEmbedCodes:(NSArray *)embedCodes callback:(OOEmbedTokenCallback)callback;
         [Abstract]
         [Export("tokenForEmbedCodes:callback:")]
-        // // // [Verify(StronglyTypedNSArray)]
+        // // // [Verified(StronglyTypedNSArray)]
         void Callback(NSObject[] embedCodes, OOEmbedTokenCallback callback);
     }
 
@@ -196,7 +139,7 @@ namespace OoyalaSDK.tvOS
         // @required -(BOOL)hasCustomControls;
         [Abstract]
         [Export("hasCustomControls")]
-        // // // [Verify(MethodToProperty)]
+        // // // [Verified(MethodToProperty)]
         bool HasCustomControls { get; }
 
         // @required -(void)pause;
@@ -217,30 +160,30 @@ namespace OoyalaSDK.tvOS
         // @required -(Float64)playheadTime;
         [Abstract]
         [Export("playheadTime")]
-        // // // [Verify(MethodToProperty)]
-        double PlayheadTime { get; }
+        // // // [Verified(MethodToProperty)]
+        nfloat PlayheadTime { get; }
 
         // @required -(Float64)duration;
         [Abstract]
         [Export("duration")]
-        // // // [Verify(MethodToProperty)]
-        double Duration { get; }
+        // // // [Verified(MethodToProperty)]
+        nfloat Duration { get; }
 
         // @required -(Float64)buffer;
         [Abstract]
         [Export("buffer")]
-        // // // [Verify(MethodToProperty)]
-        double Buffer { get; }
+        // // // [Verified(MethodToProperty)]
+        nfloat Buffer { get; }
 
         // @required -(void)seekToTime:(Float64)time;
         [Abstract]
         [Export("seekToTime:")]
-        void SeekToTime(double time);
+        void SeekToTime(nfloat time);
 
         // @required -(UIImage *)screenshot;
         [Abstract]
         [Export("screenshot")]
-        // // // [Verify(MethodToProperty)]
+        // // // [Verified(MethodToProperty)]
         UIImage Screenshot { get; }
 
         // @required -(void)setVideoGravity:(OOOoyalaPlayerVideoGravity)gravity;
@@ -311,6 +254,7 @@ namespace OoyalaSDK.tvOS
 
     // @protocol OOLifeCycle
     [Protocol, Model]
+    [BaseType(typeof(NSObject))]
     interface OOLifeCycle
     {
         // @required -(void)reset;
@@ -331,7 +275,7 @@ namespace OoyalaSDK.tvOS
         // @required -(void)resume:(Float64)time stateToResume:(OOOoyalaPlayerState)state;
         [Abstract]
         [Export("resume:stateToResume:")]
-        void Resume(double time, OOOoyalaPlayerState state);
+        void Resume(nfloat time, OOOoyalaPlayerState state);
 
         // @required -(void)destroy;
         [Abstract]
@@ -347,24 +291,24 @@ namespace OoyalaSDK.tvOS
         // @required -(BOOL)onContentChanged;
         [Abstract]
         [Export("onContentChanged")]
-        // // // [Verify(MethodToProperty)]
+        // // // [Verified(MethodToProperty)]
         bool OnContentChanged { get; }
 
         // @required -(BOOL)onInitialPlay;
         [Abstract]
         [Export("onInitialPlay")]
-        // // // [Verify(MethodToProperty)]
+        // // // [Verified(MethodToProperty)]
         bool OnInitialPlay { get; }
 
         // @required -(BOOL)onPlayheadUpdate:(Float64)playhead;
         [Abstract]
         [Export("onPlayheadUpdate:")]
-        bool OnPlayheadUpdate(double playhead);
+        bool OnPlayheadUpdate(nfloat playhead);
 
         // @required -(BOOL)onContentFinished;
         [Abstract]
         [Export("onContentFinished")]
-        // // // [Verify(MethodToProperty)]
+        // // // [Verified(MethodToProperty)]
         bool OnContentFinished { get; }
 
         // @required -(BOOL)onCuePoint:(int)cuePointIndex;
@@ -385,7 +329,7 @@ namespace OoyalaSDK.tvOS
         // @required -(id<OOPlayerProtocol>)player;
         [Abstract]
         [Export("player")]
-        // // // [Verify(MethodToProperty)]
+        // // // [Verified(MethodToProperty)]
         OOPlayerProtocol Player { get; }
 
         // @required -(void)resetAds;
@@ -406,7 +350,7 @@ namespace OoyalaSDK.tvOS
         // @required -(NSSet *)getCuePointsAtSeconds;
         [Abstract]
         [Export("getCuePointsAtSeconds")]
-        // // // [Verify(MethodToProperty)]
+        // // // [Verified(MethodToProperty)]
         NSSet CuePointsAtSeconds { get; }
 
         // @required -(void)onAdIconClicked:(NSInteger)index;
@@ -442,7 +386,7 @@ namespace OoyalaSDK.tvOS
         // @required -(id<OOAdPlugin>)activeAdPlugin;
         [Abstract]
         [Export("activeAdPlugin")]
-        // // // [Verify(MethodToProperty)]
+        // // // [Verified(MethodToProperty)]
         OOAdPlugin ActiveAdPlugin { get; }
     }
 
@@ -491,7 +435,7 @@ namespace OoyalaSDK.tvOS
         // +(id)tbxmlWithURL:(NSURL *)aURL ignoredTags:(NSArray *)theIgnoredTags;
         [Static]
         [Export("tbxmlWithURL:ignoredTags:")]
-        // // // [Verify(StronglyTypedNSArray)]
+        // // // [Verified(StronglyTypedNSArray)]
         NSObject TbxmlWithURL(NSUrl aURL, NSObject[] theIgnoredTags);
 
         // +(id)tbxmlWithXMLString:(NSString *)aXMLString;
@@ -502,7 +446,7 @@ namespace OoyalaSDK.tvOS
         // +(id)tbxmlWithXMLString:(NSString *)aXMLString ignoredTags:(NSArray *)theIgnoredTags;
         [Static]
         [Export("tbxmlWithXMLString:ignoredTags:")]
-        // // // [Verify(StronglyTypedNSArray)]
+        // // // [Verified(StronglyTypedNSArray)]
         NSObject TbxmlWithXMLString(string aXMLString, NSObject[] theIgnoredTags);
 
         // +(id)tbxmlWithXMLData:(NSData *)aData;
@@ -513,7 +457,7 @@ namespace OoyalaSDK.tvOS
         // +(id)tbxmlWithXMLData:(NSData *)aData ignoredTags:(NSArray *)theIgnoredTags;
         [Static]
         [Export("tbxmlWithXMLData:ignoredTags:")]
-        // // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         NSObject TbxmlWithXMLData(NSData aData, NSObject[] theIgnoredTags);
 
         // +(id)tbxmlWithXMLFile:(NSString *)aXMLFile;
@@ -524,7 +468,7 @@ namespace OoyalaSDK.tvOS
         // +(id)tbxmlWithXMLFile:(NSString *)aXMLFile ignoredTags:(NSArray *)theIgnoredTags;
         [Static]
         [Export("tbxmlWithXMLFile:ignoredTags:")]
-        // // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         NSObject TbxmlWithXMLFile(string aXMLFile, NSObject[] theIgnoredTags);
 
         // +(id)tbxmlWithXMLFile:(NSString *)aXMLFile fileExtension:(NSString *)aFileExtension;
@@ -535,7 +479,7 @@ namespace OoyalaSDK.tvOS
         // +(id)tbxmlWithXMLFile:(NSString *)aXMLFile fileExtension:(NSString *)aFileExtension ignoredTags:(NSArray *)theIgnoredTags;
         [Static]
         [Export("tbxmlWithXMLFile:fileExtension:ignoredTags:")]
-        // // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         NSObject TbxmlWithXMLFile(string aXMLFile, string aFileExtension, NSObject[] theIgnoredTags);
 
         // -(id)initWithURL:(NSURL *)aURL;
@@ -544,7 +488,7 @@ namespace OoyalaSDK.tvOS
 
         // -(id)initWithURL:(NSURL *)aURL ignoredTags:(NSArray *)theIgnoredTags;
         [Export("initWithURL:ignoredTags:")]
-        // // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         IntPtr Constructor(NSUrl aURL, NSObject[] theIgnoredTags);
 
         // -(id)initWithXMLString:(NSString *)aXMLString;
@@ -553,7 +497,7 @@ namespace OoyalaSDK.tvOS
 
         // -(id)initWithXMLString:(NSString *)aXMLString ignoredTags:(NSArray *)theIgnoredTags;
         [Export("initWithXMLString:ignoredTags:")]
-        // // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         IntPtr Constructor(string aXMLString, NSObject[] theIgnoredTags);
 
         // -(id)initWithXMLData:(NSData *)aData;
@@ -562,7 +506,7 @@ namespace OoyalaSDK.tvOS
 
         // -(id)initWithXMLData:(NSData *)aData ignoredTags:(NSArray *)theIgnoredTags;
         [Export("initWithXMLData:ignoredTags:")]
-        // // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         IntPtr Constructor(NSData aData, NSObject[] theIgnoredTags);
 
         // -(id)initWithXMLFile:(NSString *)aXMLFile;
@@ -571,7 +515,7 @@ namespace OoyalaSDK.tvOS
 
         // -(id)initWithXMLFile:(NSString *)aXMLFile ignoredTags:(NSArray *)theIgnoredTags;
         //[Export("initWithXMLFile:ignoredTags:")]
-        // // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         //IntPtr Constructor(string aXMLFile, NSObject[] theIgnoredTags);
 
         // -(id)initWithXMLFile:(NSString *)aXMLFile fileExtension:(NSString *)aFileExtension;
@@ -580,7 +524,7 @@ namespace OoyalaSDK.tvOS
 
         // -(id)initWithXMLFile:(NSString *)aXMLFile fileExtension:(NSString *)aFileExtension ignoredTags:(NSArray *)theIgnoredTags;
         [Export("initWithXMLFile:fileExtension:ignoredTags:")]
-        // // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         IntPtr Constructor(string aXMLFile, string aFileExtension, NSObject[] theIgnoredTags);
     }
 
@@ -694,7 +638,7 @@ namespace OoyalaSDK.tvOS
 
         // -(NSInteger)combinedBitrate;
         [Export("combinedBitrate")]
-        // // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         nint CombinedBitrate { get; }
 
         // -(id)initWithUrl:(NSURL *)theUrl deliveryType:(NSString *)theType;
@@ -715,7 +659,7 @@ namespace OoyalaSDK.tvOS
 
         // -(NSURL *)decodedURL;
         [Export("decodedURL")]
-        // // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         NSUrl DecodedURL { get; }
 
         // +(BOOL)is:(OOStream *)stream betterThan:(OOStream *)better;
@@ -751,19 +695,19 @@ namespace OoyalaSDK.tvOS
         // +(OOStream *)bestStreamFromArray:(NSArray *)streams;
         [Static]
         [Export("bestStreamFromArray:")]
-        // // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         OOStream BestStreamFromArray(NSObject[] streams);
 
         // +(BOOL)containsDeliveryType:(NSString *)type inArray:(NSArray *)streams;
         [Static]
         [Export("containsDeliveryType:inArray:")]
-        // // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         bool ContainsDeliveryType(string type, NSObject[] streams);
 
         // +(OOStream *)streamWithType:(NSString *)type fromArray:(NSArray *)streams;
         [Static]
         [Export("streamWithType:fromArray:")]
-        // // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         OOStream StreamWithType(string type, NSObject[] streams);
 
         // +(void)setStreamSelector:(OOStreamSelector)selector;
@@ -785,8 +729,8 @@ namespace OoyalaSDK.tvOS
         // @required -(NSArray *)getStreams;
         [Abstract]
         [Export("getStreams")]
-        // // // [Verify(MethodToProperty), Verify(StronglyTypedNSArray)]
-        NSObject[] Streams { get; }
+        // // [Verified(MethodToProperty), Verify(StronglyTypedNSArray)]
+        NSMutableArray Streams { get; }
     }
 
     // @protocol OOAuthorizableItem <NSObject>
@@ -802,19 +746,19 @@ namespace OoyalaSDK.tvOS
         // @required -(NSArray *)embedCodesToAuthorize;
         [Abstract]
         [Export("embedCodesToAuthorize")]
-        // // // [Verify(MethodToProperty), Verify(StronglyTypedNSArray)]
+        // // [Verified(MethodToProperty), Verify(StronglyTypedNSArray)]
         NSObject[] EmbedCodesToAuthorize { get; }
 
         // @required -(BOOL)authorized;
         [Abstract]
         [Export("authorized")]
-        // // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         bool Authorized { get; }
 
         // @required -(OOAuthCode)authCode;
         [Abstract]
         [Export("authCode")]
-        // // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         OOAuthCode AuthCode { get; }
 
         // @required @property (assign, nonatomic) BOOL heartbeatRequired;
@@ -851,17 +795,17 @@ namespace OoyalaSDK.tvOS
         [Export("hostedAtURL")]
         string HostedAtURL { get; }
 
-        // @property (readonly, nonatomic) OOPlayerAPIClient * api;
+        // @property (readonly, nonatomic) OOOoyalaAPIClient * api;
         [Export("api")]
         OOOoyalaAPIClient Api { get; }
 
         // @property (readonly, nonatomic) BOOL authorized;
-        //[Export("authorized")]
-        //bool Authorized { get; }
+        [Export("authorized")]
+        bool Authorized { get; }
 
         // @property (readonly, nonatomic) OOAuthCode authCode;
-        //[Export("authCode")]
-        //OOAuthCode AuthCode { get; }
+        [Export("authCode")]
+        OOAuthCode AuthCode { get; }
 
         // @property (readonly, nonatomic) NSDictionary * metadata;
         [Export("metadata")]
@@ -872,8 +816,8 @@ namespace OoyalaSDK.tvOS
         NSDictionary ModuleData { get; }
 
         // @property (assign, nonatomic) BOOL heartbeatRequired;
-        //[Export("heartbeatRequired")]
-        //bool HeartbeatRequired { get; set; }
+        [Export("heartbeatRequired")]
+        bool HeartbeatRequired { get; set; }
 
         // @property (readonly, nonatomic) OOFCCTVRating * tvRating;
         [Export("tvRating")]
@@ -903,47 +847,47 @@ namespace OoyalaSDK.tvOS
         [Export("initWithEmbedCode:title:description:")]
         IntPtr Constructor(string theEmbedCode, string theTitle, string theDescription);
 
-        // -(id)initWithDictionary:(NSDictionary *)data embedCode:(NSString *)theEmbedCode api:(OOPlayerAPIClient *)theAPI;
+        // -(id)initWithDictionary:(NSDictionary *)data embedCode:(NSString *)theEmbedCode api:(OOOoyalaAPIClient *)theAPI;
         [Export("initWithDictionary:embedCode:api:")]
         IntPtr Constructor(NSDictionary data, string theEmbedCode, OOOoyalaAPIClient theAPI);
 
         // -(OOReturnState)updateWithDictionary:(NSDictionary *)data;
-        //[Export("updateWithDictionary:")]
-        //OOReturnState UpdateWithDictionary(NSDictionary data);
+        [Export("updateWithDictionary:")]
+        OOReturnState UpdateWithDictionary(NSDictionary data);
 
         // -(NSString *)getPromoImageURLForWidth:(NSInteger)width height:(NSInteger)height;
         [Export("getPromoImageURLForWidth:height:")]
         string GetPromoImageURLForWidth(nint width, nint height);
 
         // -(NSArray *)embedCodesToAuthorize;
-        //[Export("embedCodesToAuthorize")]
-        //// // // [Verify(MethodToProperty), Verify(StronglyTypedNSArray)]
-        //NSObject[] EmbedCodesToAuthorize { get; }
+        [Export("embedCodesToAuthorize")]
+        // // [Verified(MethodToProperty), Verify(StronglyTypedNSArray)]
+        NSObject[] EmbedCodesToAuthorize { get; }
 
         // -(OOVideo *)firstVideo;
         [Export("firstVideo")]
-        // // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         OOVideo FirstVideo { get; }
 
         // -(OOVideo *)videoFromEmbedCode:(NSString *)embedCode withCurrentItem:(OOVideo *)currentItem;
         [Export("videoFromEmbedCode:withCurrentItem:")]
         OOVideo VideoFromEmbedCode(string embedCode, OOVideo currentItem);
 
-        // +(OOContentItem *)contentItemFromDictionary:(NSDictionary *)data embedCode:(NSString *)embedCode api:(OOPlayerAPIClient *)api;
+        // +(OOContentItem *)contentItemFromDictionary:(NSDictionary *)data embedCode:(NSString *)embedCode api:(OOOoyalaAPIClient *)api;
         [Static]
         [Export("contentItemFromDictionary:embedCode:api:")]
         OOContentItem ContentItemFromDictionary(NSDictionary data, string embedCode, OOOoyalaAPIClient api);
 
-        // +(OOContentItem *)contentItemFromDictionary:(NSDictionary *)data embedCodes:(NSArray *)embedCodes api:(OOPlayerAPIClient *)api;
+        // +(OOContentItem *)contentItemFromDictionary:(NSDictionary *)data embedCodes:(NSArray *)embedCodes api:(OOOoyalaAPIClient *)api;
         [Static]
         [Export("contentItemFromDictionary:embedCodes:api:")]
-        // // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         OOContentItem ContentItemFromDictionary(NSDictionary data, NSObject[] embedCodes, OOOoyalaAPIClient api);
 
         // -(Float64)duration;
         [Export("duration")]
-        // // // [Verify(MethodToProperty)]
-        double Duration { get; }
+        // // [Verified(MethodToProperty)]
+        nfloat Duration { get; }
     }
 
     // @interface OOVideo : OOContentItem <OOPlayableItem>
@@ -964,7 +908,7 @@ namespace OoyalaSDK.tvOS
 
         // @property (readonly, nonatomic) Float64 duration;
         [Export("duration")]
-        double Duration { get; }
+        nfloat Duration { get; }
 
         // @property (readonly, nonatomic) BOOL live;
         [Export("live")]
@@ -988,14 +932,14 @@ namespace OoyalaSDK.tvOS
 
         // -(id)initWithUnbundledStreams:(NSArray *)theStreams ads:(NSArray *)theAds;
         [Export("initWithUnbundledStreams:ads:")]
-        // // // [Verify(StronglyTypedNSArray), Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray), Verify(StronglyTypedNSArray)]
         IntPtr Constructor(NSObject[] theStreams, NSObject[] theAds);
 
-        // -(id)initWithDictionary:(NSDictionary *)data embedCode:(NSString *)theEmbedCode api:(OOPlayerAPIClient *)theAPI;
+        // -(id)initWithDictionary:(NSDictionary *)data embedCode:(NSString *)theEmbedCode api:(OOOoyalaAPIClient *)theAPI;
         [Export("initWithDictionary:embedCode:api:")]
         IntPtr Constructor(NSDictionary data, string theEmbedCode, OOOoyalaAPIClient theAPI);
 
-        // -(id)initWithDictionary:(NSDictionary *)data embedCode:(NSString *)theEmbedCode parent:(OOChannel *)theParent api:(OOPlayerAPIClient *)theAPI;
+        // -(id)initWithDictionary:(NSDictionary *)data embedCode:(NSString *)theEmbedCode parent:(OOChannel *)theParent api:(OOOoyalaAPIClient *)theAPI;
         [Export("initWithDictionary:embedCode:parent:api:")]
         IntPtr Constructor(NSDictionary data, string theEmbedCode, OOChannel theParent, OOOoyalaAPIClient theAPI);
 
@@ -1009,17 +953,17 @@ namespace OoyalaSDK.tvOS
 
         // -(OOVideo *)firstVideo;
         [Export("firstVideo")]
-        // // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         OOVideo FirstVideo { get; }
 
         // -(OOVideo *)nextVideo;
         [Export("nextVideo")]
-        // // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         OOVideo NextVideo { get; }
 
         // -(OOVideo *)previousVideo;
         [Export("previousVideo")]
-        // // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         OOVideo PreviousVideo { get; }
 
         // -(OOVideo *)videoFromEmbedCode:(NSString *)embedCode withCurrentItem:(OOVideo *)currentItem;
@@ -1028,21 +972,21 @@ namespace OoyalaSDK.tvOS
 
         // -(BOOL)fetchPlaybackInfo;
         [Export("fetchPlaybackInfo")]
-        // // // [Verify(MethodToProperty)]
-        bool PlaybackInfo { get; }
+        // // [Verified(MethodToProperty)]
+        bool FetchPlaybackInfo { get; }
 
         // -(id)fetchPlaybackInfo:(void (^)(BOOL))callback;
         [Export("fetchPlaybackInfo:")]
-        NSObject FetchPlaybackInfo(Action<bool> callback);
+        NSObject FetchPlaybackInfoWithCallback(Action<bool> callback);
 
         // -(BOOL)hasAds;
         [Export("hasAds")]
-        // // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         bool HasAds { get; }
 
         // -(BOOL)hasClosedCaptions;
         [Export("hasClosedCaptions")]
-        // // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         bool HasClosedCaptions { get; }
 
         // -(void)insertAd:(OOManagedAdSpot *)ad;
@@ -1060,22 +1004,22 @@ namespace OoyalaSDK.tvOS
     {
         // @property (readonly, nonatomic) NSArray * streams;
         [Export("streams")]
-        // // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         NSObject[] Streams { get; }
 
         // @property (readonly, nonatomic) NSArray * ads;
         [Export("ads")]
-        // // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         NSObject[] Ads { get; }
 
         // -(id)initWithUnbundledStreams:(NSArray *)streams;
         [Export("initWithUnbundledStreams:")]
-        // // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         IntPtr Constructor(NSObject[] streams);
 
         // -(id)initWithUnbundledStreams:(NSArray *)streams ads:(NSArray *)ads;
         [Export("initWithUnbundledStreams:ads:")]
-        // // // [Verify(StronglyTypedNSArray), Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray), Verify(StronglyTypedNSArray)]
         IntPtr Constructor(NSObject[] streams, NSObject[] ads);
     }
 
@@ -1087,13 +1031,13 @@ namespace OoyalaSDK.tvOS
         // @required -(NSArray * _Nonnull)availableAudioTracks;
         [Abstract]
         [Export("availableAudioTracks")]
-        // // // [Verify(MethodToProperty), Verify(StronglyTypedNSArray)]
+        // // [Verified(MethodToProperty), Verify(StronglyTypedNSArray)]
         NSObject[] AvailableAudioTracks { get; }
 
         // @required -(id<OOAudioTrackProtocol> _Nullable)selectedAudioTrack;
         [Abstract]
         [NullAllowed, Export("selectedAudioTrack")]
-        // // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         OOAudioTrackProtocol SelectedAudioTrack { get; }
 
         // @required -(void)setAudioTrack:(id<OOAudioTrackProtocol> _Nonnull)audioTrack;
@@ -1115,190 +1059,204 @@ namespace OoyalaSDK.tvOS
         // @required -(void)setDefaultAudioTrack:(id<OOAudioTrackProtocol> _Nonnull)audioTrack;
         [Abstract]
         [NullAllowed, Export("defaultAudioTrack")]
-        // // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         OOAudioTrackProtocol DefaultAudioTrack { get; set; }
     }
 
     // @interface OOAssetLoaderDelegate : NSObject <AVAssetResourceLoaderDelegate>
-    //[BaseType(typeof(NSObject))]
-    //interface OOAssetLoaderDelegate : AVAssetResourceLoaderDelegate
-    //{
-    //    // -(instancetype)initWithAsset:(AVURLAsset *)asset pcode:(NSString *)pcode authToken:(NSString *)authToken secureURLGenerator:(id<OOSecureURLGenerator>)secureURLGenerator timeout:(NSTimeInterval)timeout __attribute__((objc_designated_initializer));
-    //    [Export("initWithAsset:pcode:authToken:secureURLGenerator:timeout:")]
-    //    [DesignatedInitializer]
-    //    IntPtr Constructor(AVUrlAsset asset, string pcode, string authToken, OOSecureURLGenerator secureURLGenerator, double timeout);
+    [BaseType(typeof(NSObject))]
+    interface OOAssetLoaderDelegate : IAVAssetResourceLoaderDelegate
+    {
+        // -(instancetype)initWithAsset:(AVURLAsset *)asset pcode:(NSString *)pcode authToken:(NSString *)authToken secureURLGenerator:(id<OOSecureURLGenerator>)secureURLGenerator timeout:(NSTimeInterval)timeout __attribute__((objc_designated_initializer));
+        [Export("initWithAsset:pcode:authToken:secureURLGenerator:timeout:")]
+        [DesignatedInitializer]
+        IntPtr Constructor(AVUrlAsset asset, string pcode, string authToken, OOSecureURLGenerator secureURLGenerator, double timeout);
 
-    //    // -(instancetype)initWithAsset:(AVURLAsset *)asset stream:(OOStream *)stream pcode:(NSString *)pcode authToken:(NSString *)authToken timeout:(NSTimeInterval)timeout;
-    //    [Export("initWithAsset:stream:pcode:authToken:timeout:")]
-    //    IntPtr Constructor(AVUrlAsset asset, OOStream stream, string pcode, string authToken, double timeout);
+        // -(instancetype)initWithAsset:(AVURLAsset *)asset stream:(OOStream *)stream pcode:(NSString *)pcode authToken:(NSString *)authToken timeout:(NSTimeInterval)timeout;
+        [Export("initWithAsset:stream:pcode:authToken:timeout:")]
+        IntPtr Constructor(AVUrlAsset asset, OOStream stream, string pcode, string authToken, double timeout);
 
-    //    [Wrap("WeakDelegate")]
-    //    OOFairplayContentKeyDelegate Delegate { get; set; }
+        //[Wrap("WeakDelegate")]
+        //NSObject Delegate { get; set; }
 
-    //    // @property (nonatomic, weak) id<OOFairplayContentKeyDelegate> delegate;
-    //    [NullAllowed, Export("delegate", ArgumentSemantic.Weak)]
-    //    NSObject WeakDelegate { get; set; }
+        // @property (nonatomic, weak) id<OOFairplayContentKeyDelegate> delegate;
+        [NullAllowed, Export("delegate", ArgumentSemantic.Weak)]
+        NSObject WeakDelegate { get; set; }
 
-    //    // @property (nonatomic) NSURL * fairplayKeyURL;
-    //    [Export("fairplayKeyURL", ArgumentSemantic.Assign)]
-    //    NSUrl FairplayKeyURL { get; set; }
-    //}
+        // @property (nonatomic) NSURL * fairplayKeyURL;
+        [Export("fairplayKeyURL", ArgumentSemantic.Assign)]
+        NSUrl FairplayKeyURL { get; set; }
+    }
 
-    // // // [Verify(ConstantsInterfaceAssociation)]
-    //partial interface Constants
-    //{
-    //    // extern NSString *const OOOoyalaPlayerTimeChangedNotification;
-    //    [Field("OOOoyalaPlayerTimeChangedNotification")]
-    //    NSString OOOoyalaPlayerTimeChangedNotification { get; }
+    [Protocol, Model]
+    interface OOFairplayContentKeyDelegate
+    {
+        // @required -(void)contentKeyFailedToRetrieveWithError:(NSError *)error;
+        [Abstract]
+        [Export("contentKeyFailedToRetrieveWithError:")]
+        void ContentKeyFailedToRetrieveWithError(NSError error);
 
-    //    // extern NSString *const OOOoyalaPlayerStateChangedNotification;
-    //    [Field("OOOoyalaPlayerStateChangedNotification")]
-    //    NSString OOOoyalaPlayerStateChangedNotification { get; }
+        // @optional -(void)contentKeyPersistedAtLocation:(NSURL *)location forAsset:(AVURLAsset *)asset;
+        [Export("contentKeyPersistedAtLocation:forAsset:")]
+        void ContentKeyPersistedAtLocation(NSUrl location, AVUrlAsset asset);
+    }
 
-    //    // extern NSString *const OOOoyalaPlayerDesiredStateChangedNotification;
-    //    [Field("OOOoyalaPlayerDesiredStateChangedNotification")]
-    //    NSString OOOoyalaPlayerDesiredStateChangedNotification { get; }
+    //[Static]
+    // // [Verified(ConstantsInterfaceAssociation)]
+    partial interface Constants
+    {
+        // extern NSString *const OOOoyalaPlayerTimeChangedNotification;
+        //[Field("OOOoyalaPlayerTimeChangedNotification")]
+        //NSString OOOoyalaPlayerTimeChangedNotification { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerContentTreeReadyNotification;
-    //    [Field("OOOoyalaPlayerContentTreeReadyNotification")]
-    //    NSString OOOoyalaPlayerContentTreeReadyNotification { get; }
+        //// extern NSString *const OOOoyalaPlayerStateChangedNotification;
+        //[Field("OOOoyalaPlayerStateChangedNotification")]
+        //NSString OOOoyalaPlayerStateChangedNotification { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerMetadataReadyNotification;
-    //    [Field("OOOoyalaPlayerMetadataReadyNotification")]
-    //    NSString OOOoyalaPlayerMetadataReadyNotification { get; }
+        //// extern NSString *const OOOoyalaPlayerDesiredStateChangedNotification;
+        //[Field("OOOoyalaPlayerDesiredStateChangedNotification")]
+        //NSString OOOoyalaPlayerDesiredStateChangedNotification { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerAuthorizationReadyNotification;
-    //    [Field("OOOoyalaPlayerAuthorizationReadyNotification")]
-    //    NSString OOOoyalaPlayerAuthorizationReadyNotification { get; }
+        //// extern NSString *const OOOoyalaPlayerContentTreeReadyNotification;
+        //[Field("OOOoyalaPlayerContentTreeReadyNotification")]
+        //NSString OOOoyalaPlayerContentTreeReadyNotification { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerCurrentItemChangedNotification;
-    //    [Field("OOOoyalaPlayerCurrentItemChangedNotification")]
-    //    NSString OOOoyalaPlayerCurrentItemChangedNotification { get; }
+        //// extern NSString *const OOOoyalaPlayerMetadataReadyNotification;
+        //[Field("OOOoyalaPlayerMetadataReadyNotification")]
+        //NSString OOOoyalaPlayerMetadataReadyNotification { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerPlayStartedNotification;
-    //    [Field("OOOoyalaPlayerPlayStartedNotification")]
-    //    NSString OOOoyalaPlayerPlayStartedNotification { get; }
+        //// extern NSString *const OOOoyalaPlayerAuthorizationReadyNotification;
+        //[Field("OOOoyalaPlayerAuthorizationReadyNotification")]
+        //NSString OOOoyalaPlayerAuthorizationReadyNotification { get; }
 
-    //    // extern NSString *const OOOoyalaplayerLicenseAcquisitionNotification;
-    //    [Field("OOOoyalaplayerLicenseAcquisitionNotification")]
-    //    NSString OOOoyalaplayerLicenseAcquisitionNotification { get; }
+        //// extern NSString *const OOOoyalaPlayerCurrentItemChangedNotification;
+        //[Field("OOOoyalaPlayerCurrentItemChangedNotification")]
+        //NSString OOOoyalaPlayerCurrentItemChangedNotification { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerPlayCompletedNotification;
-    //    [Field("OOOoyalaPlayerPlayCompletedNotification")]
-    //    NSString OOOoyalaPlayerPlayCompletedNotification { get; }
+        //// extern NSString *const OOOoyalaPlayerPlayStartedNotification;
+        //[Field("OOOoyalaPlayerPlayStartedNotification")]
+        //NSString OOOoyalaPlayerPlayStartedNotification { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerAdOverlayNotification;
-    //    [Field("OOOoyalaPlayerAdOverlayNotification")]
-    //    NSString OOOoyalaPlayerAdOverlayNotification { get; }
+        //// extern NSString *const OOOoyalaplayerLicenseAcquisitionNotification;
+        //[Field("OOOoyalaplayerLicenseAcquisitionNotification")]
+        //NSString OOOoyalaplayerLicenseAcquisitionNotification { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerAdPodStartedNotification;
-    //    [Field("OOOoyalaPlayerAdPodStartedNotification")]
-    //    NSString OOOoyalaPlayerAdPodStartedNotification { get; }
+        //// extern NSString *const OOOoyalaPlayerPlayCompletedNotification;
+        //[Field("OOOoyalaPlayerPlayCompletedNotification")]
+        //NSString OOOoyalaPlayerPlayCompletedNotification { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerAdStartedNotification;
-    //    [Field("OOOoyalaPlayerAdStartedNotification")]
-    //    NSString OOOoyalaPlayerAdStartedNotification { get; }
+        //// extern NSString *const OOOoyalaPlayerAdOverlayNotification;
+        //[Field("OOOoyalaPlayerAdOverlayNotification")]
+        //NSString OOOoyalaPlayerAdOverlayNotification { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerAdCompletedNotification;
-    //    [Field("OOOoyalaPlayerAdCompletedNotification")]
-    //    NSString OOOoyalaPlayerAdCompletedNotification { get; }
+        //// extern NSString *const OOOoyalaPlayerAdPodStartedNotification;
+        //[Field("OOOoyalaPlayerAdPodStartedNotification")]
+        //NSString OOOoyalaPlayerAdPodStartedNotification { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerAdPodCompletedNotification;
-    //    [Field("OOOoyalaPlayerAdPodCompletedNotification")]
-    //    NSString OOOoyalaPlayerAdPodCompletedNotification { get; }
+        //// extern NSString *const OOOoyalaPlayerAdStartedNotification;
+        //[Field("OOOoyalaPlayerAdStartedNotification")]
+        //NSString OOOoyalaPlayerAdStartedNotification { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerAdsLoadedNotification;
-    //    [Field("OOOoyalaPlayerAdsLoadedNotification")]
-    //    NSString OOOoyalaPlayerAdsLoadedNotification { get; }
+        //// extern NSString *const OOOoyalaPlayerAdCompletedNotification;
+        ////[Field("OOOoyalaPlayerAdCompletedNotification")]
+        ////NSString OOOoyalaPlayerAdCompletedNotification { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerAdSkippedNotification;
-    //    [Field("OOOoyalaPlayerAdSkippedNotification")]
-    //    NSString OOOoyalaPlayerAdSkippedNotification { get; }
+        //// extern NSString *const OOOoyalaPlayerAdPodCompletedNotification;
+        //[Field("OOOoyalaPlayerAdPodCompletedNotification")]
+        //NSString OOOoyalaPlayerAdPodCompletedNotification { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerAdTappedNotification;
-    //    [Field("OOOoyalaPlayerAdTappedNotification")]
-    //    NSString OOOoyalaPlayerAdTappedNotification { get; }
+        //// extern NSString *const OOOoyalaPlayerAdsLoadedNotification;
+        //[Field("OOOoyalaPlayerAdsLoadedNotification")]
+        //NSString OOOoyalaPlayerAdsLoadedNotification { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerContentResumedAfterAdNotification;
-    //    [Field("OOOoyalaPlayerContentResumedAfterAdNotification")]
-    //    NSString OOOoyalaPlayerContentResumedAfterAdNotification { get; }
+        //// extern NSString *const OOOoyalaPlayerAdSkippedNotification;
+        //[Field("OOOoyalaPlayerAdSkippedNotification")]
+        //NSString OOOoyalaPlayerAdSkippedNotification { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerErrorNotification;
-    //    [Field("OOOoyalaPlayerErrorNotification")]
-    //    NSString OOOoyalaPlayerErrorNotification { get; }
+        //// extern NSString *const OOOoyalaPlayerAdTappedNotification;
+        //[Field("OOOoyalaPlayerAdTappedNotification")]
+        //NSString OOOoyalaPlayerAdTappedNotification { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerAdErrorNotification;
-    //    [Field("OOOoyalaPlayerAdErrorNotification")]
-    //    NSString OOOoyalaPlayerAdErrorNotification { get; }
+        //// extern NSString *const OOOoyalaPlayerContentResumedAfterAdNotification;
+        //[Field("OOOoyalaPlayerContentResumedAfterAdNotification")]
+        //NSString OOOoyalaPlayerContentResumedAfterAdNotification { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerLanguageChangedNotification;
-    //    [Field("OOOoyalaPlayerLanguageChangedNotification")]
-    //    NSString OOOoyalaPlayerLanguageChangedNotification { get; }
+        //// extern NSString *const OOOoyalaPlayerErrorNotification;
+        //[Field("OOOoyalaPlayerErrorNotification")]
+        //NSString OOOoyalaPlayerErrorNotification { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerSeekStartedNotification;
-    //    [Field("OOOoyalaPlayerSeekStartedNotification")]
-    //    NSString OOOoyalaPlayerSeekStartedNotification { get; }
+        //// extern NSString *const OOOoyalaPlayerAdErrorNotification;
+        //[Field("OOOoyalaPlayerAdErrorNotification")]
+        //NSString OOOoyalaPlayerAdErrorNotification { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerSeekCompletedNotification;
-    //    [Field("OOOoyalaPlayerSeekCompletedNotification")]
-    //    NSString OOOoyalaPlayerSeekCompletedNotification { get; }
+        //// extern NSString *const OOOoyalaPlayerLanguageChangedNotification;
+        //[Field("OOOoyalaPlayerLanguageChangedNotification")]
+        //NSString OOOoyalaPlayerLanguageChangedNotification { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerJsonReceivedNotification;
-    //    [Field("OOOoyalaPlayerJsonReceivedNotification")]
-    //    NSString OOOoyalaPlayerJsonReceivedNotification { get; }
+        //// extern NSString *const OOOoyalaPlayerSeekStartedNotification;
+        //[Field("OOOoyalaPlayerSeekStartedNotification")]
+        //NSString OOOoyalaPlayerSeekStartedNotification { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerEmbedCodeSetNotification;
-    //    [Field("OOOoyalaPlayerEmbedCodeSetNotification")]
-    //    NSString OOOoyalaPlayerEmbedCodeSetNotification { get; }
+        //// extern NSString *const OOOoyalaPlayerSeekCompletedNotification;
+        //[Field("OOOoyalaPlayerSeekCompletedNotification")]
+        //NSString OOOoyalaPlayerSeekCompletedNotification { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerCastVolumeChangeNotification;
-    //    [Field("OOOoyalaPlayerCastVolumeChangeNotification")]
-    //    NSString OOOoyalaPlayerCastVolumeChangeNotification { get; }
+        //// extern NSString *const OOOoyalaPlayerJsonReceivedNotification;
+        //[Field("OOOoyalaPlayerJsonReceivedNotification")]
+        //NSString OOOoyalaPlayerJsonReceivedNotification { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerBitrateChangedNotification;
-    //    [Field("OOOoyalaPlayerBitrateChangedNotification")]
-    //    NSString OOOoyalaPlayerBitrateChangedNotification { get; }
+        //// extern NSString *const OOOoyalaPlayerEmbedCodeSetNotification;
+        //[Field("OOOoyalaPlayerEmbedCodeSetNotification")]
+        //NSString OOOoyalaPlayerEmbedCodeSetNotification { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerBufferingStartedNotification;
-    //    [Field("OOOoyalaPlayerBufferingStartedNotification")]
-    //    NSString OOOoyalaPlayerBufferingStartedNotification { get; }
+        //// extern NSString *const OOOoyalaPlayerCastVolumeChangeNotification;
+        //[Field("OOOoyalaPlayerCastVolumeChangeNotification")]
+        //NSString OOOoyalaPlayerCastVolumeChangeNotification { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerBufferingCompletedNotification;
-    //    [Field("OOOoyalaPlayerBufferingCompletedNotification")]
-    //    NSString OOOoyalaPlayerBufferingCompletedNotification { get; }
+        //// extern NSString *const OOOoyalaPlayerBitrateChangedNotification;
+        //[Field("OOOoyalaPlayerBitrateChangedNotification")]
+        //NSString OOOoyalaPlayerBitrateChangedNotification { get; }
 
-    //    // extern NSString *const OOOoyalaplayerExternalPlaybackActiveNotification;
-    //    [Field("OOOoyalaplayerExternalPlaybackActiveNotification")]
-    //    NSString OOOoyalaplayerExternalPlaybackActiveNotification { get; }
+        //// extern NSString *const OOOoyalaPlayerBufferingStartedNotification;
+        //[Field("OOOoyalaPlayerBufferingStartedNotification")]
+        //NSString OOOoyalaPlayerBufferingStartedNotification { get; }
 
-    //    // extern NSString *const OOLiveClosedCaptionsLanguage;
-    //    [Field("OOLiveClosedCaptionsLanguage")]
-    //    NSString OOLiveClosedCaptionsLanguage { get; }
+        //// extern NSString *const OOOoyalaPlayerBufferingCompletedNotification;
+        //[Field("OOOoyalaPlayerBufferingCompletedNotification")]
+        //NSString OOOoyalaPlayerBufferingCompletedNotification { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerVideoHasVRContent;
-    //    [Field("OOOoyalaPlayerVideoHasVRContent")]
-    //    NSString OOOoyalaPlayerVideoHasVRContent { get; }
+        //// extern NSString *const OOOoyalaplayerExternalPlaybackActiveNotification;
+        //[Field("OOOoyalaplayerExternalPlaybackActiveNotification")]
+        //NSString OOOoyalaplayerExternalPlaybackActiveNotification { get; }
 
-    //    // extern NSString *const OOOoyalaVRPlayerDidConfigured;
-    //    [Field("OOOoyalaVRPlayerDidConfigured")]
-    //    NSString OOOoyalaVRPlayerDidConfigured { get; }
+        //// extern NSString *const OOLiveClosedCaptionsLanguage;
+        ////[Field("OOLiveClosedCaptionsLanguage")]
+        ////NSString OOLiveClosedCaptionsLanguage { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerSwitchSceneNotification;
-    //    [Field("OOOoyalaPlayerSwitchSceneNotification")]
-    //    NSString OOOoyalaPlayerSwitchSceneNotification { get; }
+        //// extern NSString *const OOOoyalaPlayerVideoHasVRContent;
+        //[Field("OOOoyalaPlayerVideoHasVRContent")]
+        //NSString OOOoyalaPlayerVideoHasVRContent { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerHandleTouchNotification;
-    //    [Field("OOOoyalaPlayerHandleTouchNotification")]
-    //    NSString OOOoyalaPlayerHandleTouchNotification { get; }
+        //// extern NSString *const OOOoyalaVRPlayerDidConfigured;
+        //[Field("OOOoyalaVRPlayerDidConfigured")]
+        //NSString OOOoyalaVRPlayerDidConfigured { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerMultiAudioEnabledNotification;
-    //    [Field("OOOoyalaPlayerMultiAudioEnabledNotification")]
-    //    NSString OOOoyalaPlayerMultiAudioEnabledNotification { get; }
+        //// extern NSString *const OOOoyalaPlayerSwitchSceneNotification;
+        //[Field("OOOoyalaPlayerSwitchSceneNotification")]
+        //NSString OOOoyalaPlayerSwitchSceneNotification { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerAudioTrackChangedNotification;
-    //    [Field("OOOoyalaPlayerAudioTrackChangedNotification")]
-    //    NSString OOOoyalaPlayerAudioTrackChangedNotification { get; }
-    //}
+        // extern NSString *const OOOoyalaPlayerHandleTouchNotification;
+        //[Field("OOOoyalaPlayerHandleTouchNotification")]
+        //NSString OOOoyalaPlayerHandleTouchNotification { get; }
+
+        //// extern NSString *const OOOoyalaPlayerMultiAudioEnabledNotification;
+        //[Field("OOOoyalaPlayerMultiAudioEnabledNotification")]
+        //NSString OOOoyalaPlayerMultiAudioEnabledNotification { get; }
+
+        //// extern NSString *const OOOoyalaPlayerAudioTrackChangedNotification;
+        //[Field("OOOoyalaPlayerAudioTrackChangedNotification")]
+        //NSString OOOoyalaPlayerAudioTrackChangedNotification { get; }
+    }
 
     // @interface OOOoyalaPlayer : NSObject <OOAdPluginManagerProtocol, OOMultiAudioProtocol>
     [BaseType(typeof(NSObject))]
@@ -1317,7 +1275,7 @@ namespace OoyalaSDK.tvOS
         // +(NSString *)version;
         [Static]
         [Export("version")]
-        // // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         string Version { get; }
 
         // +(NSString *)playerStateToString:(OOOoyalaPlayerState)state;
@@ -1334,14 +1292,14 @@ namespace OoyalaSDK.tvOS
         // +(void)setUseDebugDRMPlayback:(BOOL)enable;
         [Static]
         [Export("useDebugDRMPlayback")]
-        // // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         bool UseDebugDRMPlayback { get; set; }
 
         // +(BOOL)encryptedLoopback;
         // +(void)setEncryptedLoopback:(BOOL)enabled;
         [Static]
         [Export("encryptedLoopback")]
-        // // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         bool EncryptedLoopback { get; set; }
 
         // @property (readonly, nonatomic, strong) OOVideo * currentItem;
@@ -1436,8 +1394,8 @@ namespace OoyalaSDK.tvOS
         [Export("userAgent")]
         string UserAgent { get; set; }
 
-        //[Wrap("WeakAssetLoaderDelegate")]
-        //OOAssetLoaderDelegate AssetLoaderDelegate { get; set; }
+        [Wrap("WeakAssetLoaderDelegate")]
+        OOAssetLoaderDelegate AssetLoaderDelegate { get; set; }
 
         // @property (nonatomic) OOAssetLoaderDelegate * assetLoaderDelegate;
         [NullAllowed, Export("assetLoaderDelegate", ArgumentSemantic.Assign)]
@@ -1448,8 +1406,9 @@ namespace OoyalaSDK.tvOS
         string CustomDrmData { get; set; }
 
         // @property (readonly, nonatomic) OOStreamPlayerMapping * streamPlayerMapping;
-        //[Export("streamPlayerMapping")]
-        //OOStreamPlayerMapping StreamPlayerMapping { get; }
+        [Export("streamPlayerMapping")]
+        // HACK
+        NSObject StreamPlayerMapping { get; }
 
         // @property (readonly, nonatomic) NSString * pcode;
         [Export("pcode")]
@@ -1497,7 +1456,7 @@ namespace OoyalaSDK.tvOS
 
         // -(BOOL)setStreams:(NSArray *)streams;
         [Export("setStreams:")]
-        // // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         bool SetStreams(NSObject[] streams);
 
         // -(BOOL)setUnbundledVideo:(OOUnbundledVideo *)unbundledVideo;
@@ -1510,7 +1469,7 @@ namespace OoyalaSDK.tvOS
 
         // -(BOOL)setEmbedCodes:(NSArray *)embedCodes;
         [Export("setEmbedCodes:")]
-        // // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         bool SetEmbedCodes(NSObject[] embedCodes);
 
         // -(BOOL)setEmbedCode:(NSString *)embedCode adSetCode:(NSString *)adSetCode;
@@ -1519,7 +1478,7 @@ namespace OoyalaSDK.tvOS
 
         // -(BOOL)setEmbedCodes:(NSArray *)embedCodes adSetCode:(NSString *)adSetCode;
         [Export("setEmbedCodes:adSetCode:")]
-        // // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         bool SetEmbedCodes(NSObject[] embedCodes, string adSetCode);
 
         // -(BOOL)setExternalId:(NSString *)externalId;
@@ -1528,7 +1487,7 @@ namespace OoyalaSDK.tvOS
 
         // -(BOOL)setExternalIds:(NSArray *)externalIds;
         [Export("setExternalIds:")]
-        // // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         bool SetExternalIds(NSObject[] externalIds);
 
         // -(void)setRootItem:(OOContentItem *)theRootItem;
@@ -1557,63 +1516,63 @@ namespace OoyalaSDK.tvOS
 
         // -(BOOL)isAuthTokenExpired;
         [Export("isAuthTokenExpired")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         bool IsAuthTokenExpired { get; }
 
         // -(Float64)playheadTime;
         // -(void)setPlayheadTime:(Float64)time;
         [Export("playheadTime")]
-        // // [Verify(MethodToProperty)]
-        double PlayheadTime { get; set; }
+        // // [Verified(MethodToProperty)]
+        nfloat PlayheadTime { get; set; }
 
         // -(NSDate *)liveTime;
         [Export("liveTime")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         NSDate LiveTime { get; }
 
         // -(Float64)duration;
         [Export("duration")]
-        // // [Verify(MethodToProperty)]
-        double Duration { get; }
+        // // [Verified(MethodToProperty)]
+        nfloat Duration { get; }
 
         // -(CMTimeRange)seekableTimeRange;
         [Export("seekableTimeRange")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         CMTimeRange SeekableTimeRange { get; }
 
         // -(Float64)bufferedTime;
         [Export("bufferedTime")]
-        // // [Verify(MethodToProperty)]
-        double BufferedTime { get; }
+        // // [Verified(MethodToProperty)]
+        nfloat BufferedTime { get; }
 
         // -(OOOoyalaPlayerState)state;
         [Export("state")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         OOOoyalaPlayerState State { get; }
 
         // -(BOOL)isPlaying;
         [Export("isPlaying")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         bool IsPlaying { get; }
 
         // -(BOOL)isShowingAd;
         [Export("isShowingAd")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         bool IsShowingAd { get; }
 
         // -(BOOL)isShowingAdWithCustomControls;
         [Export("isShowingAdWithCustomControls")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         bool IsShowingAdWithCustomControls { get; }
 
         // -(BOOL)hasMultipleAudioTracks;
         [Export("hasMultipleAudioTracks")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         bool HasMultipleAudioTracks { get; }
 
         // -(NSArray *)availableClosedCaptionsLanguages;
         [Export("availableClosedCaptionsLanguages")]
-        // // [Verify(MethodToProperty), Verify(StronglyTypedNSArray)]
+        // // [Verified(MethodToProperty), Verify(StronglyTypedNSArray)]
         NSObject[] AvailableClosedCaptionsLanguages { get; }
 
         // -(NSString *)languageNameToLanguageCode:(NSString *)name;
@@ -1622,17 +1581,17 @@ namespace OoyalaSDK.tvOS
 
         // -(double)bitrate;
         [Export("bitrate")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         double Bitrate { get; }
 
         // -(NSSet *)getCuePointsAtSecondsForCurrentPlayer;
         [Export("getCuePointsAtSecondsForCurrentPlayer")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         NSSet CuePointsAtSecondsForCurrentPlayer { get; }
 
         // -(CGRect)videoRect;
         [Export("videoRect")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         CGRect VideoRect { get; }
 
         // -(void)layoutSubviews;
@@ -1649,20 +1608,20 @@ namespace OoyalaSDK.tvOS
 
         // -(void)playWithInitialTime:(Float64)time;
         [Export("playWithInitialTime:")]
-        void PlayWithInitialTime(double time);
+        void PlayWithInitialTime(nfloat time);
 
         // -(void)seek:(Float64)time;
         [Export("seek:")]
-        void Seek(double time);
+        void Seek(nfloat time);
 
         // -(BOOL)nextVideo;
         [Export("nextVideo")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         bool NextVideo { get; }
 
         // -(BOOL)previousVideo;
         [Export("previousVideo")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         bool PreviousVideo { get; }
 
         // -(void)resetAds;
@@ -1679,7 +1638,7 @@ namespace OoyalaSDK.tvOS
 
         // -(void)setCustomAnalyticsTags:(NSArray *)tags;
         [Export("setCustomAnalyticsTags:")]
-        // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         void SetCustomAnalyticsTags(NSObject[] tags);
 
         // -(void)onAdIconClicked:(NSInteger)index;
@@ -1708,12 +1667,13 @@ namespace OoyalaSDK.tvOS
 
         // -(OOStateNotifier *)createStateNotifier;
         [Export("createStateNotifier")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         OOStateNotifier CreateStateNotifier { get; }
 
         // -(void)initCastManager:(OOCastManager *)castManager;
-        //[Export("initCastManager:")]
-        //void InitCastManager(OOCastManager castManager);
+        [Export("initCastManager:")]
+        // HACK
+        void InitCastManager(NSObject castManager);
 
         // -(void)switchToCastMode;
         [Export("switchToCastMode")]
@@ -1721,26 +1681,26 @@ namespace OoyalaSDK.tvOS
 
         // -(void)exitCastModeWithEmbedCode:(NSString *)embedCode playheadTime:(Float64)playheadTime isPlaying:(BOOL)isPlaying;
         [Export("exitCastModeWithEmbedCode:playheadTime:isPlaying:")]
-        void ExitCastModeWithEmbedCode(string embedCode, double playheadTime, bool isPlaying);
+        void ExitCastModeWithEmbedCode(string embedCode, nfloat playheadTime, bool isPlaying);
 
         // -(BOOL)isInCastMode;
         [Export("isInCastMode")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         bool IsInCastMode { get; }
 
         // -(OOOoyalaAPIClient *)api;
         [Export("api")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         OOOoyalaAPIClient Api { get; }
 
         // -(OOUserInfo *)userInfo;
         [Export("userInfo")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         OOUserInfo UserInfo { get; }
 
         // -(UIImage *)screenshot;
         [Export("screenshot")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         UIImage Screenshot { get; }
 
         // -(void)disablePlaylistClosedCaptions;
@@ -1810,57 +1770,58 @@ namespace OoyalaSDK.tvOS
         IntPtr Constructor(string browser, string browserVersion, string os, string osVersion, string deviceBrand, string model);
     }
 
-    // // [Verify(ConstantsInterfaceAssociation)]
-    //partial interface Constants
-    //{
-    //    // extern NSString *const OOIQCONFIGURATION_DEFAULT_PLAYER_ID;
-    //    [Field("OOIQCONFIGURATION_DEFAULT_PLAYER_ID")]
-    //    NSString OOIQCONFIGURATION_DEFAULT_PLAYER_ID { get; }
+    //[Static]
+    // // [Verified(ConstantsInterfaceAssociation)]
+    partial interface Constants
+    {
+        //// extern NSString *const OOIQCONFIGURATION_DEFAULT_PLAYER_ID;
+        //[Field("OOIQCONFIGURATION_DEFAULT_PLAYER_ID")]
+        //NSString OOIQCONFIGURATION_DEFAULT_PLAYER_ID { get; }
 
-    //    // extern NSString *const OOIQCONFIGURATION_DEFAULT_ANALYTICS_JS_URL;
-    //    [Field("OOIQCONFIGURATION_DEFAULT_ANALYTICS_JS_URL")]
-    //    NSString OOIQCONFIGURATION_DEFAULT_ANALYTICS_JS_URL { get; }
+        //// extern NSString *const OOIQCONFIGURATION_DEFAULT_ANALYTICS_JS_URL;
+        //[Field("OOIQCONFIGURATION_DEFAULT_ANALYTICS_JS_URL")]
+        //NSString OOIQCONFIGURATION_DEFAULT_ANALYTICS_JS_URL { get; }
 
-    //    // extern const int OOIQCONFIGURATION_DEFAULT_ANALYTICS_JS_TIMEOUT;
-    //    [Field("OOIQCONFIGURATION_DEFAULT_ANALYTICS_JS_TIMEOUT")]
-    //    int OOIQCONFIGURATION_DEFAULT_ANALYTICS_JS_TIMEOUT { get; }
+        //// extern const int OOIQCONFIGURATION_DEFAULT_ANALYTICS_JS_TIMEOUT;
+        //[Field("OOIQCONFIGURATION_DEFAULT_ANALYTICS_JS_TIMEOUT")]
+        //int OOIQCONFIGURATION_DEFAULT_ANALYTICS_JS_TIMEOUT { get; }
 
-    //    // extern NSString *const OOIQCONFIGURATION_DEFAULT_DOMAIN;
-    //    [Field("OOIQCONFIGURATION_DEFAULT_DOMAIN")]
-    //    NSString OOIQCONFIGURATION_DEFAULT_DOMAIN { get; }
+        //// extern NSString *const OOIQCONFIGURATION_DEFAULT_DOMAIN;
+        //[Field("OOIQCONFIGURATION_DEFAULT_DOMAIN")]
+        //NSString OOIQCONFIGURATION_DEFAULT_DOMAIN { get; }
 
-    //    // extern NSString *const OOIQCONFIGURATION_DEFAULT_BACKEND_ENDPOINT_URL;
-    //    [Field("OOIQCONFIGURATION_DEFAULT_BACKEND_ENDPOINT_URL")]
-    //    NSString OOIQCONFIGURATION_DEFAULT_BACKEND_ENDPOINT_URL { get; }
+        //// extern NSString *const OOIQCONFIGURATION_DEFAULT_BACKEND_ENDPOINT_URL;
+        //[Field("OOIQCONFIGURATION_DEFAULT_BACKEND_ENDPOINT_URL")]
+        //NSString OOIQCONFIGURATION_DEFAULT_BACKEND_ENDPOINT_URL { get; }
 
-    //    // extern const int OOIQCONFIGURATION_DEFAULT_BACKEND_ENDPOINT_TIMEOUT;
-    //    [Field("OOIQCONFIGURATION_DEFAULT_BACKEND_ENDPOINT_TIMEOUT")]
-    //    int OOIQCONFIGURATION_DEFAULT_BACKEND_ENDPOINT_TIMEOUT { get; }
+        //// extern const int OOIQCONFIGURATION_DEFAULT_BACKEND_ENDPOINT_TIMEOUT;
+        //[Field("OOIQCONFIGURATION_DEFAULT_BACKEND_ENDPOINT_TIMEOUT")]
+        //int OOIQCONFIGURATION_DEFAULT_BACKEND_ENDPOINT_TIMEOUT { get; }
 
-    //    // extern NSString *const OOIQCONFIGURATION_DEFAULT_BROWSER;
-    //    [Field("OOIQCONFIGURATION_DEFAULT_BROWSER")]
-    //    NSString OOIQCONFIGURATION_DEFAULT_BROWSER { get; }
+        //// extern NSString *const OOIQCONFIGURATION_DEFAULT_BROWSER;
+        //[Field("OOIQCONFIGURATION_DEFAULT_BROWSER")]
+        //NSString OOIQCONFIGURATION_DEFAULT_BROWSER { get; }
 
-    //    // extern NSString *const OOIQCONFIGURATION_DEFAULT_BROWSER_VERSION;
-    //    [Field("OOIQCONFIGURATION_DEFAULT_BROWSER_VERSION")]
-    //    NSString OOIQCONFIGURATION_DEFAULT_BROWSER_VERSION { get; }
+        //// extern NSString *const OOIQCONFIGURATION_DEFAULT_BROWSER_VERSION;
+        //[Field("OOIQCONFIGURATION_DEFAULT_BROWSER_VERSION")]
+        //NSString OOIQCONFIGURATION_DEFAULT_BROWSER_VERSION { get; }
 
-    //    // extern NSString *const OOIQCONFIGURATION_DEFAULT_OS;
-    //    [Field("OOIQCONFIGURATION_DEFAULT_OS")]
-    //    NSString OOIQCONFIGURATION_DEFAULT_OS { get; }
+        //// extern NSString *const OOIQCONFIGURATION_DEFAULT_OS;
+        //[Field("OOIQCONFIGURATION_DEFAULT_OS")]
+        //NSString OOIQCONFIGURATION_DEFAULT_OS { get; }
 
-    //    // extern NSString *const OOIQCONFIGURATION_DEFAULT_OS_VERSION;
-    //    [Field("OOIQCONFIGURATION_DEFAULT_OS_VERSION")]
-    //    NSString OOIQCONFIGURATION_DEFAULT_OS_VERSION { get; }
+        //// extern NSString *const OOIQCONFIGURATION_DEFAULT_OS_VERSION;
+        //[Field("OOIQCONFIGURATION_DEFAULT_OS_VERSION")]
+        //NSString OOIQCONFIGURATION_DEFAULT_OS_VERSION { get; }
 
-    //    // extern NSString *const OOIQCONFIGURATION_DEFAULT_DEVICE_BRAND;
-    //    [Field("OOIQCONFIGURATION_DEFAULT_DEVICE_BRAND")]
-    //    NSString OOIQCONFIGURATION_DEFAULT_DEVICE_BRAND { get; }
+        //// extern NSString *const OOIQCONFIGURATION_DEFAULT_DEVICE_BRAND;
+        //[Field("OOIQCONFIGURATION_DEFAULT_DEVICE_BRAND")]
+        //NSString OOIQCONFIGURATION_DEFAULT_DEVICE_BRAND { get; }
 
-    //    // extern NSString *const OOIQCONFIGURATION_DEFAULT_MODEL;
-    //    [Field("OOIQCONFIGURATION_DEFAULT_MODEL")]
-    //    NSString OOIQCONFIGURATION_DEFAULT_MODEL { get; }
-    //}
+        //// extern NSString *const OOIQCONFIGURATION_DEFAULT_MODEL;
+        //[Field("OOIQCONFIGURATION_DEFAULT_MODEL")]
+        //NSString OOIQCONFIGURATION_DEFAULT_MODEL { get; }
+    }
 
     // @interface OOIQConfiguration : NSObject
     [BaseType(typeof(NSObject))]
@@ -1939,8 +1900,9 @@ namespace OoyalaSDK.tvOS
         [Export("enablePictureInPictureSupport")]
         bool EnablePictureInPictureSupport { get; set; }
 
-        //[Wrap("WeakPipDelegate")]
-        //AVPictureInPictureControllerDelegate PipDelegate { get; set; }
+        [Wrap("WeakPipDelegate")]
+        // HACK
+        NSObject PipDelegate { get; set; }
 
         // @property (nonatomic, weak) id<AVPictureInPictureControllerDelegate> pipDelegate;
         [NullAllowed, Export("pipDelegate", ArgumentSemantic.Weak)]
@@ -1983,12 +1945,12 @@ namespace OoyalaSDK.tvOS
 
         // -(NSString *)asString;
         [Export("asString")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         string AsString { get; }
 
         // -(NSURL *)asURL;
         [Export("asURL")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         NSUrl AsURL { get; }
     }
 
@@ -2005,13 +1967,13 @@ namespace OoyalaSDK.tvOS
         // @required @property (readonly, nonatomic, strong) NSArray * supportedFormats;
         [Abstract]
         [Export("supportedFormats", ArgumentSemantic.Strong)]
-        // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         NSObject[] SupportedFormats { get; }
 
         // @required @property (readonly, nonatomic, strong) NSArray * supportedProfiles;
         [Abstract]
         [Export("supportedProfiles", ArgumentSemantic.Strong)]
-        // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         NSObject[] SupportedProfiles { get; }
 
         // @required @property (readonly, nonatomic) int maxWidth;
@@ -2041,469 +2003,470 @@ namespace OoyalaSDK.tvOS
     {
     }
 
-    // // [Verify(ConstantsInterfaceAssociation)]
-    //partial interface Constants
-    //{
-    //    // extern const float OO_MINIMUM_SUPPORTED_VAST_VERSION;
-    //    [Field("OO_MINIMUM_SUPPORTED_VAST_VERSION")]
-    //    float OO_MINIMUM_SUPPORTED_VAST_VERSION { get; }
-
-    //    // extern const float OO_MAXIMUM_SUPPORTED_VAST_VERSION;
-    //    [Field("OO_MAXIMUM_SUPPORTED_VAST_VERSION")]
-    //    float OO_MAXIMUM_SUPPORTED_VAST_VERSION { get; }
-
-    //    // extern const float OO_MINIMUM_SUPPORTED_VMAP_VERSION;
-    //    [Field("OO_MINIMUM_SUPPORTED_VMAP_VERSION")]
-    //    float OO_MINIMUM_SUPPORTED_VMAP_VERSION { get; }
-
-    //    // extern const float OO_MAXIMUM_SUPPORTED_VMAP_VERSION;
-    //    [Field("OO_MAXIMUM_SUPPORTED_VMAP_VERSION")]
-    //    float OO_MAXIMUM_SUPPORTED_VMAP_VERSION { get; }
-
-    //    // extern char *const OO_ELEMENT_VAST;
-    //    [Field("OO_ELEMENT_VAST")]
-    //    unsafe sbyte* OO_ELEMENT_VAST { get; }
-
-    //    // extern char *const OO_ELEMENT_AD;
-    //    [Field("OO_ELEMENT_AD")]
-    //    unsafe sbyte* OO_ELEMENT_AD { get; }
-
-    //    // extern char *const OO_ELEMENT_IN_LINE;
-    //    [Field("OO_ELEMENT_IN_LINE")]
-    //    unsafe sbyte* OO_ELEMENT_IN_LINE { get; }
-
-    //    // extern char *const OO_ELEMENT_WRAPPER;
-    //    [Field("OO_ELEMENT_WRAPPER")]
-    //    unsafe sbyte* OO_ELEMENT_WRAPPER { get; }
-
-    //    // extern char *const OO_ELEMENT_AD_SYSTEM;
-    //    [Field("OO_ELEMENT_AD_SYSTEM")]
-    //    unsafe sbyte* OO_ELEMENT_AD_SYSTEM { get; }
-
-    //    // extern char *const OO_ELEMENT_AD_TITLE;
-    //    [Field("OO_ELEMENT_AD_TITLE")]
-    //    unsafe sbyte* OO_ELEMENT_AD_TITLE { get; }
-
-    //    // extern char *const OO_ELEMENT_DESCRIPTION;
-    //    [Field("OO_ELEMENT_DESCRIPTION")]
-    //    unsafe sbyte* OO_ELEMENT_DESCRIPTION { get; }
-
-    //    // extern char *const OO_ELEMENT_SURVEY;
-    //    [Field("OO_ELEMENT_SURVEY")]
-    //    unsafe sbyte* OO_ELEMENT_SURVEY { get; }
-
-    //    // extern char *const OO_ELEMENT_ERROR;
-    //    [Field("OO_ELEMENT_ERROR")]
-    //    unsafe sbyte* OO_ELEMENT_ERROR { get; }
-
-    //    // extern char *const OO_ELEMENT_IMPRESSION;
-    //    [Field("OO_ELEMENT_IMPRESSION")]
-    //    unsafe sbyte* OO_ELEMENT_IMPRESSION { get; }
-
-    //    // extern char *const OO_ELEMENT_CREATIVES;
-    //    [Field("OO_ELEMENT_CREATIVES")]
-    //    unsafe sbyte* OO_ELEMENT_CREATIVES { get; }
-
-    //    // extern char *const OO_ELEMENT_CREATIVE;
-    //    [Field("OO_ELEMENT_CREATIVE")]
-    //    unsafe sbyte* OO_ELEMENT_CREATIVE { get; }
-
-    //    // extern char *const OO_ELEMENT_LINEAR;
-    //    [Field("OO_ELEMENT_LINEAR")]
-    //    unsafe sbyte* OO_ELEMENT_LINEAR { get; }
-
-    //    // extern char *const OO_ELEMENT_NONLINEAR;
-    //    [Field("OO_ELEMENT_NONLINEAR")]
-    //    unsafe sbyte* OO_ELEMENT_NONLINEAR { get; }
-
-    //    // extern char *const OO_ELEMENT_NON_LINEAR_ADS;
-    //    [Field("OO_ELEMENT_NON_LINEAR_ADS")]
-    //    unsafe sbyte* OO_ELEMENT_NON_LINEAR_ADS { get; }
-
-    //    // extern char *const OO_ELEMENT_COMPANION_ADS;
-    //    [Field("OO_ELEMENT_COMPANION_ADS")]
-    //    unsafe sbyte* OO_ELEMENT_COMPANION_ADS { get; }
-
-    //    // extern char *const OO_ELEMENT_COMPANION;
-    //    [Field("OO_ELEMENT_COMPANION")]
-    //    unsafe sbyte* OO_ELEMENT_COMPANION { get; }
-
-    //    // extern char *const OO_ELEMENT_EXTENSIONS;
-    //    [Field("OO_ELEMENT_EXTENSIONS")]
-    //    unsafe sbyte* OO_ELEMENT_EXTENSIONS { get; }
-
-    //    // extern char *const OO_ELEMENT_DURATION;
-    //    [Field("OO_ELEMENT_DURATION")]
-    //    unsafe sbyte* OO_ELEMENT_DURATION { get; }
-
-    //    // extern char *const OO_ELEMENT_TRACKING_EVENTS;
-    //    [Field("OO_ELEMENT_TRACKING_EVENTS")]
-    //    unsafe sbyte* OO_ELEMENT_TRACKING_EVENTS { get; }
-
-    //    // extern char *const OO_ELEMENT_TRACKING;
-    //    [Field("OO_ELEMENT_TRACKING")]
-    //    unsafe sbyte* OO_ELEMENT_TRACKING { get; }
-
-    //    // extern char *const OO_ELEMENT_AD_PARAMETERS;
-    //    [Field("OO_ELEMENT_AD_PARAMETERS")]
-    //    unsafe sbyte* OO_ELEMENT_AD_PARAMETERS { get; }
-
-    //    // extern char *const OO_ELEMENT_VIDEO_CLICKS;
-    //    [Field("OO_ELEMENT_VIDEO_CLICKS")]
-    //    unsafe sbyte* OO_ELEMENT_VIDEO_CLICKS { get; }
-
-    //    // extern char *const OO_ELEMENT_CLICK_THROUGH;
-    //    [Field("OO_ELEMENT_CLICK_THROUGH")]
-    //    unsafe sbyte* OO_ELEMENT_CLICK_THROUGH { get; }
-
-    //    // extern char *const OO_ELEMENT_CLICK_TRACKING;
-    //    [Field("OO_ELEMENT_CLICK_TRACKING")]
-    //    unsafe sbyte* OO_ELEMENT_CLICK_TRACKING { get; }
-
-    //    // extern char *const OO_ELEMENT_CUSTOM_CLICK;
-    //    [Field("OO_ELEMENT_CUSTOM_CLICK")]
-    //    unsafe sbyte* OO_ELEMENT_CUSTOM_CLICK { get; }
-
-    //    // extern char *const OO_ELEMENT_MEDIA_FILES;
-    //    [Field("OO_ELEMENT_MEDIA_FILES")]
-    //    unsafe sbyte* OO_ELEMENT_MEDIA_FILES { get; }
-
-    //    // extern char *const OO_ELEMENT_MEDIA_FILE;
-    //    [Field("OO_ELEMENT_MEDIA_FILE")]
-    //    unsafe sbyte* OO_ELEMENT_MEDIA_FILE { get; }
-
-    //    // extern char *const OO_ELEMENT_VAST_AD_TAG_URI;
-    //    [Field("OO_ELEMENT_VAST_AD_TAG_URI")]
-    //    unsafe sbyte* OO_ELEMENT_VAST_AD_TAG_URI { get; }
-
-    //    // extern char *const OO_ELEMENT_TT;
-    //    [Field("OO_ELEMENT_TT")]
-    //    unsafe sbyte* OO_ELEMENT_TT { get; }
-
-    //    // extern char *const OO_ELEMENT_HEAD;
-    //    [Field("OO_ELEMENT_HEAD")]
-    //    unsafe sbyte* OO_ELEMENT_HEAD { get; }
-
-    //    // extern char *const OO_ELEMENT_BODY;
-    //    [Field("OO_ELEMENT_BODY")]
-    //    unsafe sbyte* OO_ELEMENT_BODY { get; }
-
-    //    // extern char *const OO_ELEMENT_STYLING;
-    //    [Field("OO_ELEMENT_STYLING")]
-    //    unsafe sbyte* OO_ELEMENT_STYLING { get; }
-
-    //    // extern char *const OO_ELEMENT_STYLE;
-    //    [Field("OO_ELEMENT_STYLE")]
-    //    unsafe sbyte* OO_ELEMENT_STYLE { get; }
-
-    //    // extern char *const OO_ELEMENT_DIV;
-    //    [Field("OO_ELEMENT_DIV")]
-    //    unsafe sbyte* OO_ELEMENT_DIV { get; }
-
-    //    // extern char *const OO_ELEMENT_P;
-    //    [Field("OO_ELEMENT_P")]
-    //    unsafe sbyte* OO_ELEMENT_P { get; }
-
-    //    // extern char *const OO_ELEMENT_SPAN;
-    //    [Field("OO_ELEMENT_SPAN")]
-    //    unsafe sbyte* OO_ELEMENT_SPAN { get; }
-
-    //    // extern char *const OO_ELEMENT_METADATA;
-    //    [Field("OO_ELEMENT_METADATA")]
-    //    unsafe sbyte* OO_ELEMENT_METADATA { get; }
-
-    //    // extern char *const OO_ELEMENT_BR;
-    //    [Field("OO_ELEMENT_BR")]
-    //    unsafe sbyte* OO_ELEMENT_BR { get; }
-
-    //    // extern char *const OO_ELEMENT_ICONS;
-    //    [Field("OO_ELEMENT_ICONS")]
-    //    unsafe sbyte* OO_ELEMENT_ICONS { get; }
-
-    //    // extern char *const OO_ELEMENT_ICON;
-    //    [Field("OO_ELEMENT_ICON")]
-    //    unsafe sbyte* OO_ELEMENT_ICON { get; }
-
-    //    // extern char *const OO_ELEMENT_ICON_CLICKS;
-    //    [Field("OO_ELEMENT_ICON_CLICKS")]
-    //    unsafe sbyte* OO_ELEMENT_ICON_CLICKS { get; }
-
-    //    // extern char *const OO_ELEMENT_ICON_CLICK_THROUGH;
-    //    [Field("OO_ELEMENT_ICON_CLICK_THROUGH")]
-    //    unsafe sbyte* OO_ELEMENT_ICON_CLICK_THROUGH { get; }
-
-    //    // extern char *const OO_ELEMENT_ICON_CLICK_TRACKING;
-    //    [Field("OO_ELEMENT_ICON_CLICK_TRACKING")]
-    //    unsafe sbyte* OO_ELEMENT_ICON_CLICK_TRACKING { get; }
-
-    //    // extern char *const OO_ELEMENT_ICON_VIEW_TRACKING;
-    //    [Field("OO_ELEMENT_ICON_VIEW_TRACKING")]
-    //    unsafe sbyte* OO_ELEMENT_ICON_VIEW_TRACKING { get; }
-
-    //    // extern char *const OO_ELEMENT_STATIC_RESOURCE;
-    //    [Field("OO_ELEMENT_STATIC_RESOURCE")]
-    //    unsafe sbyte* OO_ELEMENT_STATIC_RESOURCE { get; }
-
-    //    // extern char *const OO_ELEMENT_IFRAME_RESOURCE;
-    //    [Field("OO_ELEMENT_IFRAME_RESOURCE")]
-    //    unsafe sbyte* OO_ELEMENT_IFRAME_RESOURCE { get; }
-
-    //    // extern char *const OO_ELEMENT_HTML_RESOURCE;
-    //    [Field("OO_ELEMENT_HTML_RESOURCE")]
-    //    unsafe sbyte* OO_ELEMENT_HTML_RESOURCE { get; }
-
-    //    // extern char *const OO_ELEMENT_CREATIVE_ENTENSIONS;
-    //    [Field("OO_ELEMENT_CREATIVE_ENTENSIONS")]
-    //    unsafe sbyte* OO_ELEMENT_CREATIVE_ENTENSIONS { get; }
-
-    //    // extern char *const OO_ELEMENT_CREATIVE_ENTENSION;
-    //    [Field("OO_ELEMENT_CREATIVE_ENTENSION")]
-    //    unsafe sbyte* OO_ELEMENT_CREATIVE_ENTENSION { get; }
-
-    //    // extern char *const OO_ELEMENT_NONLINEAR_CLICK_TRACKING;
-    //    [Field("OO_ELEMENT_NONLINEAR_CLICK_TRACKING")]
-    //    unsafe sbyte* OO_ELEMENT_NONLINEAR_CLICK_TRACKING { get; }
-
-    //    // extern char *const OO_ELEMENT_NONLINEAR_CLICK_THROUGH;
-    //    [Field("OO_ELEMENT_NONLINEAR_CLICK_THROUGH")]
-    //    unsafe sbyte* OO_ELEMENT_NONLINEAR_CLICK_THROUGH { get; }
-
-    //    // extern char *const OO_ELEMENT_ALT_TEXT;
-    //    [Field("OO_ELEMENT_ALT_TEXT")]
-    //    unsafe sbyte* OO_ELEMENT_ALT_TEXT { get; }
-
-    //    // extern char *const OO_ELEMENT_COMPANION_CLICK_THROUGH;
-    //    [Field("OO_ELEMENT_COMPANION_CLICK_THROUGH")]
-    //    unsafe sbyte* OO_ELEMENT_COMPANION_CLICK_THROUGH { get; }
-
-    //    // extern char *const OO_ELEMENT_VMAP;
-    //    [Field("OO_ELEMENT_VMAP")]
-    //    unsafe sbyte* OO_ELEMENT_VMAP { get; }
-
-    //    // extern char *const OO_ELEMENT_ADBREAK;
-    //    [Field("OO_ELEMENT_ADBREAK")]
-    //    unsafe sbyte* OO_ELEMENT_ADBREAK { get; }
-
-    //    // extern char *const OO_ELEMENT_ADSOURCE;
-    //    [Field("OO_ELEMENT_ADSOURCE")]
-    //    unsafe sbyte* OO_ELEMENT_ADSOURCE { get; }
-
-    //    // extern char *const OO_ELEMENT_ADTAGURI;
-    //    [Field("OO_ELEMENT_ADTAGURI")]
-    //    unsafe sbyte* OO_ELEMENT_ADTAGURI { get; }
-
-    //    // extern char *const OO_ELEMENT_VASTADDATA;
-    //    [Field("OO_ELEMENT_VASTADDATA")]
-    //    unsafe sbyte* OO_ELEMENT_VASTADDATA { get; }
-
-    //    // extern char *const OO_ELEMENT_CUSTOMADATA;
-    //    [Field("OO_ELEMENT_CUSTOMADATA")]
-    //    unsafe sbyte* OO_ELEMENT_CUSTOMADATA { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_VERSION;
-    //    [Field("OO_ATTRIBUTE_VERSION")]
-    //    NSString OO_ATTRIBUTE_VERSION { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_ID;
-    //    [Field("OO_ATTRIBUTE_ID")]
-    //    NSString OO_ATTRIBUTE_ID { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_ADID;
-    //    [Field("OO_ATTRIBUTE_ADID")]
-    //    NSString OO_ATTRIBUTE_ADID { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_SEQUENCE;
-    //    [Field("OO_ATTRIBUTE_SEQUENCE")]
-    //    NSString OO_ATTRIBUTE_SEQUENCE { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_EVENT;
-    //    [Field("OO_ATTRIBUTE_EVENT")]
-    //    NSString OO_ATTRIBUTE_EVENT { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_DELIVERY;
-    //    [Field("OO_ATTRIBUTE_DELIVERY")]
-    //    NSString OO_ATTRIBUTE_DELIVERY { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_SKIPOFFSET;
-    //    [Field("OO_ATTRIBUTE_SKIPOFFSET")]
-    //    NSString OO_ATTRIBUTE_SKIPOFFSET { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_TYPE;
-    //    [Field("OO_ATTRIBUTE_TYPE")]
-    //    NSString OO_ATTRIBUTE_TYPE { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_BITRATE;
-    //    [Field("OO_ATTRIBUTE_BITRATE")]
-    //    NSString OO_ATTRIBUTE_BITRATE { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_WIDTH;
-    //    [Field("OO_ATTRIBUTE_WIDTH")]
-    //    NSString OO_ATTRIBUTE_WIDTH { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_HEIGHT;
-    //    [Field("OO_ATTRIBUTE_HEIGHT")]
-    //    NSString OO_ATTRIBUTE_HEIGHT { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_SCALABLE;
-    //    [Field("OO_ATTRIBUTE_SCALABLE")]
-    //    NSString OO_ATTRIBUTE_SCALABLE { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_MAINTAIN_ASPECT_RATIO;
-    //    [Field("OO_ATTRIBUTE_MAINTAIN_ASPECT_RATIO")]
-    //    NSString OO_ATTRIBUTE_MAINTAIN_ASPECT_RATIO { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_API_FRAMEWORK;
-    //    [Field("OO_ATTRIBUTE_API_FRAMEWORK")]
-    //    NSString OO_ATTRIBUTE_API_FRAMEWORK { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_BEGIN;
-    //    [Field("OO_ATTRIBUTE_BEGIN")]
-    //    NSString OO_ATTRIBUTE_BEGIN { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_END;
-    //    [Field("OO_ATTRIBUTE_END")]
-    //    NSString OO_ATTRIBUTE_END { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_DUR;
-    //    [Field("OO_ATTRIBUTE_DUR")]
-    //    NSString OO_ATTRIBUTE_DUR { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_XML_LANG;
-    //    [Field("OO_ATTRIBUTE_XML_LANG")]
-    //    NSString OO_ATTRIBUTE_XML_LANG { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_PROGRAM;
-    //    [Field("OO_ATTRIBUTE_PROGRAM")]
-    //    NSString OO_ATTRIBUTE_PROGRAM { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_XPOSITION;
-    //    [Field("OO_ATTRIBUTE_XPOSITION")]
-    //    NSString OO_ATTRIBUTE_XPOSITION { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_YPOSITION;
-    //    [Field("OO_ATTRIBUTE_YPOSITION")]
-    //    NSString OO_ATTRIBUTE_YPOSITION { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_OFFSET;
-    //    [Field("OO_ATTRIBUTE_OFFSET")]
-    //    NSString OO_ATTRIBUTE_OFFSET { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_DURATEION;
-    //    [Field("OO_ATTRIBUTE_DURATEION")]
-    //    NSString OO_ATTRIBUTE_DURATEION { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_CREATIVE_TYPE;
-    //    [Field("OO_ATTRIBUTE_CREATIVE_TYPE")]
-    //    NSString OO_ATTRIBUTE_CREATIVE_TYPE { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_REQUIRED;
-    //    [Field("OO_ATTRIBUTE_REQUIRED")]
-    //    NSString OO_ATTRIBUTE_REQUIRED { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_EXPANDED_WIDTH;
-    //    [Field("OO_ATTRIBUTE_EXPANDED_WIDTH")]
-    //    NSString OO_ATTRIBUTE_EXPANDED_WIDTH { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_EXPANDED_HEIGHT;
-    //    [Field("OO_ATTRIBUTE_EXPANDED_HEIGHT")]
-    //    NSString OO_ATTRIBUTE_EXPANDED_HEIGHT { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_MIN_SUGGESTED_DURATION;
-    //    [Field("OO_ATTRIBUTE_MIN_SUGGESTED_DURATION")]
-    //    NSString OO_ATTRIBUTE_MIN_SUGGESTED_DURATION { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_ASSET_WIDTH;
-    //    [Field("OO_ATTRIBUTE_ASSET_WIDTH")]
-    //    NSString OO_ATTRIBUTE_ASSET_WIDTH { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_ASSET_HEIGHT;
-    //    [Field("OO_ATTRIBUTE_ASSET_HEIGHT")]
-    //    NSString OO_ATTRIBUTE_ASSET_HEIGHT { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_AD_SLOT_ID;
-    //    [Field("OO_ATTRIBUTE_AD_SLOT_ID")]
-    //    NSString OO_ATTRIBUTE_AD_SLOT_ID { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_TIMEOFFSET;
-    //    [Field("OO_ATTRIBUTE_TIMEOFFSET")]
-    //    NSString OO_ATTRIBUTE_TIMEOFFSET { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_BREAKTYPE;
-    //    [Field("OO_ATTRIBUTE_BREAKTYPE")]
-    //    NSString OO_ATTRIBUTE_BREAKTYPE { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_BREAKID;
-    //    [Field("OO_ATTRIBUTE_BREAKID")]
-    //    NSString OO_ATTRIBUTE_BREAKID { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_REPEAT_AFTER;
-    //    [Field("OO_ATTRIBUTE_REPEAT_AFTER")]
-    //    NSString OO_ATTRIBUTE_REPEAT_AFTER { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_ALLOW_MULTIPLE_ADS;
-    //    [Field("OO_ATTRIBUTE_ALLOW_MULTIPLE_ADS")]
-    //    NSString OO_ATTRIBUTE_ALLOW_MULTIPLE_ADS { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_FOLLOW_REDIRECTS;
-    //    [Field("OO_ATTRIBUTE_FOLLOW_REDIRECTS")]
-    //    NSString OO_ATTRIBUTE_FOLLOW_REDIRECTS { get; }
-
-    //    // extern NSString *const OO_ATTRIBUTE_TEMPLATE_TYPE;
-    //    [Field("OO_ATTRIBUTE_TEMPLATE_TYPE")]
-    //    NSString OO_ATTRIBUTE_TEMPLATE_TYPE { get; }
-
-    //    // extern NSString *const OO_MIME_TYPE_MP4;
-    //    [Field("OO_MIME_TYPE_MP4")]
-    //    NSString OO_MIME_TYPE_MP4 { get; }
-
-    //    // extern NSString *const OO_MIME_TYPE_M3U8;
-    //    [Field("OO_MIME_TYPE_M3U8")]
-    //    NSString OO_MIME_TYPE_M3U8 { get; }
-
-    //    // extern const NSInteger OO_ERROR_XML_PARSE;
-    //    [Field("OO_ERROR_XML_PARSE")]
-    //    nint OO_ERROR_XML_PARSE { get; }
-
-    //    // extern const NSInteger OO_ERROR_VAST_SCHEMA;
-    //    [Field("OO_ERROR_VAST_SCHEMA")]
-    //    nint OO_ERROR_VAST_SCHEMA { get; }
-
-    //    // extern const NSInteger OO_ERROR_VAST_VERSION;
-    //    [Field("OO_ERROR_VAST_VERSION")]
-    //    nint OO_ERROR_VAST_VERSION { get; }
-
-    //    // extern const NSInteger OO_ERROR_GENERAL_WRAPPER;
-    //    [Field("OO_ERROR_GENERAL_WRAPPER")]
-    //    nint OO_ERROR_GENERAL_WRAPPER { get; }
-
-    //    // extern const NSInteger OO_ERROR_WRAPPER_LIMIT;
-    //    [Field("OO_ERROR_WRAPPER_LIMIT")]
-    //    nint OO_ERROR_WRAPPER_LIMIT { get; }
-
-    //    // extern const NSInteger OO_ERROR_VAST_RESPONSE_WRAPPER;
-    //    [Field("OO_ERROR_VAST_RESPONSE_WRAPPER")]
-    //    nint OO_ERROR_VAST_RESPONSE_WRAPPER { get; }
-
-    //    // extern const NSInteger OO_ERROR_GENERAL_LINEAR;
-    //    [Field("OO_ERROR_GENERAL_LINEAR")]
-    //    nint OO_ERROR_GENERAL_LINEAR { get; }
-
-    //    // extern const NSInteger OO_ERROR_GENERAL_NONLINEAR_ADS;
-    //    [Field("OO_ERROR_GENERAL_NONLINEAR_ADS")]
-    //    nint OO_ERROR_GENERAL_NONLINEAR_ADS { get; }
-
-    //    // extern const NSInteger OO_ERROR_LINEAR_FILE_NOT_FOUND;
-    //    [Field("OO_ERROR_LINEAR_FILE_NOT_FOUND")]
-    //    nint OO_ERROR_LINEAR_FILE_NOT_FOUND { get; }
-
-    //    // extern const NSInteger OO_ERROR_LINEAR_TIMEOUT_MEDIAFILE;
-    //    [Field("OO_ERROR_LINEAR_TIMEOUT_MEDIAFILE")]
-    //    nint OO_ERROR_LINEAR_TIMEOUT_MEDIAFILE { get; }
-
-    //    // extern const NSInteger OO_ERROR_LINEAR_SUPPORTED_MEDIA_NOT_FOUND;
-    //    [Field("OO_ERROR_LINEAR_SUPPORTED_MEDIA_NOT_FOUND")]
-    //    nint OO_ERROR_LINEAR_SUPPORTED_MEDIA_NOT_FOUND { get; }
-    //}
+    //[Static]
+    // // [Verified(ConstantsInterfaceAssociation)]
+    partial interface Constants
+    {
+        // extern const float OO_MINIMUM_SUPPORTED_VAST_VERSION;
+        //[Field("OO_MINIMUM_SUPPORTED_VAST_VERSION")]
+        //float OO_MINIMUM_SUPPORTED_VAST_VERSION { get; }
+
+        //// extern const float OO_MAXIMUM_SUPPORTED_VAST_VERSION;
+        //[Field("OO_MAXIMUM_SUPPORTED_VAST_VERSION")]
+        //float OO_MAXIMUM_SUPPORTED_VAST_VERSION { get; }
+
+        //// extern const float OO_MINIMUM_SUPPORTED_VMAP_VERSION;
+        //[Field("OO_MINIMUM_SUPPORTED_VMAP_VERSION")]
+        //float OO_MINIMUM_SUPPORTED_VMAP_VERSION { get; }
+
+        //// extern const float OO_MAXIMUM_SUPPORTED_VMAP_VERSION;
+        //[Field("OO_MAXIMUM_SUPPORTED_VMAP_VERSION")]
+        //float OO_MAXIMUM_SUPPORTED_VMAP_VERSION { get; }
+
+        //// extern char *const OO_ELEMENT_VAST;
+        //[Field("OO_ELEMENT_VAST")]
+        //unsafe sbyte* OO_ELEMENT_VAST { get; }
+
+        //// extern char *const OO_ELEMENT_AD;
+        //[Field("OO_ELEMENT_AD")]
+        //unsafe sbyte* OO_ELEMENT_AD { get; }
+
+        //// extern char *const OO_ELEMENT_IN_LINE;
+        //[Field("OO_ELEMENT_IN_LINE")]
+        //unsafe sbyte* OO_ELEMENT_IN_LINE { get; }
+
+        //// extern char *const OO_ELEMENT_WRAPPER;
+        //[Field("OO_ELEMENT_WRAPPER")]
+        //unsafe sbyte* OO_ELEMENT_WRAPPER { get; }
+
+        //// extern char *const OO_ELEMENT_AD_SYSTEM;
+        //[Field("OO_ELEMENT_AD_SYSTEM")]
+        //unsafe sbyte* OO_ELEMENT_AD_SYSTEM { get; }
+
+        //// extern char *const OO_ELEMENT_AD_TITLE;
+        //[Field("OO_ELEMENT_AD_TITLE")]
+        //unsafe sbyte* OO_ELEMENT_AD_TITLE { get; }
+
+        //// extern char *const OO_ELEMENT_DESCRIPTION;
+        //[Field("OO_ELEMENT_DESCRIPTION")]
+        //unsafe sbyte* OO_ELEMENT_DESCRIPTION { get; }
+
+        //// extern char *const OO_ELEMENT_SURVEY;
+        //[Field("OO_ELEMENT_SURVEY")]
+        //unsafe sbyte* OO_ELEMENT_SURVEY { get; }
+
+        //// extern char *const OO_ELEMENT_ERROR;
+        //[Field("OO_ELEMENT_ERROR")]
+        //unsafe sbyte* OO_ELEMENT_ERROR { get; }
+
+        //// extern char *const OO_ELEMENT_IMPRESSION;
+        //[Field("OO_ELEMENT_IMPRESSION")]
+        //unsafe sbyte* OO_ELEMENT_IMPRESSION { get; }
+
+        //// extern char *const OO_ELEMENT_CREATIVES;
+        //[Field("OO_ELEMENT_CREATIVES")]
+        //unsafe sbyte* OO_ELEMENT_CREATIVES { get; }
+
+        //// extern char *const OO_ELEMENT_CREATIVE;
+        //[Field("OO_ELEMENT_CREATIVE")]
+        //unsafe sbyte* OO_ELEMENT_CREATIVE { get; }
+
+        //// extern char *const OO_ELEMENT_LINEAR;
+        //[Field("OO_ELEMENT_LINEAR")]
+        //unsafe sbyte* OO_ELEMENT_LINEAR { get; }
+
+        //// extern char *const OO_ELEMENT_NONLINEAR;
+        //[Field("OO_ELEMENT_NONLINEAR")]
+        //unsafe sbyte* OO_ELEMENT_NONLINEAR { get; }
+
+        //// extern char *const OO_ELEMENT_NON_LINEAR_ADS;
+        //[Field("OO_ELEMENT_NON_LINEAR_ADS")]
+        //unsafe sbyte* OO_ELEMENT_NON_LINEAR_ADS { get; }
+
+        //// extern char *const OO_ELEMENT_COMPANION_ADS;
+        //[Field("OO_ELEMENT_COMPANION_ADS")]
+        //unsafe sbyte* OO_ELEMENT_COMPANION_ADS { get; }
+
+        //// extern char *const OO_ELEMENT_COMPANION;
+        //[Field("OO_ELEMENT_COMPANION")]
+        //unsafe sbyte* OO_ELEMENT_COMPANION { get; }
+
+        //// extern char *const OO_ELEMENT_EXTENSIONS;
+        //[Field("OO_ELEMENT_EXTENSIONS")]
+        //unsafe sbyte* OO_ELEMENT_EXTENSIONS { get; }
+
+        //// extern char *const OO_ELEMENT_DURATION;
+        //[Field("OO_ELEMENT_DURATION")]
+        //unsafe sbyte* OO_ELEMENT_DURATION { get; }
+
+        //// extern char *const OO_ELEMENT_TRACKING_EVENTS;
+        //[Field("OO_ELEMENT_TRACKING_EVENTS")]
+        //unsafe sbyte* OO_ELEMENT_TRACKING_EVENTS { get; }
+
+        //// extern char *const OO_ELEMENT_TRACKING;
+        //[Field("OO_ELEMENT_TRACKING")]
+        //unsafe sbyte* OO_ELEMENT_TRACKING { get; }
+
+        //// extern char *const OO_ELEMENT_AD_PARAMETERS;
+        //[Field("OO_ELEMENT_AD_PARAMETERS")]
+        //unsafe sbyte* OO_ELEMENT_AD_PARAMETERS { get; }
+
+        //// extern char *const OO_ELEMENT_VIDEO_CLICKS;
+        //[Field("OO_ELEMENT_VIDEO_CLICKS")]
+        //unsafe sbyte* OO_ELEMENT_VIDEO_CLICKS { get; }
+
+        //// extern char *const OO_ELEMENT_CLICK_THROUGH;
+        //[Field("OO_ELEMENT_CLICK_THROUGH")]
+        //unsafe sbyte* OO_ELEMENT_CLICK_THROUGH { get; }
+
+        //// extern char *const OO_ELEMENT_CLICK_TRACKING;
+        //[Field("OO_ELEMENT_CLICK_TRACKING")]
+        //unsafe sbyte* OO_ELEMENT_CLICK_TRACKING { get; }
+
+        //// extern char *const OO_ELEMENT_CUSTOM_CLICK;
+        //[Field("OO_ELEMENT_CUSTOM_CLICK")]
+        //unsafe sbyte* OO_ELEMENT_CUSTOM_CLICK { get; }
+
+        //// extern char *const OO_ELEMENT_MEDIA_FILES;
+        //[Field("OO_ELEMENT_MEDIA_FILES")]
+        //unsafe sbyte* OO_ELEMENT_MEDIA_FILES { get; }
+
+        //// extern char *const OO_ELEMENT_MEDIA_FILE;
+        //[Field("OO_ELEMENT_MEDIA_FILE")]
+        //unsafe sbyte* OO_ELEMENT_MEDIA_FILE { get; }
+
+        //// extern char *const OO_ELEMENT_VAST_AD_TAG_URI;
+        //[Field("OO_ELEMENT_VAST_AD_TAG_URI")]
+        //unsafe sbyte* OO_ELEMENT_VAST_AD_TAG_URI { get; }
+
+        //// extern char *const OO_ELEMENT_TT;
+        //[Field("OO_ELEMENT_TT")]
+        //unsafe sbyte* OO_ELEMENT_TT { get; }
+
+        //// extern char *const OO_ELEMENT_HEAD;
+        //[Field("OO_ELEMENT_HEAD")]
+        //unsafe sbyte* OO_ELEMENT_HEAD { get; }
+
+        //// extern char *const OO_ELEMENT_BODY;
+        //[Field("OO_ELEMENT_BODY")]
+        //unsafe sbyte* OO_ELEMENT_BODY { get; }
+
+        //// extern char *const OO_ELEMENT_STYLING;
+        //[Field("OO_ELEMENT_STYLING")]
+        //unsafe sbyte* OO_ELEMENT_STYLING { get; }
+
+        //// extern char *const OO_ELEMENT_STYLE;
+        //[Field("OO_ELEMENT_STYLE")]
+        //unsafe sbyte* OO_ELEMENT_STYLE { get; }
+
+        //// extern char *const OO_ELEMENT_DIV;
+        //[Field("OO_ELEMENT_DIV")]
+        //unsafe sbyte* OO_ELEMENT_DIV { get; }
+
+        //// extern char *const OO_ELEMENT_P;
+        //[Field("OO_ELEMENT_P")]
+        //unsafe sbyte* OO_ELEMENT_P { get; }
+
+        //// extern char *const OO_ELEMENT_SPAN;
+        //[Field("OO_ELEMENT_SPAN")]
+        //unsafe sbyte* OO_ELEMENT_SPAN { get; }
+
+        //// extern char *const OO_ELEMENT_METADATA;
+        //[Field("OO_ELEMENT_METADATA")]
+        //unsafe sbyte* OO_ELEMENT_METADATA { get; }
+
+        //// extern char *const OO_ELEMENT_BR;
+        //[Field("OO_ELEMENT_BR")]
+        //unsafe sbyte* OO_ELEMENT_BR { get; }
+
+        //// extern char *const OO_ELEMENT_ICONS;
+        //[Field("OO_ELEMENT_ICONS")]
+        //unsafe sbyte* OO_ELEMENT_ICONS { get; }
+
+        //// extern char *const OO_ELEMENT_ICON;
+        //[Field("OO_ELEMENT_ICON")]
+        //unsafe sbyte* OO_ELEMENT_ICON { get; }
+
+        //// extern char *const OO_ELEMENT_ICON_CLICKS;
+        //[Field("OO_ELEMENT_ICON_CLICKS")]
+        //unsafe sbyte* OO_ELEMENT_ICON_CLICKS { get; }
+
+        //// extern char *const OO_ELEMENT_ICON_CLICK_THROUGH;
+        //[Field("OO_ELEMENT_ICON_CLICK_THROUGH")]
+        //unsafe sbyte* OO_ELEMENT_ICON_CLICK_THROUGH { get; }
+
+        //// extern char *const OO_ELEMENT_ICON_CLICK_TRACKING;
+        //[Field("OO_ELEMENT_ICON_CLICK_TRACKING")]
+        //unsafe sbyte* OO_ELEMENT_ICON_CLICK_TRACKING { get; }
+
+        //// extern char *const OO_ELEMENT_ICON_VIEW_TRACKING;
+        //[Field("OO_ELEMENT_ICON_VIEW_TRACKING")]
+        //unsafe sbyte* OO_ELEMENT_ICON_VIEW_TRACKING { get; }
+
+        //// extern char *const OO_ELEMENT_STATIC_RESOURCE;
+        //[Field("OO_ELEMENT_STATIC_RESOURCE")]
+        //unsafe sbyte* OO_ELEMENT_STATIC_RESOURCE { get; }
+
+        //// extern char *const OO_ELEMENT_IFRAME_RESOURCE;
+        //[Field("OO_ELEMENT_IFRAME_RESOURCE")]
+        //unsafe sbyte* OO_ELEMENT_IFRAME_RESOURCE { get; }
+
+        //// extern char *const OO_ELEMENT_HTML_RESOURCE;
+        //[Field("OO_ELEMENT_HTML_RESOURCE")]
+        //unsafe sbyte* OO_ELEMENT_HTML_RESOURCE { get; }
+
+        //// extern char *const OO_ELEMENT_CREATIVE_ENTENSIONS;
+        //[Field("OO_ELEMENT_CREATIVE_ENTENSIONS")]
+        //unsafe sbyte* OO_ELEMENT_CREATIVE_ENTENSIONS { get; }
+
+        //// extern char *const OO_ELEMENT_CREATIVE_ENTENSION;
+        //[Field("OO_ELEMENT_CREATIVE_ENTENSION")]
+        //unsafe sbyte* OO_ELEMENT_CREATIVE_ENTENSION { get; }
+
+        //// extern char *const OO_ELEMENT_NONLINEAR_CLICK_TRACKING;
+        //[Field("OO_ELEMENT_NONLINEAR_CLICK_TRACKING")]
+        //unsafe sbyte* OO_ELEMENT_NONLINEAR_CLICK_TRACKING { get; }
+
+        //// extern char *const OO_ELEMENT_NONLINEAR_CLICK_THROUGH;
+        //[Field("OO_ELEMENT_NONLINEAR_CLICK_THROUGH")]
+        //unsafe sbyte* OO_ELEMENT_NONLINEAR_CLICK_THROUGH { get; }
+
+        //// extern char *const OO_ELEMENT_ALT_TEXT;
+        //[Field("OO_ELEMENT_ALT_TEXT")]
+        //unsafe sbyte* OO_ELEMENT_ALT_TEXT { get; }
+
+        //// extern char *const OO_ELEMENT_COMPANION_CLICK_THROUGH;
+        //[Field("OO_ELEMENT_COMPANION_CLICK_THROUGH")]
+        //unsafe sbyte* OO_ELEMENT_COMPANION_CLICK_THROUGH { get; }
+
+        //// extern char *const OO_ELEMENT_VMAP;
+        //[Field("OO_ELEMENT_VMAP")]
+        //unsafe sbyte* OO_ELEMENT_VMAP { get; }
+
+        //// extern char *const OO_ELEMENT_ADBREAK;
+        //[Field("OO_ELEMENT_ADBREAK")]
+        //unsafe sbyte* OO_ELEMENT_ADBREAK { get; }
+
+        //// extern char *const OO_ELEMENT_ADSOURCE;
+        //[Field("OO_ELEMENT_ADSOURCE")]
+        //unsafe sbyte* OO_ELEMENT_ADSOURCE { get; }
+
+        //// extern char *const OO_ELEMENT_ADTAGURI;
+        //[Field("OO_ELEMENT_ADTAGURI")]
+        //unsafe sbyte* OO_ELEMENT_ADTAGURI { get; }
+
+        //// extern char *const OO_ELEMENT_VASTADDATA;
+        //[Field("OO_ELEMENT_VASTADDATA")]
+        //unsafe sbyte* OO_ELEMENT_VASTADDATA { get; }
+
+        //// extern char *const OO_ELEMENT_CUSTOMADATA;
+        //[Field("OO_ELEMENT_CUSTOMADATA")]
+        //unsafe sbyte* OO_ELEMENT_CUSTOMADATA { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_VERSION;
+        //[Field("OO_ATTRIBUTE_VERSION")]
+        //NSString OO_ATTRIBUTE_VERSION { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_ID;
+        //[Field("OO_ATTRIBUTE_ID")]
+        //NSString OO_ATTRIBUTE_ID { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_ADID;
+        //[Field("OO_ATTRIBUTE_ADID")]
+        //NSString OO_ATTRIBUTE_ADID { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_SEQUENCE;
+        //[Field("OO_ATTRIBUTE_SEQUENCE")]
+        //NSString OO_ATTRIBUTE_SEQUENCE { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_EVENT;
+        //[Field("OO_ATTRIBUTE_EVENT")]
+        //NSString OO_ATTRIBUTE_EVENT { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_DELIVERY;
+        //[Field("OO_ATTRIBUTE_DELIVERY")]
+        //NSString OO_ATTRIBUTE_DELIVERY { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_SKIPOFFSET;
+        //[Field("OO_ATTRIBUTE_SKIPOFFSET")]
+        //NSString OO_ATTRIBUTE_SKIPOFFSET { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_TYPE;
+        //[Field("OO_ATTRIBUTE_TYPE")]
+        //NSString OO_ATTRIBUTE_TYPE { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_BITRATE;
+        //[Field("OO_ATTRIBUTE_BITRATE")]
+        //NSString OO_ATTRIBUTE_BITRATE { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_WIDTH;
+        //[Field("OO_ATTRIBUTE_WIDTH")]
+        //NSString OO_ATTRIBUTE_WIDTH { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_HEIGHT;
+        //[Field("OO_ATTRIBUTE_HEIGHT")]
+        //NSString OO_ATTRIBUTE_HEIGHT { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_SCALABLE;
+        //[Field("OO_ATTRIBUTE_SCALABLE")]
+        //NSString OO_ATTRIBUTE_SCALABLE { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_MAINTAIN_ASPECT_RATIO;
+        //[Field("OO_ATTRIBUTE_MAINTAIN_ASPECT_RATIO")]
+        //NSString OO_ATTRIBUTE_MAINTAIN_ASPECT_RATIO { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_API_FRAMEWORK;
+        //[Field("OO_ATTRIBUTE_API_FRAMEWORK")]
+        //NSString OO_ATTRIBUTE_API_FRAMEWORK { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_BEGIN;
+        //[Field("OO_ATTRIBUTE_BEGIN")]
+        //NSString OO_ATTRIBUTE_BEGIN { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_END;
+        //[Field("OO_ATTRIBUTE_END")]
+        //NSString OO_ATTRIBUTE_END { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_DUR;
+        //[Field("OO_ATTRIBUTE_DUR")]
+        //NSString OO_ATTRIBUTE_DUR { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_XML_LANG;
+        //[Field("OO_ATTRIBUTE_XML_LANG")]
+        //NSString OO_ATTRIBUTE_XML_LANG { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_PROGRAM;
+        //[Field("OO_ATTRIBUTE_PROGRAM")]
+        //NSString OO_ATTRIBUTE_PROGRAM { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_XPOSITION;
+        //[Field("OO_ATTRIBUTE_XPOSITION")]
+        //NSString OO_ATTRIBUTE_XPOSITION { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_YPOSITION;
+        //[Field("OO_ATTRIBUTE_YPOSITION")]
+        //NSString OO_ATTRIBUTE_YPOSITION { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_OFFSET;
+        //[Field("OO_ATTRIBUTE_OFFSET")]
+        //NSString OO_ATTRIBUTE_OFFSET { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_DURATEION;
+        //[Field("OO_ATTRIBUTE_DURATEION")]
+        //NSString OO_ATTRIBUTE_DURATEION { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_CREATIVE_TYPE;
+        //[Field("OO_ATTRIBUTE_CREATIVE_TYPE")]
+        //NSString OO_ATTRIBUTE_CREATIVE_TYPE { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_REQUIRED;
+        //[Field("OO_ATTRIBUTE_REQUIRED")]
+        //NSString OO_ATTRIBUTE_REQUIRED { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_EXPANDED_WIDTH;
+        //[Field("OO_ATTRIBUTE_EXPANDED_WIDTH")]
+        //NSString OO_ATTRIBUTE_EXPANDED_WIDTH { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_EXPANDED_HEIGHT;
+        //[Field("OO_ATTRIBUTE_EXPANDED_HEIGHT")]
+        //NSString OO_ATTRIBUTE_EXPANDED_HEIGHT { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_MIN_SUGGESTED_DURATION;
+        //[Field("OO_ATTRIBUTE_MIN_SUGGESTED_DURATION")]
+        //NSString OO_ATTRIBUTE_MIN_SUGGESTED_DURATION { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_ASSET_WIDTH;
+        //[Field("OO_ATTRIBUTE_ASSET_WIDTH")]
+        //NSString OO_ATTRIBUTE_ASSET_WIDTH { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_ASSET_HEIGHT;
+        //[Field("OO_ATTRIBUTE_ASSET_HEIGHT")]
+        //NSString OO_ATTRIBUTE_ASSET_HEIGHT { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_AD_SLOT_ID;
+        //[Field("OO_ATTRIBUTE_AD_SLOT_ID")]
+        //NSString OO_ATTRIBUTE_AD_SLOT_ID { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_TIMEOFFSET;
+        //[Field("OO_ATTRIBUTE_TIMEOFFSET")]
+        //NSString OO_ATTRIBUTE_TIMEOFFSET { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_BREAKTYPE;
+        //[Field("OO_ATTRIBUTE_BREAKTYPE")]
+        //NSString OO_ATTRIBUTE_BREAKTYPE { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_BREAKID;
+        //[Field("OO_ATTRIBUTE_BREAKID")]
+        //NSString OO_ATTRIBUTE_BREAKID { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_REPEAT_AFTER;
+        //[Field("OO_ATTRIBUTE_REPEAT_AFTER")]
+        //NSString OO_ATTRIBUTE_REPEAT_AFTER { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_ALLOW_MULTIPLE_ADS;
+        //[Field("OO_ATTRIBUTE_ALLOW_MULTIPLE_ADS")]
+        //NSString OO_ATTRIBUTE_ALLOW_MULTIPLE_ADS { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_FOLLOW_REDIRECTS;
+        //[Field("OO_ATTRIBUTE_FOLLOW_REDIRECTS")]
+        //NSString OO_ATTRIBUTE_FOLLOW_REDIRECTS { get; }
+
+        //// extern NSString *const OO_ATTRIBUTE_TEMPLATE_TYPE;
+        //[Field("OO_ATTRIBUTE_TEMPLATE_TYPE")]
+        //NSString OO_ATTRIBUTE_TEMPLATE_TYPE { get; }
+
+        //// extern NSString *const OO_MIME_TYPE_MP4;
+        //[Field("OO_MIME_TYPE_MP4")]
+        //NSString OO_MIME_TYPE_MP4 { get; }
+
+        //// extern NSString *const OO_MIME_TYPE_M3U8;
+        //[Field("OO_MIME_TYPE_M3U8")]
+        //NSString OO_MIME_TYPE_M3U8 { get; }
+
+        //// extern const NSInteger OO_ERROR_XML_PARSE;
+        //[Field("OO_ERROR_XML_PARSE")]
+        //nint OO_ERROR_XML_PARSE { get; }
+
+        //// extern const NSInteger OO_ERROR_VAST_SCHEMA;
+        //[Field("OO_ERROR_VAST_SCHEMA")]
+        //nint OO_ERROR_VAST_SCHEMA { get; }
+
+        //// extern const NSInteger OO_ERROR_VAST_VERSION;
+        //[Field("OO_ERROR_VAST_VERSION")]
+        //nint OO_ERROR_VAST_VERSION { get; }
+
+        //// extern const NSInteger OO_ERROR_GENERAL_WRAPPER;
+        //[Field("OO_ERROR_GENERAL_WRAPPER")]
+        //nint OO_ERROR_GENERAL_WRAPPER { get; }
+
+        //// extern const NSInteger OO_ERROR_WRAPPER_LIMIT;
+        //[Field("OO_ERROR_WRAPPER_LIMIT")]
+        //nint OO_ERROR_WRAPPER_LIMIT { get; }
+
+        //// extern const NSInteger OO_ERROR_VAST_RESPONSE_WRAPPER;
+        //[Field("OO_ERROR_VAST_RESPONSE_WRAPPER")]
+        //nint OO_ERROR_VAST_RESPONSE_WRAPPER { get; }
+
+        //// extern const NSInteger OO_ERROR_GENERAL_LINEAR;
+        //[Field("OO_ERROR_GENERAL_LINEAR")]
+        //nint OO_ERROR_GENERAL_LINEAR { get; }
+
+        //// extern const NSInteger OO_ERROR_GENERAL_NONLINEAR_ADS;
+        //[Field("OO_ERROR_GENERAL_NONLINEAR_ADS")]
+        //nint OO_ERROR_GENERAL_NONLINEAR_ADS { get; }
+
+        //// extern const NSInteger OO_ERROR_LINEAR_FILE_NOT_FOUND;
+        //[Field("OO_ERROR_LINEAR_FILE_NOT_FOUND")]
+        //nint OO_ERROR_LINEAR_FILE_NOT_FOUND { get; }
+
+        //// extern const NSInteger OO_ERROR_LINEAR_TIMEOUT_MEDIAFILE;
+        //[Field("OO_ERROR_LINEAR_TIMEOUT_MEDIAFILE")]
+        //nint OO_ERROR_LINEAR_TIMEOUT_MEDIAFILE { get; }
+
+        //// extern const NSInteger OO_ERROR_LINEAR_SUPPORTED_MEDIA_NOT_FOUND;
+        //[Field("OO_ERROR_LINEAR_SUPPORTED_MEDIA_NOT_FOUND")]
+        //nint OO_ERROR_LINEAR_SUPPORTED_MEDIA_NOT_FOUND { get; }
+    }
 
     // @interface OOVASTLinearAd : NSObject <OOPlayableItem>
     [BaseType(typeof(NSObject))]
@@ -2515,11 +2478,11 @@ namespace OoyalaSDK.tvOS
 
         // @property (readonly, nonatomic) Float64 skipoffset;
         [Export("skipoffset")]
-        double Skipoffset { get; }
+        nfloat Skipoffset { get; }
 
         // @property (readonly, nonatomic) Float64 duration;
         [Export("duration")]
-        double Duration { get; }
+        nfloat Duration { get; }
 
         // @property (readonly, nonatomic, strong) NSMutableDictionary * trackingEvents;
         [Export("trackingEvents", ArgumentSemantic.Strong)]
@@ -2542,8 +2505,8 @@ namespace OoyalaSDK.tvOS
         NSMutableArray CustomClickURLs { get; }
 
         // @property (readonly, nonatomic, strong) NSMutableArray * streams;
-        //[Export("streams", ArgumentSemantic.Strong)]
-        //NSMutableArray Streams { get; }
+        [Export("streams", ArgumentSemantic.Strong)]
+        NSMutableArray Streams { get; }
 
         // @property (readonly, nonatomic, strong) NSMutableArray * errorCodes;
         [Export("errorCodes", ArgumentSemantic.Strong)]
@@ -2634,34 +2597,34 @@ namespace OoyalaSDK.tvOS
 
         // -(BOOL)hasLinear;
         [Export("hasLinear")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         bool HasLinear { get; }
 
         // -(BOOL)hasCompanionAds;
         [Export("hasCompanionAds")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         bool HasCompanionAds { get; }
 
         // -(BOOL)hasNonLinearAds;
         [Export("hasNonLinearAds")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         bool HasNonLinearAds { get; }
     }
 
     // @interface OOVASTVMAPAdHelper : NSObject
-    //[BaseType(typeof(NSObject))]
-    //interface OOVASTVMAPAdHelper
-    //{
-    // +(BOOL)parse:(OOTBXMLElement *)e adSpots:(NSMutableArray *)adSpots duration:(NSInteger)duration;
-    //[Static]
-    //[Export("parse:adSpots:duration:")]
-    //unsafe bool Parse(OOTBXMLElement* e, NSMutableArray adSpots, nint duration);
+    [BaseType(typeof(NSObject))]
+    interface OOVASTVMAPAdHelper
+    {
+        // +(BOOL)parse:(OOTBXMLElement *)e adSpots:(NSMutableArray *)adSpots duration:(NSInteger)duration;
+        //[Static]
+        //[Export("parse:adSpots:duration:")]
+        //unsafe bool Parse(OOTBXMLElement* e, NSMutableArray adSpots, nint duration);
 
-    //// +(OOTBXMLElement *)firstElement:(OOTBXMLElement *)e byName:(NSString *)name;
-    //[Static]
-    //[Export("firstElement:byName:")]
-    //unsafe OOTBXMLElement* FirstElement(OOTBXMLElement* e, string name);
-    //}
+        //// +(OOTBXMLElement *)firstElement:(OOTBXMLElement *)e byName:(NSString *)name;
+        //[Static]
+        //[Export("firstElement:byName:")]
+        //unsafe OOTBXMLElement* FirstElement(OOTBXMLElement* e, string name);
+    }
 
     // @interface OOVASTOffset : NSObject
     [BaseType(typeof(NSObject))]
@@ -2673,7 +2636,7 @@ namespace OoyalaSDK.tvOS
 
         // -(id)initWithType:(OffsetType)type value:(Float64)value;
         [Export("initWithType:value:")]
-        IntPtr Constructor(OffsetType type, double value);
+        IntPtr Constructor(OffsetType type, nfloat value);
 
         // -(id)initWithOffset:(NSString *)offsetStr;
         [Export("initWithOffset:")]
@@ -2681,17 +2644,17 @@ namespace OoyalaSDK.tvOS
 
         // -(Float64)getPercentage;
         [Export("getPercentage")]
-        // // [Verify(MethodToProperty)]
-        double Percentage { get; }
+        // // [Verified(MethodToProperty)]
+        nfloat Percentage { get; }
 
         // -(Float64)getSeconds;
         [Export("getSeconds")]
-        // // [Verify(MethodToProperty)]
-        double Seconds { get; }
+        // // [Verified(MethodToProperty)]
+        nfloat Seconds { get; }
 
         // -(NSInteger)getPosition;
         [Export("getPosition")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         nint Position { get; }
     }
 
@@ -2699,9 +2662,9 @@ namespace OoyalaSDK.tvOS
     [BaseType(typeof(NSObject))]
     interface OOVASTResource
     {
-        // @property (readonly, nonatomic) Type type;
+        // @property (readonly, nonatomic)OOTypetype;
         [Export("type")]
-        OType Type { get; }
+        OOType Type { get; }
 
         // @property (readonly, nonatomic, strong) NSString * uri;
         [Export("uri", ArgumentSemantic.Strong)]
@@ -2713,11 +2676,11 @@ namespace OoyalaSDK.tvOS
 
         // -(id)initWithType:(Type)type mimeType:(NSString *)mimeType uri:(NSString *)uri;
         [Export("initWithType:mimeType:uri:")]
-        IntPtr Constructor(OType type, string mimeType, string uri);
+        IntPtr Constructor(OOType type, string mimeType, string uri);
 
         // -(NSString *)typeToStr:(Type)type;
         [Export("typeToStr:")]
-        string TypeToStr(OType type);
+        string TypeToStr(OOType type);
     }
 
     // @interface OOVASTIcon : NSObject
@@ -2746,11 +2709,11 @@ namespace OoyalaSDK.tvOS
 
         // @property (readonly, nonatomic) Float64 duration;
         [Export("duration")]
-        double Duration { get; }
+        nfloat Duration { get; }
 
         // @property (readonly, nonatomic) Float64 offset;
         [Export("offset")]
-        double Offset { get; }
+        nfloat Offset { get; }
 
         // @property (readonly, nonatomic, strong) NSString * resourceUrl;
         [Export("resourceUrl", ArgumentSemantic.Strong)]
@@ -2946,13 +2909,13 @@ namespace OoyalaSDK.tvOS
 
         // @property (readonly) NSArray * trackingURLs;
         [Export("trackingURLs")]
-        // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         NSObject[] TrackingURLs { get; }
 
-        // +(OOManagedAdSpot *)adSpotFromDictionary:(NSDictionary *)data api:(OOPlayerAPIClient *)api duration:(Float64)duration;
+        // +(OOManagedAdSpot *)adSpotFromDictionary:(NSDictionary *)data api:(OOOoyalaAPIClient *)api duration:(Float64)duration;
         [Static]
         [Export("adSpotFromDictionary:api:duration:")]
-        OOManagedAdSpot AdSpotFromDictionary(NSDictionary data, OOOoyalaAPIClient api, double duration);
+        OOManagedAdSpot AdSpotFromDictionary(NSDictionary data, OOOoyalaAPIClient api, nfloat duration);
     }
 
     // @interface OOVASTAdSpot : OOManagedAdSpot
@@ -2993,10 +2956,10 @@ namespace OoyalaSDK.tvOS
 
         // -(id)initWithTime:(NSNumber *)theTime duration:(NSInteger)duration clickURL:(NSURL *)theClickURL trackingURLs:(NSArray *)theTrackingURLs vastURL:(NSURL *)theVASTURL;
         [Export("initWithTime:duration:clickURL:trackingURLs:vastURL:")]
-        // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         IntPtr Constructor(NSNumber theTime, nint duration, NSUrl theClickURL, NSObject[] theTrackingURLs, NSUrl theVASTURL);
 
-        // -(id)initWithDictionary:(NSDictionary *)data api:(OOPlayerAPIClient *)theAPI duration:(NSInteger)duration;
+        // -(id)initWithDictionary:(NSDictionary *)data api:(OOOoyalaAPIClient *)theAPI duration:(NSInteger)duration;
         [Export("initWithDictionary:api:duration:")]
         IntPtr Constructor(NSDictionary data, OOOoyalaAPIClient theAPI, nint duration);
 
@@ -3006,7 +2969,7 @@ namespace OoyalaSDK.tvOS
 
         // -(BOOL)fetchPlaybackInfo;
         [Export("fetchPlaybackInfo")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         bool FetchPlaybackInfo { get; }
     }
 
@@ -3044,11 +3007,11 @@ namespace OoyalaSDK.tvOS
 
         // -(id)initWithOffset:(OOVASTOffset *)timeOffset duration:(NSInteger)duration repeatAfter:(Float64)repeatAfter breakType:(NSString *)breakType breakId:(NSString *)breakId sourceId:(NSString *)sourceId allowMultipleAds:(BOOL)allowMultipleAds followRedirects:(BOOL)followRedirects vastUrl:(NSURL *)vastUrl;
         [Export("initWithOffset:duration:repeatAfter:breakType:breakId:sourceId:allowMultipleAds:followRedirects:vastUrl:")]
-        IntPtr Constructor(OOVASTOffset timeOffset, nint duration, double repeatAfter, string breakType, string breakId, string sourceId, bool allowMultipleAds, bool followRedirects, NSUrl vastUrl);
+        IntPtr Constructor(OOVASTOffset timeOffset, nint duration, nfloat repeatAfter, string breakType, string breakId, string sourceId, bool allowMultipleAds, bool followRedirects, NSUrl vastUrl);
 
         // -(BOOL)isRepeatable;
         [Export("isRepeatable")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         bool IsRepeatable { get; }
 
         // -(void)markAsPlayed;
@@ -3163,7 +3126,7 @@ namespace OoyalaSDK.tvOS
         // +(void)setAdvertisingId:(NSString *)adId;
         [Static]
         [Export("advertisingId")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         string AdvertisingId { get; set; }
 
         // +(NSURL *)urlFromAdUrlString:(NSString *)url;
@@ -3174,7 +3137,7 @@ namespace OoyalaSDK.tvOS
         // +(void)logErrorCodes:(NSArray *)errorCodes;
         [Static]
         [Export("logErrorCodes:")]
-        // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         void LogErrorCodes(NSObject[] errorCodes);
 
         // +(BOOL)boolValueForAttribute:(NSString *)attribute element:(OOTBXMLElement *)element default:(BOOL)defaultValue;
@@ -3287,13 +3250,13 @@ namespace OoyalaSDK.tvOS
         // +(BOOL)isIpad;
         [Static]
         [Export("isIpad")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         bool IsIpad { get; }
 
         // +(BOOL)is1xDensity;
         [Static]
         [Export("is1xDensity")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         bool Is1xDensity { get; }
 
         // +(void)runOnMainThread:(void (^)(void))block;
@@ -3346,7 +3309,7 @@ namespace OoyalaSDK.tvOS
 
         // -(BOOL)isFullscreen;
         [Export("isFullscreen")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         bool IsFullscreen { get; }
 
         // -(void)setFullscreen:(BOOL)fullscreen;
@@ -3365,7 +3328,7 @@ namespace OoyalaSDK.tvOS
         // +(void)setAvailableLocalizations:(NSDictionary *)localizations;
         [Static]
         [Export("availableLocalizations")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         NSDictionary AvailableLocalizations { get; set; }
 
         // +(void)loadDeviceLanguage;
@@ -3494,7 +3457,7 @@ namespace OoyalaSDK.tvOS
         // @required -(NSString *)generateReport;
         [Abstract]
         [Export("generateReport")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         string GenerateReport { get; }
     }
 
@@ -3678,7 +3641,7 @@ namespace OoyalaSDK.tvOS
 
         // -(OOPerformanceStatisticsSnapshot *)build;
         [Export("build")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         OOPerformanceStatisticsSnapshot Build { get; }
     }
 
@@ -3713,7 +3676,7 @@ namespace OoyalaSDK.tvOS
 
         // -(NSString *)generateReport;
         [Export("generateReport")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         string GenerateReport { get; }
     }
 
@@ -3728,7 +3691,7 @@ namespace OoyalaSDK.tvOS
 
         // -(OOPerformanceStatisticsSnapshot *)buildStatisticsSnapshot;
         [Export("buildStatisticsSnapshot")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         OOPerformanceStatisticsSnapshot BuildStatisticsSnapshot { get; }
     }
 
@@ -3784,13 +3747,13 @@ namespace OoyalaSDK.tvOS
         // +(OOPerformanceMonitor *)getStandardMonitor;
         [Static]
         [Export("getStandardMonitor")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         OOPerformanceMonitor StandardMonitor { get; }
 
         // +(OOPerformanceMonitor *)getStandardAdsMonitor;
         [Static]
         [Export("getStandardAdsMonitor")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         OOPerformanceMonitor StandardAdsMonitor { get; }
 
         // -(instancetype)initWithNotificationCenter:(NSNotificationCenter *)notificationCenter;
@@ -3803,7 +3766,7 @@ namespace OoyalaSDK.tvOS
 
         // -(OOPerformanceMonitor *)build;
         [Export("build")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         OOPerformanceMonitor Build { get; }
     }
 
@@ -3925,13 +3888,13 @@ namespace OoyalaSDK.tvOS
         // @required -(NSArray *)availableAudioTracks;
         [Abstract]
         [Export("availableAudioTracks")]
-        // // [Verify(MethodToProperty), Verify(StronglyTypedNSArray)]
+        // // [Verified(MethodToProperty), Verify(StronglyTypedNSArray)]
         NSObject[] AvailableAudioTracks { get; }
 
         // @required -(id<OOAudioTrackProtocol>)selectedAudioTrack;
         [Abstract]
         [Export("selectedAudioTrack")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         OOAudioTrackProtocol SelectedAudioTrack { get; }
 
         // @required -(void)setAudioTrack:(id<OOAudioTrackProtocol>)audioTrack;
@@ -3942,7 +3905,7 @@ namespace OoyalaSDK.tvOS
         // @required -(id<OOAudioTrackProtocol>)defaultAudioTrack;
         [Abstract]
         [Export("defaultAudioTrack")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         OOAudioTrackProtocol DefaultAudioTrack { get; }
     }
 
@@ -3951,8 +3914,8 @@ namespace OoyalaSDK.tvOS
     interface OOPlayer : OOPlayerProtocol, OOLifeCycle, OOAudioTrackSelectionProtocol
     {
         // @property (nonatomic) Float64 playheadTime;
-        //[Export("playheadTime")]
-        //double PlayheadTime { get; set; }
+        [Export("playheadTime")]
+        nfloat PlayheadTime { get; set; }
 
         // @property (readonly, nonatomic, strong) OOOoyalaError * playerError;
         [Export("playerError", ArgumentSemantic.Strong)]
@@ -3968,22 +3931,22 @@ namespace OoyalaSDK.tvOS
 
         // -(BOOL)isPlaying;
         [Export("isPlaying")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         bool IsPlaying { get; }
 
         // -(BOOL)isAudioOnlyStreamPlaying;
         [Export("isAudioOnlyStreamPlaying")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         bool IsAudioOnlyStreamPlaying { get; }
 
         // -(CMTimeRange)seekableTimeRange;
-        //[Export("seekableTimeRange")]
-        // // [Verify(MethodToProperty)]
-        //CMTimeRange SeekableTimeRange { get; }
+        [Export("seekableTimeRange")]
+        // // [Verified(MethodToProperty)]
+        CMTimeRange SeekableTimeRange { get; }
 
         // -(CGRect)videoRect;
         [Export("videoRect")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         CGRect VideoRect { get; }
 
         // -(void)setState:(OOOoyalaPlayerState)state;
@@ -3991,7 +3954,8 @@ namespace OoyalaSDK.tvOS
         void SetState(OOOoyalaPlayerState state);
     }
 
-    // // [Verify(ConstantsInterfaceAssociation)]
+    //[Static]
+    // // [Verified(ConstantsInterfaceAssociation)]
     partial interface Constants
     {
         // extern NSString *const PlayerErrorNotification;
@@ -4011,12 +3975,12 @@ namespace OoyalaSDK.tvOS
         // +(void)setDefaultPlayerInfo:(id<OOPlayerInfo>)playerInfo;
         [Static]
         [Export("defaultPlayerInfo")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         OOPlayerInfo DefaultPlayerInfo { get; set; }
 
         // -(BOOL)setup:(NSArray *)streams parent:(OOOoyalaPlayer *)parent;
         [Export("setup:parent:")]
-        // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         bool Setup(NSObject[] streams, OOOoyalaPlayer parent);
 
         // -(id<OOPlayerInfo>)playerInfo;
@@ -4042,7 +4006,7 @@ namespace OoyalaSDK.tvOS
     {
         // -(NSSet *)getCuePointsAtSeconds;
         [Export("getCuePointsAtSeconds")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         NSSet CuePointsAtSeconds { get; }
 
         // -(void)resetAds;
@@ -4059,7 +4023,7 @@ namespace OoyalaSDK.tvOS
 
         // -(void)insertAds:(NSArray *)adSpots;
         [Export("insertAds:")]
-        // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         void InsertAds(NSObject[] adSpots);
 
         // -(OOAdSpot *)adBeforeTime:(Float64)time;
@@ -4072,7 +4036,7 @@ namespace OoyalaSDK.tvOS
 
         // -(NSUInteger)count;
         [Export("count")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         nuint Count { get; }
     }
 
@@ -4084,7 +4048,7 @@ namespace OoyalaSDK.tvOS
         // @required -(NSString *)embedCode;
         [Abstract]
         [Export("embedCode")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         string EmbedCode { get; }
 
         // @required -(OOReturnState)updateWithDictionary:(NSDictionary *)data;
@@ -4095,13 +4059,13 @@ namespace OoyalaSDK.tvOS
         // @required -(BOOL)hasMoreChildren;
         [Abstract]
         [Export("hasMoreChildren")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         bool HasMoreChildren { get; }
 
         // @required -(NSString *)nextChildren;
         [Abstract]
         [Export("nextChildren")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         string NextChildren { get; }
 
         // @required -(BOOL)fetchMoreChildren:(OOFetchMoreChildrenCallback)callback;
@@ -4112,7 +4076,7 @@ namespace OoyalaSDK.tvOS
         // @required -(NSUInteger)childrenCount;
         [Abstract]
         [Export("childrenCount")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         nuint ChildrenCount { get; }
     }
 
@@ -4144,42 +4108,42 @@ namespace OoyalaSDK.tvOS
         [Export("initWithPcode:domain:embedTokenGenerator:secureUrlGenerator:")]
         IntPtr Constructor(string pcode, OOPlayerDomain domain, OOEmbedTokenGenerator generator, OOSecureURLGenerator secureURLGenerator);
 
-        // -(id)initWithPlayerAPIClient:(OOPlayerAPIClient *)playerAPI secureUrlGenerator:(id<OOSecureURLGenerator>)secureURLGenerator;
+        // -(id)initWithPlayerAPIClient:(OOOoyalaAPIClient *)playerAPI secureUrlGenerator:(id<OOSecureURLGenerator>)secureURLGenerator;
         [Export("initWithPlayerAPIClient:secureUrlGenerator:")]
         IntPtr Constructor(OOOoyalaAPIClient playerAPI, OOSecureURLGenerator secureURLGenerator);
 
-        // -(id)initWithPlayerAPIClient:(OOPlayerAPIClient *)thePlayerAPIClient;
+        // -(id)initWithPlayerAPIClient:(OOOoyalaAPIClient *)thePlayerAPIClient;
         [Export("initWithPlayerAPIClient:")]
         IntPtr Constructor(OOOoyalaAPIClient thePlayerAPIClient);
 
         // -(OOContentItem *)contentTree:(NSArray *)embedCodes error:(OOOoyalaError **)error;
         [Export("contentTree:error:")]
-        // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         OOContentItem ContentTree(NSObject[] embedCodes, out OOOoyalaError error);
 
         // -(id)contentTree:(NSArray *)embedCodes callback:(OOContentTreeCallback)callback;
         [Export("contentTree:callback:")]
-        // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         NSObject ContentTree(NSObject[] embedCodes, OOContentTreeCallback callback);
 
         // -(OOContentItem *)contentTree:(NSArray *)embedCodes adSetCode:(NSString *)adSetCode error:(OOOoyalaError **)error;
         [Export("contentTree:adSetCode:error:")]
-        // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         OOContentItem ContentTree(NSObject[] embedCodes, string adSetCode, out OOOoyalaError error);
 
         // -(id)contentTree:(NSArray *)embedCodes adSetCode:(NSString *)adSetCode callback:(OOContentTreeCallback)callback;
         [Export("contentTree:adSetCode:callback:")]
-        // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         NSObject ContentTree(NSObject[] embedCodes, string adSetCode, OOContentTreeCallback callback);
 
         // -(OOContentItem *)contentTreeByExternalIds:(NSArray *)externalIds error:(OOOoyalaError **)error;
         [Export("contentTreeByExternalIds:error:")]
-        // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         OOContentItem ContentTreeByExternalIds(NSObject[] externalIds, out OOOoyalaError error);
 
         // -(id)contentTreeByExternalIds:(NSArray *)externalIds callback:(OOContentTreeCallback)callback;
         [Export("contentTreeByExternalIds:callback:")]
-        // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         NSObject ContentTreeByExternalIds(NSObject[] externalIds, OOContentTreeCallback callback);
 
         // -(NSRange)contentTreeNext:(id<OOPaginatedParentItem>)parent error:(OOOoyalaError **)error;
@@ -4204,12 +4168,12 @@ namespace OoyalaSDK.tvOS
 
         // -(NSString *)pcode;
         [Export("pcode")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         string Pcode { get; }
 
         // -(OOPlayerDomain *)domain;
         [Export("domain")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         OOPlayerDomain Domain { get; }
 
         // +(NSString *)messageForAuthCode:(int)code;
@@ -4222,28 +4186,52 @@ namespace OoyalaSDK.tvOS
     [BaseType(typeof(OOManagedAdSpot))]
     interface OOOoyalaAdSpot : OOAuthorizableItem, OOPlayableItem
     {
+        // @property (readonly, nonatomic, strong) NSMutableArray * streams;
+        [Export("streams", ArgumentSemantic.Strong)]
+        NSMutableArray Streams { get; }
+
         // @property (readonly, nonatomic, strong) NSString * embedCode;
         [Export("embedCode", ArgumentSemantic.Strong)]
         string EmbedCode { get; }
 
+        // @property (readonly, nonatomic) BOOL authorized;
+        [Export("authorized")]
+        bool Authorized { get; }
+
+        // @property (readonly, nonatomic) OOAuthCode authCode;
+        [Export("authCode")]
+        OOAuthCode AuthCode { get; }
+
+        // @property (assign, nonatomic) BOOL heartbeatRequired;
+        [Export("heartbeatRequired")]
+        bool HeartbeatRequired { get; set; }
+
         // -(id)initWithTime:(NSNumber *)theTime clickURL:(NSURL *)theClickURL trackingURLs:(NSArray *)theTrackingURLs embedCode:(NSString *)theEmbedCode api:(OOOoyalaAPIClient *)theAPI;
         [Export("initWithTime:clickURL:trackingURLs:embedCode:api:")]
-        // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         IntPtr Constructor(NSNumber theTime, NSUrl theClickURL, NSObject[] theTrackingURLs, string theEmbedCode, OOOoyalaAPIClient theAPI);
 
-        // -(id)initWithDictionary:(NSDictionary *)data api:(OOPlayerAPIClient *)theAPI;
+        // -(id)initWithDictionary:(NSDictionary *)data api:(OOOoyalaAPIClient *)theAPI;
         [Export("initWithDictionary:api:")]
         IntPtr Constructor(NSDictionary data, OOOoyalaAPIClient theAPI);
 
+        // -(OOReturnState)updateWithDictionary:(NSDictionary *)data;
+        [Export("updateWithDictionary:")]
+        OOReturnState UpdateWithDictionary(NSDictionary data);
+
         // -(BOOL)fetchPlaybackInfo;
         [Export("fetchPlaybackInfo")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         bool FetchPlaybackInfo { get; }
+
+        // -(NSArray *)embedCodesToAuthorize;
+        [Export("embedCodesToAuthorize")]
+        // // [Verified(MethodToProperty), Verify(StronglyTypedNSArray)]
+        NSObject[] EmbedCodesToAuthorize { get; }
     }
 
     // @protocol OOAdSpotPluginDelegate
     [Protocol, Model]
-    [BaseType(typeof(NSObject))]
     interface OOAdSpotPluginDelegate
     {
         // @required -(BOOL)playAd:(OOAdSpot *)ad;
@@ -4274,8 +4262,8 @@ namespace OoyalaSDK.tvOS
         [Export("adSpotManager")]
         OOAdSpotManager AdSpotManager { get; }
 
-        [Wrap("WeakDelegate")]
-        OOAdSpotPluginDelegate Delegate { get; set; }
+        //[Wrap("WeakDelegate")]
+        //OOAdSpotPluginDelegate Delegate { get; set; }
 
         // @property (nonatomic, weak) id<OOAdSpotPluginDelegate> delegate;
         [NullAllowed, Export("delegate", ArgumentSemantic.Weak)]
@@ -4283,7 +4271,7 @@ namespace OoyalaSDK.tvOS
 
         // -(BOOL)playAdsBeforeTime;
         [Export("playAdsBeforeTime")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         bool PlayAdsBeforeTime { get; }
     }
 
@@ -4333,7 +4321,7 @@ namespace OoyalaSDK.tvOS
 
         // -(NSDictionary *)toDictionary;
         [Export("toDictionary")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         NSDictionary ToDictionary { get; }
     }
 
@@ -4381,7 +4369,7 @@ namespace OoyalaSDK.tvOS
         // +(NSString *)getId;
         [Static]
         [Export("getId")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         string Id { get; }
 
         // +(void)setId:(NSString *)clientId;
@@ -4448,7 +4436,7 @@ namespace OoyalaSDK.tvOS
     {
         // @property (readonly, nonatomic) NSArray * languages;
         [Export("languages")]
-        // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         NSObject[] Languages { get; }
 
         // @property (readonly, nonatomic) NSString * defaultLanguage;
@@ -4477,12 +4465,12 @@ namespace OoyalaSDK.tvOS
 
         // -(BOOL)fetchClosedCaptionsInfo;
         [Export("fetchClosedCaptionsInfo")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         bool FetchClosedCaptionsInfo { get; }
 
         // -(NSArray *)closedCaptionsForLanguage:(NSString *)language;
         [Export("closedCaptionsForLanguage:")]
-        // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         NSObject[] ClosedCaptionsForLanguage(string language);
 
         // -(OOCaption *)captionForLanguage:(NSString *)language time:(Float64)time;
@@ -4504,8 +4492,8 @@ namespace OoyalaSDK.tvOS
     interface OOChannel : OOPaginatedParentItem
     {
         // @property (readonly, nonatomic, strong) NSString * nextChildren;
-        //[Export("nextChildren", ArgumentSemantic.Strong)]
-        //string NextChildren { get; }
+        [Export("nextChildren", ArgumentSemantic.Strong)]
+        string NextChildren { get; }
 
         // @property (readonly, nonatomic, strong) OOOrderedDictionary * videos;
         [Export("videos", ArgumentSemantic.Strong)]
@@ -4515,26 +4503,26 @@ namespace OoyalaSDK.tvOS
         [Export("parent", ArgumentSemantic.Strong)]
         OOChannelSet Parent { get; }
 
-        // -(id)initWithDictionary:(NSDictionary *)data embedCode:(NSString *)theEmbedCode api:(OOPlayerAPIClient *)theAPI;
+        // -(id)initWithDictionary:(NSDictionary *)data embedCode:(NSString *)theEmbedCode api:(OOOoyalaAPIClient *)theAPI;
         [Export("initWithDictionary:embedCode:api:")]
         IntPtr Constructor(NSDictionary data, string theEmbedCode, OOOoyalaAPIClient theAPI);
 
-        // -(id)initWithDictionary:(NSDictionary *)data embedCode:(NSString *)theEmbedCode parent:(OOChannelSet *)theParent api:(OOPlayerAPIClient *)theAPI;
+        // -(id)initWithDictionary:(NSDictionary *)data embedCode:(NSString *)theEmbedCode parent:(OOChannelSet *)theParent api:(OOOoyalaAPIClient *)theAPI;
         [Export("initWithDictionary:embedCode:parent:api:")]
         IntPtr Constructor(NSDictionary data, string theEmbedCode, OOChannelSet theParent, OOOoyalaAPIClient theAPI);
 
         // -(OOReturnState)updateWithDictionary:(NSDictionary *)data;
-        //[Export("updateWithDictionary:")]
-        //OOReturnState UpdateWithDictionary(NSDictionary data);
+        [Export("updateWithDictionary:")]
+        OOReturnState UpdateWithDictionary(NSDictionary data);
 
         // -(OOVideo *)firstVideo;
         [Export("firstVideo")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         OOVideo FirstVideo { get; }
 
         // -(OOVideo *)lastVideo;
         [Export("lastVideo")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         OOVideo LastVideo { get; }
 
         // -(OOVideo *)nextVideo:(OOVideo *)currentItem;
@@ -4550,26 +4538,26 @@ namespace OoyalaSDK.tvOS
         OOVideo VideoFromEmbedCode(string embedCode, OOVideo currentItem);
 
         // -(BOOL)hasMoreChildren;
-        //[Export("hasMoreChildren")]
-        // // [Verify(MethodToProperty)]
-        //bool HasMoreChildren { get; }
+        [Export("hasMoreChildren")]
+        // // [Verified(MethodToProperty)]
+        bool HasMoreChildren { get; }
 
         // -(BOOL)fetchMoreChildren:(OOFetchMoreChildrenCallback)callback;
-        //[Export("fetchMoreChildren:")]
-        //bool FetchMoreChildren(OOFetchMoreChildrenCallback callback);
+        [Export("fetchMoreChildren:")]
+        bool FetchMoreChildren(OOFetchMoreChildrenCallback callback);
 
         // -(BOOL)fetchAndAuthorizeMoreChildren:(OOFetchMoreChildrenCallback)callback;
         [Export("fetchAndAuthorizeMoreChildren:")]
         bool FetchAndAuthorizeMoreChildren(OOFetchMoreChildrenCallback callback);
 
         // -(NSUInteger)childrenCount;
-        //[Export("childrenCount")]
-        // // [Verify(MethodToProperty)]
-        //nuint ChildrenCount { get; }
+        [Export("childrenCount")]
+        // // [Verified(MethodToProperty)]
+        nuint ChildrenCount { get; }
 
         // -(Float64)duration;
         [Export("duration")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         double Duration { get; }
     }
 
@@ -4578,24 +4566,24 @@ namespace OoyalaSDK.tvOS
     interface OOChannelSet : OOPaginatedParentItem
     {
         // @property (readonly, nonatomic, strong) NSString * nextChildren;
-        //[Export("nextChildren", ArgumentSemantic.Strong)]
-        //string NextChildren { get; }
+        [Export("nextChildren", ArgumentSemantic.Strong)]
+        string NextChildren { get; }
 
         // @property (readonly, nonatomic, strong) OOOrderedDictionary * channels;
         [Export("channels", ArgumentSemantic.Strong)]
         OOOrderedDictionary Channels { get; }
 
-        // -(id)initWithDictionary:(NSDictionary *)data embedCode:(NSString *)theEmbedCode api:(OOPlayerAPIClient *)theAPI;
+        // -(id)initWithDictionary:(NSDictionary *)data embedCode:(NSString *)theEmbedCode api:(OOOoyalaAPIClient *)theAPI;
         [Export("initWithDictionary:embedCode:api:")]
         IntPtr Constructor(NSDictionary data, string theEmbedCode, OOOoyalaAPIClient theAPI);
 
         // -(OOReturnState)updateWithDictionary:(NSDictionary *)data;
-        //[Export("updateWithDictionary:")]
-        //OOReturnState UpdateWithDictionary(NSDictionary data);
+        [Export("updateWithDictionary:")]
+        OOReturnState UpdateWithDictionary(NSDictionary data);
 
         // -(OOVideo *)firstVideo;
         [Export("firstVideo")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         OOVideo FirstVideo { get; }
 
         // -(OOVideo *)nextVideo:(OOChannel *)currentItem;
@@ -4611,26 +4599,26 @@ namespace OoyalaSDK.tvOS
         OOVideo VideoFromEmbedCode(string embedCode, OOVideo currentItem);
 
         // -(BOOL)hasMoreChildren;
-        //[Export("hasMoreChildren")]
-        // // [Verify(MethodToProperty)]
-        //bool HasMoreChildren { get; }
+        [Export("hasMoreChildren")]
+        // // [Verified(MethodToProperty)]
+        bool HasMoreChildren { get; }
 
         // -(BOOL)fetchMoreChildren:(OOFetchMoreChildrenCallback)callback;
-        //[Export("fetchMoreChildren:")]
-        //bool FetchMoreChildren(OOFetchMoreChildrenCallback callback);
+        [Export("fetchMoreChildren:")]
+        bool FetchMoreChildren(OOFetchMoreChildrenCallback callback);
 
         // -(BOOL)fetchAndAuthorizeMoreChildren:(OOFetchMoreChildrenCallback)callback;
         [Export("fetchAndAuthorizeMoreChildren:")]
         bool FetchAndAuthorizeMoreChildren(OOFetchMoreChildrenCallback callback);
 
         // -(NSUInteger)childrenCount;
-        //[Export("childrenCount")]
-        // // [Verify(MethodToProperty)]
-        //nuint ChildrenCount { get; }
+        [Export("childrenCount")]
+        // // [Verified(MethodToProperty)]
+        nuint ChildrenCount { get; }
 
         // -(Float64)duration;
         [Export("duration")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         double Duration { get; }
     }
 
@@ -4640,17 +4628,17 @@ namespace OoyalaSDK.tvOS
     {
         // @property (readonly, nonatomic, strong) NSArray * embedCodes;
         [Export("embedCodes", ArgumentSemantic.Strong)]
-        // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         NSObject[] EmbedCodes { get; }
 
-        // -(id)initWithDictionary:(NSDictionary *)data embedCodes:(NSArray *)theEmbedCodes api:(OOPlayerAPIClient *)theAPI;
+        // -(id)initWithDictionary:(NSDictionary *)data embedCodes:(NSArray *)theEmbedCodes api:(OOOoyalaAPIClient *)theAPI;
         [Export("initWithDictionary:embedCodes:api:")]
-        // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         IntPtr Constructor(NSDictionary data, NSObject[] theEmbedCodes, OOOoyalaAPIClient theAPI);
 
-        // -(id)initWithDictionary:(NSDictionary *)data embedCodes:(NSArray *)theEmbedCodes parent:(OOChannelSet *)theParent api:(OOPlayerAPIClient *)theAPI;
+        // -(id)initWithDictionary:(NSDictionary *)data embedCodes:(NSArray *)theEmbedCodes parent:(OOChannelSet *)theParent api:(OOOoyalaAPIClient *)theAPI;
         [Export("initWithDictionary:embedCodes:parent:api:")]
-        // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         IntPtr Constructor(NSDictionary data, NSObject[] theEmbedCodes, OOChannelSet theParent, OOOoyalaAPIClient theAPI);
 
         // -(OOReturnState)updateWithDictionary:(NSDictionary *)data;
@@ -4659,12 +4647,12 @@ namespace OoyalaSDK.tvOS
 
         // -(NSArray *)embedCodesToAuthorize;
         [Export("embedCodesToAuthorize")]
-        // // [Verify(MethodToProperty), Verify(StronglyTypedNSArray)]
+        // // [Verified(MethodToProperty), Verify(StronglyTypedNSArray)]
         NSObject[] EmbedCodesToAuthorize { get; }
 
         // -(Float64)duration;
         [Export("duration")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         double Duration { get; }
     }
 
@@ -4792,7 +4780,7 @@ namespace OoyalaSDK.tvOS
         // +(DebugMode)getDebugMode;
         [Static]
         [Export("getDebugMode")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         DebugMode DebugMode { get; }
 
         // +(void)setDebugMode:(DebugMode)mode;
@@ -4818,7 +4806,7 @@ namespace OoyalaSDK.tvOS
 
     // @interface OOOrderedDictionary : NSObject <NSFastEnumeration>
     [BaseType(typeof(NSObject))]
-    interface OOOrderedDictionary //: INSFastEnumeration
+    interface OOOrderedDictionary // NSFastEnumeration
     {
         // @property (assign, nonatomic) SEL keySelector;
         [Export("keySelector", ArgumentSemantic.Assign)]
@@ -4882,17 +4870,17 @@ namespace OoyalaSDK.tvOS
 
         // -(NSUInteger)count;
         [Export("count")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         nuint Count { get; }
 
         // -(NSArray *)objectsInRange:(NSRange)range;
         [Export("objectsInRange:")]
-        // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         NSObject[] ObjectsInRange(NSRange range);
 
         // -(NSArray *)keysInRange:(NSRange)range;
         [Export("keysInRange:")]
-        // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         NSObject[] KeysInRange(NSRange range);
 
         // -(NSUInteger)countByEnumeratingWithState:(NSFastEnumerationState *)state objects:(id *)stackbuf count:(NSUInteger)len;
@@ -4923,6 +4911,9 @@ namespace OoyalaSDK.tvOS
         // -(NSURL *)secureURL:(NSString *)host uri:(NSString *)uri params:(NSDictionary *)params;
         [Export("secureURL:uri:params:")]
         NSUrl SecureURL(string host, string uri, NSDictionary @params);
+
+        //[Export("secureURL:uri:params:")]
+        //NSUrl Uri(string host, string uri, NSDictionary @params);
     }
 
     // @interface OOEmbeddedSignatureGenerator : NSObject <OOSignatureGenerator>
@@ -4934,8 +4925,8 @@ namespace OoyalaSDK.tvOS
         IntPtr Constructor(string theSecret);
 
         // -(NSString *)sign:(NSString *)data;
-        //[Export("sign:")]
-        //string Sign(string data);
+        [Export("sign:")]
+        string Sign(string data);
     }
 
     // @interface OOCastModeOptions : NSObject
@@ -4979,13 +4970,14 @@ namespace OoyalaSDK.tvOS
         // @required -(BOOL)isConnectedToChromecast;
         [Abstract]
         [Export("isConnectedToChromecast")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         bool IsConnectedToChromecast { get; }
 
         // @required @property (readonly, nonatomic) OOCastPlayer * castPlayer;
-        //[Abstract]
-        //[Export("castPlayer")]
-        //OOCastPlayer CastPlayer { get; }
+        //Hack
+        [Abstract]
+        [Export("castPlayer")]
+        NSObject CastPlayer { get; }
 
         // @required -(void)registerWithOoyalaPlayer:(OOOoyalaPlayer *)ooyalaPlayer;
         [Abstract]
@@ -5088,7 +5080,7 @@ namespace OoyalaSDK.tvOS
         // @required -(OOStreamPlayer *)newPlayer;
         [Abstract]
         [Export("newPlayer")]
-        // // [Verify(MethodToProperty)]
+        // // [Verified(MethodToProperty)]
         OOStreamPlayer NewPlayer { get; }
     }
 
@@ -5099,7 +5091,7 @@ namespace OoyalaSDK.tvOS
         // @required -(BOOL)matchesStreams:(NSArray *)streams;
         [Abstract]
         [Export("matchesStreams:")]
-        // // [Verify(StronglyTypedNSArray)]
+        // // [Verified(StronglyTypedNSArray)]
         bool MatchesStreams(NSObject[] streams);
     }
 
@@ -5113,7 +5105,7 @@ namespace OoyalaSDK.tvOS
     }
 
     [Static]
-    // // [Verify(ConstantsInterfaceAssociation)]
+    // // [Verified(ConstantsInterfaceAssociation)]
     partial interface Constants
     {
         // extern NSString *const OO_DELIVERY_TYPE_HLS;
@@ -5141,33 +5133,32 @@ namespace OoyalaSDK.tvOS
         //NSString OO_DELIVERY_TYPE_AKAMAI_HD2_HLS { get; }
     }
 
-    #region OOControlsViewController
+    #region Oocontrolsviewcontroller
 
 
+    // [Verified(ConstantsInterfaceAssociation)]
+    partial interface Constants
+    {
+        // extern NSString *const OOOoyalaPlayerViewControllerFullscreenEnter;
+        //[Field("OOOoyalaPlayerViewControllerFullscreenEnter")]
+        //NSString OOOoyalaPlayerViewControllerFullscreenEnter { get; }
 
-    // [Verify(ConstantsInterfaceAssociation)]
-    //partial interface Constants
-    //{
-    //    // extern NSString *const OOOoyalaPlayerViewControllerFullscreenEnter;
-    //    [Field("OOOoyalaPlayerViewControllerFullscreenEnter")]
-    //    NSString OOOoyalaPlayerViewControllerFullscreenEnter { get; }
+        //// extern NSString *const OOOoyalaPlayerViewControllerFullscreenExit;
+        //[Field("OOOoyalaPlayerViewControllerFullscreenExit")]
+        //NSString OOOoyalaPlayerViewControllerFullscreenExit { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerViewControllerFullscreenExit;
-    //    [Field("OOOoyalaPlayerViewControllerFullscreenExit")]
-    //    NSString OOOoyalaPlayerViewControllerFullscreenExit { get; }
+        //// extern NSString *const OOOoyalaPlayerViewControllerInlineViewVisible;
+        //[Field("OOOoyalaPlayerViewControllerInlineViewVisible")]
+        //NSString OOOoyalaPlayerViewControllerInlineViewVisible { get; }
 
-    //    // extern NSString *const OOOoyalaPlayerViewControllerInlineViewVisible;
-    //    [Field("OOOoyalaPlayerViewControllerInlineViewVisible")]
-    //    NSString OOOoyalaPlayerViewControllerInlineViewVisible { get; }
-
-    //    // extern NSString *const OOOoyalaPlayerViewControllerFullscreenViewVisible;
-    //    [Field("OOOoyalaPlayerViewControllerFullscreenViewVisible")]
-    //    NSString OOOoyalaPlayerViewControllerFullscreenViewVisible { get; }
-    //}
+        //// extern NSString *const OOOoyalaPlayerViewControllerFullscreenViewVisible;
+        //[Field("OOOoyalaPlayerViewControllerFullscreenViewVisible")]
+        //NSString OOOoyalaPlayerViewControllerFullscreenViewVisible { get; }
+    }
 
     // @interface OOOoyalaPlayerViewController : UIViewController
+    [Model]
     [BaseType(typeof(UIViewController))]
-    [Protocol]
     interface OOOoyalaPlayerViewController
     {
         // @property (readonly, nonatomic) OOOoyalaPlayerControlType initialControlType;
@@ -5196,7 +5187,7 @@ namespace OoyalaSDK.tvOS
 
         // -(BOOL)isFullscreen;
         [Export("isFullscreen")]
-        // [Verify(MethodToProperty)]
+        // [Verified(MethodToProperty)]
         bool IsFullscreen { get; }
 
         // -(void)setFullscreen:(BOOL)fullscreen;
@@ -5215,7 +5206,7 @@ namespace OoyalaSDK.tvOS
         // +(void)setAvailableLocalizations:(NSDictionary *)localizations;
         [Static]
         [Export("availableLocalizations")]
-        // [Verify(MethodToProperty)]
+        // [Verified(MethodToProperty)]
         NSDictionary AvailableLocalizations { get; set; }
 
         // +(void)loadDeviceLanguage;
@@ -5273,7 +5264,7 @@ namespace OoyalaSDK.tvOS
 
     // @interface OOControlsViewController : UIViewController
     [BaseType(typeof(UIViewController))]
-    [Protocol]
+    [Model]
     interface OOControlsViewController
     {
         [Wrap("WeakDelegate")]
@@ -5337,7 +5328,7 @@ namespace OoyalaSDK.tvOS
 
         // -(OOUIProgressSliderMode)sliderMode;
         [Export("sliderMode")]
-        // [Verify(MethodToProperty)]
+        // [Verified(MethodToProperty)]
         OOUIProgressSliderMode SliderMode { get; }
 
         // -(void)changeButtonLanguage:(NSString *)language;
@@ -5389,10 +5380,12 @@ namespace OoyalaSDK.tvOS
 
         // -(NSArray *)availableOptions;
         [Export("availableOptions")]
+        //[Verify(MethodToProperty), Verify(StronglyTypedNSArray)]
         NSObject[] AvailableOptions { get; }
 
         // -(BOOL)closedCaptionMenuDisplayed;
         [Export("closedCaptionMenuDisplayed")]
+        //[Verify(MethodToProperty)]
         bool ClosedCaptionMenuDisplayed { get; }
 
         // -(void)setupClosedCaptionsMenu;
@@ -5407,4 +5400,5 @@ namespace OoyalaSDK.tvOS
         [Export("removeClosedCaptionsMenu")]
         void RemoveClosedCaptionsMenu();
     }
+
 }
