@@ -5,10 +5,12 @@ using OoyalaSDK.iOS;
 using OoyalaCastSDK.iOS;
 using Foundation;
 using System.Collections.Generic;
+using ObjCRuntime;
+using System.Linq;
 
 namespace Sample.OoyalaSDK.iOS
 {
-    public class PlayerViewController : UIViewController, IOOCastMiniControllerDelegate, IOOCastManagerDelegate
+    public class PlayerViewController : UIViewController, IOOCastMiniControllerDelegate, IOOCastManagerDelegate, IOOAssetDownloadManagerDelegate
     {
         private const string _embedCode = "Y1ZHB1ZDqfhCPjYYRbCEOz0GR8IsVRm1";
 
@@ -30,6 +32,15 @@ namespace Sample.OoyalaSDK.iOS
 
             castManager = OOCastManager.CastManagerWithAppID("4172C76F", "urn:x-cast:ooyala");
             castManager.WeakDelegate = this;
+
+            var options = new OOAssetDownloadOptions();
+            options.Pcode = "c0cTkxOqALQviQIGAHWY5hP0q9gU";
+            options.EmbedCode = _embedCode;
+            options.Domain = new OOPlayerDomain("http://www.ooyala.com");
+            //options.EmbedTokenGenerator = new TokenGenerator();
+            var manager = new OOAssetDownloadManager(options);
+            manager.WeakDelegate = this;
+            manager.StartDownload();
 
             var castPlayer = new OOOoyalaPlayer(
                 pcode: "c0cTkxOqALQviQIGAHWY5hP0q9gU",
@@ -117,6 +128,9 @@ namespace Sample.OoyalaSDK.iOS
 
         void _startButton_TouchUpInside(object sender, System.EventArgs e)
         {
+            var video = new OOOfflineVideo(_cacheLocation);
+            _castVC.Player.SetUnbundledVideo(video);
+
             ShowViewController(_castVC, this);
             _castVC.NavigationItem.RightBarButtonItem = this.NavigationItem.RightBarButtonItem;
             _castVC.Player.SetEmbedCode(_embedCode);
@@ -139,5 +153,29 @@ namespace Sample.OoyalaSDK.iOS
             miniControllerView.Dismiss();
             castManager.DisconnectFromOoyalaPlayer();
         }
+
+        public void DownloadTaskStartedWithError(OOAssetDownloadManager manager, OOOoyalaError error)
+        {
+            System.Diagnostics.Debug.WriteLine($"ERROR: {error}");
+        }
+
+        public void DownloadCompletedAtLocation(OOAssetDownloadManager manager, NSUrl location, OOOoyalaError error)
+        {
+            System.Diagnostics.Debug.WriteLine($"Completed!: {location}");
+            _cacheLocation = location;
+        }
+
+        public void DownloadPercentage(OOAssetDownloadManager manager, double percentage)
+        {
+            System.Diagnostics.Debug.WriteLine($"PERCENT COMPLETE: {percentage}");
+        }
+
+        public void PersistedContentKeyAtLocation(OOAssetDownloadManager manager, NSUrl location)
+        {
+            System.Diagnostics.Debug.WriteLine($"Persisted at: {location}");
+            _cacheLocation = location;
+        }
+
+        NSUrl _cacheLocation;
     }
 }

@@ -5233,7 +5233,7 @@ namespace OoyalaSDK.iOS
     }
 
     // @protocol OOAssetDownloadManagerDelegate
-    [Protocol, Model]
+    [Protocol]
     [BaseType(typeof(NSObject))]
     interface OOAssetDownloadManagerDelegate
     {
