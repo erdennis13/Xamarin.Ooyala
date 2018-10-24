@@ -48,7 +48,7 @@
       <Kind>Framework</Kind>
       <Frameworks>VideoToolbox, JavaScriptCore, MediaPlayer, SystemConfiguration</Frameworks>
     </NativeReference>
-    <NativeReference Include="..\..\..\Desktop\OoyalaTVSkinSDK-universal.a">
+    <NativeReference Include="OoyalaTVSkinSDK-universal.a">
       <Kind>Static</Kind>
     </NativeReference>
   </ItemGroup>
