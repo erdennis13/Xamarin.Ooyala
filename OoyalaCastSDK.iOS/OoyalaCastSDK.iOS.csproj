@@ -59,7 +59,6 @@
   <ItemGroup>
     <NativeReference Include="OoyalaCastSDK.framework">
       <Kind>Framework</Kind>
-      <SmartLink>False</SmartLink>
       <Frameworks>JavaScriptCore AVKit SystemConfiguration UIKit Foundation AdSupport EventKit MessageUI AVFoundation CFNetwork CoreMedia CoreText MediaAccessibility MediaPlayer QuartzCore Security OoyalaSDK</Frameworks>
     </NativeReference>
   </ItemGroup>

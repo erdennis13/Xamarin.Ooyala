@@ -45,7 +45,6 @@
   <ItemGroup>
     <NativeReference Include="OoyalaSDK.framework">
       <Kind>Framework</Kind>
-      <SmartLink>False</SmartLink>
     </NativeReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.ObjCBinding.CSharp.targets" />
