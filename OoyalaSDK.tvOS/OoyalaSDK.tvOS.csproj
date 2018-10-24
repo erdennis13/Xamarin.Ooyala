@@ -46,11 +46,11 @@
   <ItemGroup>
     <NativeReference Include="OoyalaSDK.framework">
       <Kind>Framework</Kind>
-      <Frameworks>VideoToolbox, OoyalaTVSkinSDK, JavaScriptCore, MediaPlayer, SystemConfiguration</Frameworks>
+      <Frameworks>VideoToolbox, JavaScriptCore, MediaPlayer, SystemConfiguration</Frameworks>
     </NativeReference>
-    <NativeReference Include="OoyalaTVSkinSDK.framework">
+    <NativeReference Include="..\..\..\Desktop\OoyalaTVSkinSDK.framework">
       <Kind>Framework</Kind>
-      <Frameworks>VideoToolbox, OoyalaTVSkinSDK, JavaScriptCore, MediaPlayer, SystemConfiguration, OoyalaSDK</Frameworks>
+      <Frameworks>VideoToolbox, OoyalaSDK, JavaScriptCore, MediaPlayer, SystemConfiguration</Frameworks>
     </NativeReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\TVOS\Xamarin.TVOS.ObjCBinding.CSharp.targets" />
