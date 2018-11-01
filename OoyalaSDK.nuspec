@@ -3,7 +3,7 @@
   <metadata>
     <id>OoyalaSDK</id>
     <version>$version$</version>
-    <authors>Microsoft Mobile Customer Advisory Team</authors>
+    <authors>Ethan Dennis</authors>
     <description>Xamarin Bindings for the Ooyala SDKs</description>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <copyright>Copyright 2018</copyright>

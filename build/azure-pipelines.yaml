@@ -1,0 +1,54 @@
+resources:
+- repo: self
+queue:
+  name: Hosted macOS
+  demands: msbuild
+
+variables:
+  BuildConfiguration: 'Release'
+steps:
+- bash: |
+   BRANCH=$(echo $BUILD_SOURCEBRANCH | grep -Eo "[^/]+\$")
+   VERSION=$BUILD_BUILDNUMBER
+   
+   if ! [ $BRANCH = master ]; then
+       VERSION=$VERSION-$BRANCH
+       echo "##vso[build.updatebuildnumber]$VERSION"
+   fi;
+   
+   echo "##vso[task.setvariable variable=Version]$VERSION"
+  displayName: 'Bash Script'
+
+- task: NuGetCommand@2
+  displayName: 'NuGet restore'
+  inputs:
+    vstsFeed: '53cc5354-38a1-4c66-9047-068cdefbdd3a'
+
+
+- task: MSBuild@1
+  displayName: 'Build solution **/*.sln'
+  inputs:
+    configuration: '$(BuildConfiguration)'
+
+
+- task: NuGetCommand@2
+  displayName: 'NuGet pack'
+  inputs:
+    command: pack
+    packagesToPack: '*.nuspec'
+    versioningScheme: byEnvVar
+    versionEnvVar: VERSION
+
+
+# steps:
+# - task: NuGetCommand@2
+#   displayName: 'NuGet push'
+#   inputs:
+#     command: push
+#     nuGetFeedType: external
+#     publishFeedCredentials: 'Public Nuget'
+
+
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
