@@ -1,0 +1,1 @@
+[![Build Status](https://erdennis13.visualstudio.com/Xamarin.Ooyala/_apis/build/status/erdennis13.Xamarin.Ooyala)](https://erdennis13.visualstudio.com/Xamarin.Ooyala/_build/latest?definitionId=1)
