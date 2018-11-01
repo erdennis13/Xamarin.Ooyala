@@ -4,6 +4,7 @@ queue:
   name: Hosted macOS
   demands: msbuild
 
+name: $(Version)$(Rev:.r)
 variables:
   BuildConfiguration: 'Release'
 steps:
@@ -15,7 +16,7 @@ steps:
        VERSION=$VERSION-$BRANCH
        echo "##vso[build.updatebuildnumber]$VERSION"
    fi;
-   
+   echo $VERSION
    echo "##vso[task.setvariable variable=Version]$VERSION"
   displayName: 'Bash Script'
 
