@@ -6,6 +6,7 @@
     <authors>Ethan Dennis</authors>
     <description>Xamarin Bindings for the Ooyala Cast SDKs</description>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <projectUrl>https://github.com/erdennis13/Xamarin.Ooyala</projectUrl>
     <copyright>Copyright 2018</copyright>
     <dependencies>
       <group targetFramework="monoandroid81">
