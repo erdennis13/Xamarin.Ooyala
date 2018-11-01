@@ -8,7 +8,7 @@ variables:
 jobs:
 - job: Publish Nugets
   pool:
-    vmImage: Hosted macOS
+    vmImage: macOS 10.13
 
   steps:
   - bash: |
