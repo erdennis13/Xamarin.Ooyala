@@ -40,13 +40,13 @@ steps:
     versionEnvVar: VERSION
 
 
-# steps:
-# - task: NuGetCommand@2
-#   displayName: 'NuGet push'
-#   inputs:
-#     command: push
-#     nuGetFeedType: external
-#     publishFeedCredentials: 'Public Nuget'
+steps:
+- task: NuGetCommand@2
+  displayName: 'NuGet push'
+  inputs:
+    command: push
+    nuGetFeedType: external
+    publishFeedCredentials: 'Public Nuget'
 
 
 
