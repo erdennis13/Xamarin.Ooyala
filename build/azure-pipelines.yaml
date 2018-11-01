@@ -1,56 +1,54 @@
 resources:
 - repo: self
 
+queue:
+  name: Hosted macOS
+  demands: msbuild
+
 name: $(Version)$(Rev:.r)
 variables:
   BuildConfiguration: 'Release'
+steps:
+- bash: |
+   BRANCH=$(echo $BUILD_SOURCEBRANCH | grep -Eo "[^/]+\$")
+   VERSION=$BUILD_BUILDNUMBER
+   
+   if ! [ $BRANCH = master ]; then
+       VERSION=$VERSION-$BRANCH
+       echo "##vso[build.updatebuildnumber]$VERSION"
+   fi;
+   echo $VERSION
+   echo "##vso[task.setvariable variable=Version]$VERSION"
+  displayName: 'Versioning'
 
-jobs:
-- job: Publish Nugets
-  pool:
-    vmImage: macOS 10.13
-
-  steps:
-  - bash: |
-    BRANCH=$(echo $BUILD_SOURCEBRANCH | grep -Eo "[^/]+\$")
-    VERSION=$BUILD_BUILDNUMBER
-    
-    if ! [ $BRANCH = master ]; then
-        VERSION=$VERSION-$BRANCH
-        echo "##vso[build.updatebuildnumber]$VERSION"
-    fi;
-    echo $VERSION
-    echo "##vso[task.setvariable variable=Version]$VERSION"
-    displayName: 'Versioning'
-
-  - task: NuGetCommand@2
-    displayName: 'NuGet restore'
+- task: NuGetCommand@2
+  displayName: 'NuGet restore'
 
 
-  - task: MSBuild@1
-    displayName: 'Build solution **/*.sln'
-    inputs:
-      configuration: '$(BuildConfiguration)'
+- task: MSBuild@1
+  displayName: 'Build solution **/*.sln'
+  inputs:
+    configuration: '$(BuildConfiguration)'
 
 
-  - task: NuGetCommand@2
-    displayName: 'NuGet pack'
-    inputs:
-      command: pack
-      packagesToPack: '*.nuspec'
-      versioningScheme: byEnvVar
-      versionEnvVar: VERSION
+- task: NuGetCommand@2
+  displayName: 'NuGet pack'
+  inputs:
+    command: pack
+    packagesToPack: '*.nuspec'
+    versioningScheme: byEnvVar
+    versionEnvVar: VERSION
 
 
-  # steps:
-  # - task: NuGetCommand@2
-  #   displayName: 'NuGet push'
-  #   inputs:
-  #     command: push
-  #     nuGetFeedType: external
-  #     publishFeedCredentials: 'Public Nuget'
+# steps:
+# - task: NuGetCommand@2
+#   displayName: 'NuGet push'
+#   inputs:
+#     command: push
+#     nuGetFeedType: external
+#     publishFeedCredentials: 'Public Nuget'
 
 
 
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish Artifact: drop'
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
