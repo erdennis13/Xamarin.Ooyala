@@ -16,9 +16,7 @@ steps:
    if [ $BRANCH = merge ]; then
        VERSION=$VERSION-pre
        echo "##vso[build.updatebuildnumber]$VERSION"
-   fi;
-
-   if ! [ $BRANCH = master ]; then
+   elif ! [ $BRANCH = master ]; then
        VERSION=$VERSION-$BRANCH
        echo "##vso[build.updatebuildnumber]$VERSION"
    fi;
