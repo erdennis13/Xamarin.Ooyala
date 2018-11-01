@@ -42,6 +42,7 @@ steps:
 
 - task: NuGetCommand@2
   displayName: 'NuGet push'
+  conditions: ne(variables['Build.SourceBranch'], 'refs/heads/merge')
   inputs:
     command: push
     nuGetFeedType: external
