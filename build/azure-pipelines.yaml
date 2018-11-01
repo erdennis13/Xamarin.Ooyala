@@ -13,7 +13,10 @@ steps:
    BRANCH=$(echo $BUILD_SOURCEBRANCH | grep -Eo "[^/]+\$")
    VERSION=$BUILD_BUILDNUMBER
    
-   if ! [ $BRANCH = master ]; then
+   if [ $BRANCH = merge ]; then
+       VERSION=$VERSION-pre
+       echo "##vso[build.updatebuildnumber]$VERSION"
+   elif ! [ $BRANCH = master ]; then
        VERSION=$VERSION-$BRANCH
        echo "##vso[build.updatebuildnumber]$VERSION"
    fi;
