@@ -40,7 +40,6 @@ steps:
     versionEnvVar: VERSION
 
 
-steps:
 - task: NuGetCommand@2
   displayName: 'NuGet push'
   inputs:
