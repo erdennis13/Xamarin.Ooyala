@@ -21,7 +21,8 @@
 
 @implementation OOOoyalaTVBottomBars
 
-- (id)initWithBackground:(UIView *)background {
+
+- (id)initWithBackground:(UIView *)background withTintColor:(UIColor *)tintColor {
   self = [super init];
   
   if (self) {
@@ -30,11 +31,8 @@
                                                                             green:153.0/255.0
                                                                              blue:153.0/255.0
                                                                             alpha:0.3]];
-    self.progressBar = [[OOOoyalaTVBar alloc] initWithFrame:CGRectMake(barX, background.bounds.size.height - bottomDistance - barHeight, 0, barHeight)
-                                                      color:[UIColor colorWithRed:68.0/255.0
-                                                                            green:138.0/255.0
-                                                                             blue:225.0/255.0
-                                                                            alpha:1.0]];
+      self.progressBar = [[OOOoyalaTVBar alloc] initWithFrame:CGRectMake(barX, background.bounds.size.height - bottomDistance - barHeight, 0, barHeight)
+                                                         color: tintColor];
     self.bufferBar = [[OOOoyalaTVBar alloc] initWithFrame:CGRectMake(barX, background.bounds.size.height - bottomDistance - barHeight, 0, barHeight)
                                                     color:[UIColor colorWithRed:179.0/255.0
                                                                           green:179.0/255.0

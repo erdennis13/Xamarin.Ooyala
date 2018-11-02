@@ -11,6 +11,8 @@ namespace Sample.OoyalaSDK.tvOS
         {
             base.LoadView();
 
+            ProgressTintColor = UIColor.Red;
+
             OODebugMode.SetDebugMode(DebugMode.LogAndAbort);
 
             Player = new OOOoyalaPlayer(

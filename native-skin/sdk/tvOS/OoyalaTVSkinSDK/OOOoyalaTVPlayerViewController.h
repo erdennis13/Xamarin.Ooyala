@@ -17,6 +17,7 @@
 	@discussion	Clients can set this property to NO when they don't want to have any playback controls on top of the visual content (e.g. when the player is an inline element, with sibling views).
  */
 @property (nonatomic) BOOL playbackControlsEnabled;
+@property (strong, nonatomic) UIColor *progressTintColor;
 
 - (instancetype)initWithPlayer:(OOOoyalaPlayer *)player;
 
