@@ -5366,6 +5366,10 @@ namespace OoyalaSDK.tvOS
         [Export("playbackControlsEnabled")]
         bool PlaybackControlsEnabled { get; set; }
 
+        // @property (nonatomic, strong) UIColor * progressTintColor;
+        [Export("progressTintColor", ArgumentSemantic.Strong)]
+        UIColor ProgressTintColor { get; set; }
+
         // -(instancetype)initWithPlayer:(OOOoyalaPlayer *)player;
         [Export("initWithPlayer:")]
         IntPtr Constructor(OOOoyalaPlayer player);

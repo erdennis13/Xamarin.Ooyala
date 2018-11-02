@@ -26,5 +26,9 @@
 	<string>Assets.xcassets/App Icon &amp; Top Shelf Image.brandassets</string>
 	<key>XSLaunchImageAssets</key>
 	<string>Assets.xcassets/LaunchImages.launchimage</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>ooyala-slick-type.ttf</string>
+	</array>
 </dict>
 </plist>
